@@ -10,7 +10,7 @@ using CapaPresentacion.Models;
 
 namespace CapaPresentacion.Controllers
 {
-    public class tipo_documentoController : Controller
+    public class tipoDocumentoController : Controller
     {
         private colegioEntities db = new colegioEntities();
 

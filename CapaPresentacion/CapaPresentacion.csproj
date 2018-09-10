@@ -199,7 +199,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\cursoesController.cs" />
     <Compile Include="Controllers\cursosController.cs" />
     <Compile Include="Controllers\estadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -207,7 +206,7 @@
     <Compile Include="Controllers\materiasController.cs" />
     <Compile Include="Controllers\novedadesController.cs" />
     <Compile Include="Controllers\rolsController.cs" />
-    <Compile Include="Controllers\tipo_documentoController.cs" />
+    <Compile Include="Controllers\tipoDocumentoController.cs" />
     <Compile Include="Controllers\usuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
