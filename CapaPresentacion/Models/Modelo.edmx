@@ -1,0 +1,627 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="colegioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="jornada" Type="nchar" MaxLength="25" />
+          <Property Name="descripcion" Type="nchar" MaxLength="25" />
+          <Property Name="id_materias" Type="int" />
+        </EntityType>
+        <EntityType Name="estados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="materias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="25" />
+          <Property Name="hora_inicio" Type="nchar" MaxLength="25" />
+          <Property Name="hora_fin" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="materias_curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id_curso" Type="int" Nullable="false" />
+          <Property Name="id_materias" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="novedades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="25" />
+          <Property Name="fecha_ingreso_de_novedad" Type="datetime" />
+          <Property Name="fecha_solucion" Type="datetime" />
+          <Property Name="respuesta" Type="nchar" MaxLength="40" />
+          <Property Name="id_usuario" Type="int" />
+        </EntityType>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tipo_documento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="20" />
+          <Property Name="descripcion" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="usuario_rol">
+          <Key>
+            <PropertyRef Name="id_usuario_rol" />
+          </Key>
+          <Property Name="usuario_id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_usuario_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombres" Type="nchar" MaxLength="45" />
+          <Property Name="apellidos" Type="nchar" MaxLength="45" />
+          <Property Name="celular" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="numero_fijo" Type="nchar" MaxLength="25" />
+          <Property Name="clave" Type="nchar" MaxLength="10" />
+          <Property Name="documento" Type="int" />
+          <Property Name="id_estados" Type="int" Nullable="false" />
+          <Property Name="correo" Type="nchar" MaxLength="10" />
+          <Property Name="id_documento" Type="int" />
+          <Property Name="id_curso" Type="int" />
+        </EntityType>
+        <Association Name="FK_curso_materias">
+          <End Role="curso" Type="Self.curso" Multiplicity="1" />
+          <End Role="materias_curso" Type="Self.materias_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="materias_curso">
+              <PropertyRef Name="id_curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_usuario">
+          <End Role="estados" Type="Self.estados" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_estados" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materias_curso">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="materias_curso" Type="Self.materias_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="materias_curso">
+              <PropertyRef Name="id_materias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_novedades_usuario">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1" />
+          <End Role="novedades" Type="Self.novedades" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="novedades">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rol_usuario">
+          <End Role="rol" Type="Self.rol" Multiplicity="1" />
+          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_rol">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1" />
+          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_tipo_documento">
+          <End Role="tipo_documento" Type="Self.tipo_documento" Multiplicity="0..1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_documento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuarios_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="0..1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="colegioModelStoreContainer">
+          <EntitySet Name="curso" EntityType="Self.curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="estados" EntityType="Self.estados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materias" EntityType="Self.materias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materias_curso" EntityType="Self.materias_curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="novedades" EntityType="Self.novedades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipo_documento" EntityType="Self.tipo_documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario_rol" EntityType="Self.usuario_rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_curso_materias" Association="Self.FK_curso_materias">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="materias_curso" EntitySet="materias_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_usuario" Association="Self.FK_estado_usuario">
+            <End Role="estados" EntitySet="estados" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materias_curso" Association="Self.FK_materias_curso">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="materias_curso" EntitySet="materias_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_novedades_usuario" Association="Self.FK_novedades_usuario">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="novedades" EntitySet="novedades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rol_usuario" Association="Self.FK_rol_usuario">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario_rol" EntitySet="usuario_rol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="usuario_rol" EntitySet="usuario_rol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_tipo_documento" Association="Self.FK_usuario_tipo_documento">
+            <End Role="tipo_documento" EntitySet="tipo_documento" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuarios_curso" Association="Self.FK_usuarios_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="colegioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="jornada" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="id_materias" Type="Int32" />
+          <NavigationProperty Name="materias_curso" Relationship="Self.FK_curso_materias" FromRole="curso" ToRole="materias_curso" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_usuarios_curso" FromRole="curso" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="estados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_estado_usuario" FromRole="estados" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="materias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="hora_inicio" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="hora_fin" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="materias_curso" Relationship="Self.FK_materias_curso" FromRole="materias" ToRole="materias_curso" />
+        </EntityType>
+        <EntityType Name="materias_curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id_curso" Type="Int32" Nullable="false" />
+          <Property Name="id_materias" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="curso" Relationship="Self.FK_curso_materias" FromRole="materias_curso" ToRole="curso" />
+          <NavigationProperty Name="materias" Relationship="Self.FK_materias_curso" FromRole="materias_curso" ToRole="materias" />
+        </EntityType>
+        <EntityType Name="novedades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_ingreso_de_novedad" Type="DateTime" Precision="3" />
+          <Property Name="fecha_solucion" Type="DateTime" Precision="3" />
+          <Property Name="respuesta" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="id_usuario" Type="Int32" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_novedades_usuario" FromRole="novedades" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="usuario_rol" Relationship="Self.FK_rol_usuario" FromRole="rol" ToRole="usuario_rol" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tipo_documento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_usuario_tipo_documento" FromRole="tipo_documento" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="usuario_rol">
+          <Key>
+            <PropertyRef Name="id_usuario_rol" />
+          </Key>
+          <Property Name="usuario_id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="rol" Relationship="Self.FK_rol_usuario" FromRole="usuario_rol" ToRole="rol" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_usuario_rol" FromRole="usuario_rol" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombres" Type="String" MaxLength="45" FixedLength="true" Unicode="true" />
+          <Property Name="apellidos" Type="String" MaxLength="45" FixedLength="true" Unicode="true" />
+          <Property Name="celular" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="numero_fijo" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="clave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="documento" Type="Int32" />
+          <Property Name="id_estados" Type="Int32" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="id_documento" Type="Int32" />
+          <Property Name="id_curso" Type="Int32" />
+          <NavigationProperty Name="curso" Relationship="Self.FK_usuarios_curso" FromRole="usuarios" ToRole="curso" />
+          <NavigationProperty Name="estados" Relationship="Self.FK_estado_usuario" FromRole="usuarios" ToRole="estados" />
+          <NavigationProperty Name="novedades" Relationship="Self.FK_novedades_usuario" FromRole="usuarios" ToRole="novedades" />
+          <NavigationProperty Name="tipo_documento" Relationship="Self.FK_usuario_tipo_documento" FromRole="usuarios" ToRole="tipo_documento" />
+          <NavigationProperty Name="usuario_rol" Relationship="Self.FK_usuario_rol" FromRole="usuarios" ToRole="usuario_rol" />
+        </EntityType>
+        <Association Name="FK_curso_materias">
+          <End Role="curso" Type="Self.curso" Multiplicity="1" />
+          <End Role="materias_curso" Type="Self.materias_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="materias_curso">
+              <PropertyRef Name="id_curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuarios_curso">
+          <End Role="curso" Type="Self.curso" Multiplicity="0..1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_usuario">
+          <End Role="estados" Type="Self.estados" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_estados" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materias_curso">
+          <End Role="materias" Type="Self.materias" Multiplicity="1" />
+          <End Role="materias_curso" Type="Self.materias_curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materias">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="materias_curso">
+              <PropertyRef Name="id_materias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_novedades_usuario">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1" />
+          <End Role="novedades" Type="Self.novedades" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="novedades">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rol_usuario">
+          <End Role="rol" Type="Self.rol" Multiplicity="1" />
+          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_tipo_documento">
+          <End Role="tipo_documento" Type="Self.tipo_documento" Multiplicity="0..1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_documento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="id_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_rol">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1" />
+          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="usuario_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="colegioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="curso" EntityType="Self.curso" />
+          <EntitySet Name="estados" EntityType="Self.estados" />
+          <EntitySet Name="materias" EntityType="Self.materias" />
+          <EntitySet Name="materias_curso" EntityType="Self.materias_curso" />
+          <EntitySet Name="novedades" EntityType="Self.novedades" />
+          <EntitySet Name="rol" EntityType="Self.rol" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tipo_documento" EntityType="Self.tipo_documento" />
+          <EntitySet Name="usuario_rol" EntityType="Self.usuario_rol" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+          <AssociationSet Name="FK_curso_materias" Association="Self.FK_curso_materias">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="materias_curso" EntitySet="materias_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuarios_curso" Association="Self.FK_usuarios_curso">
+            <End Role="curso" EntitySet="curso" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_usuario" Association="Self.FK_estado_usuario">
+            <End Role="estados" EntitySet="estados" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materias_curso" Association="Self.FK_materias_curso">
+            <End Role="materias" EntitySet="materias" />
+            <End Role="materias_curso" EntitySet="materias_curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_novedades_usuario" Association="Self.FK_novedades_usuario">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="novedades" EntitySet="novedades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rol_usuario" Association="Self.FK_rol_usuario">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario_rol" EntitySet="usuario_rol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_tipo_documento" Association="Self.FK_usuario_tipo_documento">
+            <End Role="tipo_documento" EntitySet="tipo_documento" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="usuario_rol" EntitySet="usuario_rol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities">
+          <EntitySetMapping Name="curso">
+            <EntityTypeMapping TypeName="colegioModel.curso">
+              <MappingFragment StoreEntitySet="curso">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="jornada" ColumnName="jornada" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id_materias" ColumnName="id_materias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="estados">
+            <EntityTypeMapping TypeName="colegioModel.estados">
+              <MappingFragment StoreEntitySet="estados">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materias">
+            <EntityTypeMapping TypeName="colegioModel.materias">
+              <MappingFragment StoreEntitySet="materias">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materias_curso">
+            <EntityTypeMapping TypeName="colegioModel.materias_curso">
+              <MappingFragment StoreEntitySet="materias_curso">
+                <ScalarProperty Name="id_curso" ColumnName="id_curso" />
+                <ScalarProperty Name="id_materias" ColumnName="id_materias" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="novedades">
+            <EntityTypeMapping TypeName="colegioModel.novedades">
+              <MappingFragment StoreEntitySet="novedades">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="fecha_ingreso_de_novedad" ColumnName="fecha_ingreso_de_novedad" />
+                <ScalarProperty Name="fecha_solucion" ColumnName="fecha_solucion" />
+                <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rol">
+            <EntityTypeMapping TypeName="colegioModel.rol">
+              <MappingFragment StoreEntitySet="rol">
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="colegioModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_documento">
+            <EntityTypeMapping TypeName="colegioModel.tipo_documento">
+              <MappingFragment StoreEntitySet="tipo_documento">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario_rol">
+            <EntityTypeMapping TypeName="colegioModel.usuario_rol">
+              <MappingFragment StoreEntitySet="usuario_rol">
+                <ScalarProperty Name="usuario_id" ColumnName="usuario_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_usuario_rol" ColumnName="id_usuario_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="colegioModel.usuarios">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="celular" ColumnName="celular" />
+                <ScalarProperty Name="numero_fijo" ColumnName="numero_fijo" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="id_estados" ColumnName="id_estados" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="id_documento" ColumnName="id_documento" />
+                <ScalarProperty Name="id_curso" ColumnName="id_curso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bf126b1cbea84cc3901fb05be8130ff5" Name="Diagram1">
+        <EntityTypeShape EntityType="colegioModel.curso" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.estados" Width="1.5" PointX="3.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.materias" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.materias_curso" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.novedades" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.rol" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.tipo_documento" Width="1.5" PointX="3.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.usuario_rol" Width="1.5" PointX="8.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.usuarios" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="colegioModel.FK_curso_materias" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_usuarios_curso" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_estado_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_materias_curso" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_novedades_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_rol_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_usuario_tipo_documento" ManuallyRouted="false" />
+        <AssociationConnector Association="colegioModel.FK_usuario_rol" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

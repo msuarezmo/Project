@@ -1,0 +1,66 @@
+﻿@model CapaPresentacion.Models.novedades
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>novedades</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_ingreso_de_novedad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_ingreso_de_novedad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_solucion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_solucion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.respuesta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.respuesta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuarios.nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuarios.nombres)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
