@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="colegioModel.rol" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="colegioModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="colegioModel.tipo_documento" Width="1.5" PointX="3.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="colegioModel.usuario_rol" Width="1.5" PointX="8.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="colegioModel.usuario_rol" Width="1.5" PointX="9.25" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="colegioModel.usuarios" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="colegioModel.FK_curso_materias" ManuallyRouted="false" />
         <AssociationConnector Association="colegioModel.FK_usuarios_curso" ManuallyRouted="false" />
