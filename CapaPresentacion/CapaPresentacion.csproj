@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\cursosController.cs" />
     <Compile Include="Controllers\estadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Appointment.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -374,6 +376,7 @@
     <Content Include="Views\usuarios\Details.cshtml" />
     <Content Include="Views\usuarios\Edit.cshtml" />
     <Content Include="Views\usuarios\Index.cshtml" />
+    <Content Include="Views\Appointment\Appointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
