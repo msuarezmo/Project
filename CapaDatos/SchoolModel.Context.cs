@@ -29,6 +29,6 @@ namespace CapaDatos
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<tipo_documento> tipo_documento { get; set; }
+        public virtual DbSet<DocumentType> DocumentType { get; set; }
     }
 }

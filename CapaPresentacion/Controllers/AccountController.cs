@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using CapaPresentacion.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CapaDatos;
+using System.Collections.Generic;
 
 namespace CapaPresentacion.Controllers
 {
@@ -142,8 +143,18 @@ namespace CapaPresentacion.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Roles = new SelectList(col.AspNetRoles, "Id", "Name");
+            ViewBag.DocumentTypes = new SelectList(col.DocumentType, "Id", "Name");
+            ApplicationDbContext userContext = new ApplicationDbContext();
+            var roles = userContext.Roles.ToList();
+            ViewBag.roles = new SelectList(roles, "Id", "Name");
             return View();
+            //var model = new RegisterViewModel();
+            //List<string> roles = new List<string>();
+            //foreach (var item in userContext.Roles.ToList()) {
+            //    roles.Add(item.Name);
+            //}
+            //model.Roles = roles.ToArray();
+            //return View(model);
         }
 
         //
@@ -155,24 +166,29 @@ namespace CapaPresentacion.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.FirstName, Email = model.Email};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
+                    var userContext = new ApplicationDbContext();
+                    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                    foreach (var role in model.Roles) {
+                        UserManager.AddToRole(user.Id, role);
+                    }
+                    
                     //Código usado para crear roles
-                        //using (ApplicationDbContext db = new ApplicationDbContext())
-                        //{
+                    //using (ApplicationDbContext db = new ApplicationDbContext())
+                    //{
 
-                        //    var rol = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-                        //    rol.Create(new IdentityRole("Administrador"));
-                        //    rol.Create(new IdentityRole("Alumno"));
-                        //    rol.Create(new IdentityRole("Docente"));
-                        //    rol.Create(new IdentityRole("Acudiente"));
-                        //}
+                    //    var rol = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+                    //    rol.Create(new IdentityRole("Administrador"));
+                    //    rol.Create(new IdentityRole("Alumno"));
+                    //    rol.Create(new IdentityRole("Docente"));
+                    //    rol.Create(new IdentityRole("Acudiente"));
+                    //}
                     //Hasta aca
                     //Cuando se registra ingresa automaticamente
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //Hasta aca
 
                     // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
