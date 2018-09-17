@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CapaDatos;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CapaPresentacion.Models
@@ -62,12 +63,12 @@ namespace CapaPresentacion.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : AspNetUsers
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Correo electrónico")]
-        public string Email { get; set; }
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Correo electrónico")]
+        //public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
