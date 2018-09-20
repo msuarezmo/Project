@@ -18,6 +18,7 @@ namespace CapaPresentacion.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext userContext = new ApplicationDbContext();
         private colegioEntities col = new colegioEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -143,18 +144,19 @@ namespace CapaPresentacion.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.DocumentTypes = new SelectList(col.DocumentType, "Id", "Name");
-            ApplicationDbContext userContext = new ApplicationDbContext();
-            var roles = userContext.Roles.ToList();
-            ViewBag.roles = new SelectList(roles, "Id", "Name");
-            return View();
-            //var model = new RegisterViewModel();
-            //List<string> roles = new List<string>();
-            //foreach (var item in userContext.Roles.ToList()) {
-            //    roles.Add(item.Name);
-            //}
-            //model.Roles = roles.ToArray();
-            //return View(model);
+            ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name");
+           
+            //var roles = userContext.Roles.ToList();
+            //ViewBag.roles = new SelectList(roles, "Id", "Name");
+            //return View();
+            var model = new RegisterViewModel();
+            List<string> roles = new List<string>();
+            foreach (var item in userContext.Roles.ToList())
+            {
+                roles.Add(item.Name);
+            }
+            model.Roles = roles.ToArray();
+            return View(model);
         }
 
         //
@@ -164,31 +166,55 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            
+            ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name",model.DocumentType);
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.FirstName, Email = model.Email};
+                if (model.Roles == null || model.Roles.Count() == 0)
+                {
+                    List<string> roles = new List<string>();
+                    foreach (var item in userContext.Roles.ToList())
+                    {
+                        roles.Add(item.Name);
+                    }
+                    model.Roles = roles.ToArray();
+                    ModelState.AddModelError("Roles", "Debe seleccionar almenos 1 rol");
+                    return View(model);
+                }
+                int documentLength = model.Document.Length;
+                string username = string.Format("{0}{1}{2}", model.FirstName[0],model.Surname,model.Document.Substring(documentLength - 4));
+                var user = new ApplicationUser { UserName = username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var userContext = new ApplicationDbContext();
                     var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
-                    foreach (var role in model.Roles) {
+                    foreach (var role in model.Roles)
+                    {
                         UserManager.AddToRole(user.Id, role);
                     }
-                    
-                    //Código usado para crear roles
-                    //using (ApplicationDbContext db = new ApplicationDbContext())
-                    //{
+                    var registerUser = col.AspNetUsers.FirstOrDefault(p => p.Email == model.Email);
+                    registerUser.FirstName = model.FirstName;
+                    registerUser.SecondName = model.SecondName;
+                    registerUser.Surname = model.Surname;
+                    registerUser.SecondSurname = model.SecondSurname;
+                    registerUser.Document = model.Document;
+                    registerUser.DocumentType = model.DocumentType;
+                    col.SaveChanges();
 
-                    //    var rol = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-                    //    rol.Create(new IdentityRole("Administrador"));
-                    //    rol.Create(new IdentityRole("Alumno"));
-                    //    rol.Create(new IdentityRole("Docente"));
-                    //    rol.Create(new IdentityRole("Acudiente"));
-                    //}
+                    //Código usado para crear roles
+                        //using (ApplicationDbContext db = new ApplicationDbContext())
+                        //{
+
+                        //    var rol = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+                        //    rol.Create(new IdentityRole("Administrador"));
+                        //    rol.Create(new IdentityRole("Alumno"));
+                        //    rol.Create(new IdentityRole("Docente"));
+                        //    rol.Create(new IdentityRole("Acudiente"));
+                        //}
                     //Hasta aca
+                    
                     //Cuando se registra ingresa automaticamente
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //Hasta aca
 
                     // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
