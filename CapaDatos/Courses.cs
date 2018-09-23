@@ -12,21 +12,21 @@ namespace CapaDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class Cours
+    public partial class Courses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cours()
+        public Courses()
         {
-            this.Students = new HashSet<Student>();
-            this.SubjectsByCourses = new HashSet<SubjectsByCourse>();
+            this.Students = new HashSet<Students>();
+            this.SubjectsByCourse = new HashSet<SubjectsByCourse>();
         }
     
         public int IdCourse { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Students> Students { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubjectsByCourse> SubjectsByCourses { get; set; }
+        public virtual ICollection<SubjectsByCourse> SubjectsByCourse { get; set; }
     }
 }

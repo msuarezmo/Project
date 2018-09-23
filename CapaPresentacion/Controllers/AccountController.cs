@@ -183,7 +183,7 @@ namespace CapaPresentacion.Controllers
                 }
                 int documentLength = model.Document.Length;
                 string username = string.Format("{0}{1}{2}", model.FirstName[0],model.Surname,model.Document.Substring(documentLength - 4));
-                var user = new ApplicationUser { UserName = username, Email = model.Email };
+                var user = new ApplicationUser { UserName = username, Email = model.Email};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

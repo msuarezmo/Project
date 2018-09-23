@@ -70,7 +70,7 @@
           <Property Name="Surname" Type="nvarchar" MaxLength="50" />
           <Property Name="SecondSurname" Type="nvarchar" MaxLength="50" />
           <Property Name="Document" Type="nvarchar" MaxLength="50" />
-          <Property Name="DocumentType" Type="int" Nullable="false" />
+          <Property Name="DocumentType" Type="int" />
         </EntityType>
         <EntityType Name="Courses">
           <Key>
@@ -198,7 +198,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUsers_DocumentType">
-          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
+          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DocumentType">
@@ -432,22 +432,110 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="colegioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="colegioEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointment" EntityType="colegioModel.Appointment" />
+          <EntitySet Name="AspNetRoles" EntityType="colegioModel.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="colegioModel.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="colegioModel.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="colegioModel.AspNetUsers" />
+          <EntitySet Name="Courses" EntityType="colegioModel.Courses" />
+          <EntitySet Name="DocumentType" EntityType="colegioModel.DocumentType" />
+          <EntitySet Name="Historic" EntityType="colegioModel.Historic" />
+          <EntitySet Name="Issue" EntityType="colegioModel.Issue" />
+          <EntitySet Name="Justification" EntityType="colegioModel.Justification" />
+          <EntitySet Name="Lack" EntityType="colegioModel.Lack" />
+          <EntitySet Name="News" EntityType="colegioModel.News" />
+          <EntitySet Name="Status" EntityType="colegioModel.Status" />
+          <EntitySet Name="Students" EntityType="colegioModel.Students" />
+          <EntitySet Name="Subjects" EntityType="colegioModel.Subjects" />
+          <EntitySet Name="SubjectsByCourse" EntityType="colegioModel.SubjectsByCourse" />
+          <AssociationSet Name="FK_Appointment_Historic" Association="colegioModel.FK_Appointment_Historic">
+            <End Role="Historic" EntitySet="Historic" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointment_Issue" Association="colegioModel.FK_Appointment_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointment_Status" Association="colegioModel.FK_Appointment_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_DocumentType" Association="colegioModel.FK_AspNetUsers_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_Courses" Association="colegioModel.FK_Students_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubjectsByCourse_Courses" Association="colegioModel.FK_SubjectsByCourse_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="SubjectsByCourse" EntitySet="SubjectsByCourse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_DocumentType" Association="colegioModel.FK_Students_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Issue" Association="colegioModel.FK_News_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lack_Justification" Association="colegioModel.FK_Lack_Justification">
+            <End Role="Justification" EntitySet="Justification" />
+            <End Role="Lack" EntitySet="Lack" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lack_Subjects" Association="colegioModel.FK_Lack_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Lack" EntitySet="Lack" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubjectsByCourse_Subjects" Association="colegioModel.FK_SubjectsByCourse_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="SubjectsByCourse" EntitySet="SubjectsByCourse" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="colegioModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="IdAppointment" />
+          </Key>
+          <Property Name="IdAppointment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Issue" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="HistoricId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <NavigationProperty Name="Historic" Relationship="colegioModel.FK_Appointment_Historic" FromRole="Appointment" ToRole="Historic" />
+          <NavigationProperty Name="Issue1" Relationship="colegioModel.FK_Appointment_Issue" FromRole="Appointment" ToRole="Issue" />
+          <NavigationProperty Name="Status" Relationship="colegioModel.FK_Appointment_Status" FromRole="Appointment" ToRole="Status" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserLogins">
           <Key>
@@ -455,16 +543,16 @@
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -475,146 +563,35 @@
           <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SecondName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SecondSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Document" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="DocumentType" Relationship="Self.FK_AspNetUsers_DocumentType" FromRole="AspNetUsers" ToRole="DocumentType" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="DocumentType" Type="Int32" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="DocumentType1" Relationship="colegioModel.FK_AspNetUsers_DocumentType" FromRole="AspNetUsers" ToRole="DocumentType" />
+          <NavigationProperty Name="AspNetRoles" Relationship="colegioModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="IdCourse" />
+          </Key>
+          <Property Name="IdCourse" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_Courses" FromRole="Courses" ToRole="Students" />
+          <NavigationProperty Name="SubjectsByCourse" Relationship="colegioModel.FK_SubjectsByCourse_Courses" FromRole="Courses" ToRole="SubjectsByCourse" />
         </EntityType>
         <EntityType Name="DocumentType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUsers_DocumentType" FromRole="DocumentType" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_DocumentType" FromRole="DocumentType" ToRole="Student" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUsers_DocumentType">
-          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="colegioEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
-          <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUsers_DocumentType" Association="Self.FK_AspNetUsers_DocumentType">
-            <End Role="DocumentType" EntitySet="DocumentType" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="Appointments" EntityType="colegioModel.Appointment" />
-          <EntitySet Name="Courses" EntityType="colegioModel.Cours" />
-          <EntitySet Name="Historics" EntityType="colegioModel.Historic" />
-          <EntitySet Name="Issues" EntityType="colegioModel.Issue" />
-          <EntitySet Name="Justifications" EntityType="colegioModel.Justification" />
-          <EntitySet Name="Lacks" EntityType="colegioModel.Lack" />
-          <EntitySet Name="News" EntityType="colegioModel.News" />
-          <EntitySet Name="Status" EntityType="colegioModel.Status" />
-          <EntitySet Name="Students" EntityType="colegioModel.Student" />
-          <EntitySet Name="Subjects" EntityType="colegioModel.Subject" />
-          <EntitySet Name="SubjectsByCourses" EntityType="colegioModel.SubjectsByCourse" />
-          <AssociationSet Name="FK_Appointment_Historic" Association="colegioModel.FK_Appointment_Historic">
-            <End Role="Historic" EntitySet="Historics" />
-            <End Role="Appointment" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Appointment_Issue" Association="colegioModel.FK_Appointment_Issue">
-            <End Role="Issue" EntitySet="Issues" />
-            <End Role="Appointment" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Appointment_Status" Association="colegioModel.FK_Appointment_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Appointment" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Students_Courses" Association="colegioModel.FK_Students_Courses">
-            <End Role="Cours" EntitySet="Courses" />
-            <End Role="Student" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubjectsByCourse_Courses" Association="colegioModel.FK_SubjectsByCourse_Courses">
-            <End Role="Cours" EntitySet="Courses" />
-            <End Role="SubjectsByCourse" EntitySet="SubjectsByCourses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Students_DocumentType" Association="colegioModel.FK_Students_DocumentType">
-            <End Role="DocumentType" EntitySet="DocumentType" />
-            <End Role="Student" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Issue" Association="colegioModel.FK_News_Issue">
-            <End Role="Issue" EntitySet="Issues" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Justification" Association="colegioModel.FK_Lack_Justification">
-            <End Role="Justification" EntitySet="Justifications" />
-            <End Role="Lack" EntitySet="Lacks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Subjects" Association="colegioModel.FK_Lack_Subjects">
-            <End Role="Subject" EntitySet="Subjects" />
-            <End Role="Lack" EntitySet="Lacks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubjectsByCourse_Subjects" Association="colegioModel.FK_SubjectsByCourse_Subjects">
-            <End Role="Subject" EntitySet="Subjects" />
-            <End Role="SubjectsByCourse" EntitySet="SubjectsByCourses" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Appointment">
-          <Key>
-            <PropertyRef Name="IdAppointment" />
-          </Key>
-          <Property Name="IdAppointment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Historic" Relationship="colegioModel.FK_Appointment_Historic" FromRole="Appointment" ToRole="Historic" />
-          <NavigationProperty Name="Issue" Relationship="colegioModel.FK_Appointment_Issue" FromRole="Appointment" ToRole="Issue" />
-          <NavigationProperty Name="Status" Relationship="colegioModel.FK_Appointment_Status" FromRole="Appointment" ToRole="Status" />
-        </EntityType>
-        <EntityType Name="Cours">
-          <Key>
-            <PropertyRef Name="IdCourse" />
-          </Key>
-          <Property Name="IdCourse" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_Courses" FromRole="Cours" ToRole="Student" />
-          <NavigationProperty Name="SubjectsByCourses" Relationship="colegioModel.FK_SubjectsByCourse_Courses" FromRole="Cours" ToRole="SubjectsByCourse" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_AspNetUsers_DocumentType" FromRole="DocumentType" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_DocumentType" FromRole="DocumentType" ToRole="Students" />
         </EntityType>
         <EntityType Name="Historic">
           <Key>
@@ -623,7 +600,7 @@
           <Property Name="IdHistoric" Type="Int32" Nullable="false" />
           <Property Name="Answer" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Appointments" Relationship="colegioModel.FK_Appointment_Historic" FromRole="Historic" ToRole="Appointment" />
+          <NavigationProperty Name="Appointment" Relationship="colegioModel.FK_Appointment_Historic" FromRole="Historic" ToRole="Appointment" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -631,7 +608,7 @@
           </Key>
           <Property Name="IdIssue" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Appointments" Relationship="colegioModel.FK_Appointment_Issue" FromRole="Issue" ToRole="Appointment" />
+          <NavigationProperty Name="Appointment" Relationship="colegioModel.FK_Appointment_Issue" FromRole="Issue" ToRole="Appointment" />
           <NavigationProperty Name="News" Relationship="colegioModel.FK_News_Issue" FromRole="Issue" ToRole="News" />
         </EntityType>
         <EntityType Name="Justification">
@@ -641,7 +618,7 @@
           <Property Name="IdJustification" Type="Int32" Nullable="false" />
           <Property Name="IdLack" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Lacks" Relationship="colegioModel.FK_Lack_Justification" FromRole="Justification" ToRole="Lack" />
+          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Justification" FromRole="Justification" ToRole="Lack" />
         </EntityType>
         <EntityType Name="Lack">
           <Key>
@@ -650,14 +627,17 @@
           <Property Name="IdLack" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdSubject" Type="Int32" Nullable="false" />
+          <Property Name="JustificationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Justification" Relationship="colegioModel.FK_Lack_Justification" FromRole="Lack" ToRole="Justification" />
-          <NavigationProperty Name="Subject" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Lack" ToRole="Subject" />
+          <NavigationProperty Name="Subjects" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Lack" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="News">
           <Key>
             <PropertyRef Name="IdNews" />
           </Key>
           <Property Name="IdNews" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Issue" Relationship="colegioModel.FK_News_Issue" FromRole="News" ToRole="Issue" />
@@ -668,180 +648,289 @@
           </Key>
           <Property Name="IdStatus" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Appointments" Relationship="colegioModel.FK_Appointment_Status" FromRole="Status" ToRole="Appointment" />
+          <NavigationProperty Name="Appointment" Relationship="colegioModel.FK_Appointment_Status" FromRole="Status" ToRole="Appointment" />
         </EntityType>
-        <EntityType Name="Student">
+        <EntityType Name="Students">
           <Key>
             <PropertyRef Name="IdStudent" />
           </Key>
           <Property Name="IdStudent" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DocumentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
           <Property Name="Document" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cours" Relationship="colegioModel.FK_Students_Courses" FromRole="Student" ToRole="Cours" />
-          <NavigationProperty Name="DocumentType" Relationship="colegioModel.FK_Students_DocumentType" FromRole="Student" ToRole="DocumentType" />
+          <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
+          <NavigationProperty Name="DocumentType" Relationship="colegioModel.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
         </EntityType>
-        <EntityType Name="Subject">
+        <EntityType Name="Subjects">
           <Key>
             <PropertyRef Name="IdSubjects" />
           </Key>
           <Property Name="IdSubjects" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Lacks" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Subject" ToRole="Lack" />
-          <NavigationProperty Name="SubjectsByCourses" Relationship="colegioModel.FK_SubjectsByCourse_Subjects" FromRole="Subject" ToRole="SubjectsByCourse" />
+          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Subjects" ToRole="Lack" />
+          <NavigationProperty Name="SubjectsByCourse" Relationship="colegioModel.FK_SubjectsByCourse_Subjects" FromRole="Subjects" ToRole="SubjectsByCourse" />
         </EntityType>
         <EntityType Name="SubjectsByCourse">
           <Key>
             <PropertyRef Name="IdSubjectxCourse" />
           </Key>
           <Property Name="IdSubjectxCourse" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cours" Relationship="colegioModel.FK_SubjectsByCourse_Courses" FromRole="SubjectsByCourse" ToRole="Cours" />
-          <NavigationProperty Name="Subject" Relationship="colegioModel.FK_SubjectsByCourse_Subjects" FromRole="SubjectsByCourse" ToRole="Subject" />
+          <Property Name="IdSubjects" Type="Int32" Nullable="false" />
+          <Property Name="IdCourse" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Courses" Relationship="colegioModel.FK_SubjectsByCourse_Courses" FromRole="SubjectsByCourse" ToRole="Courses" />
+          <NavigationProperty Name="Subjects" Relationship="colegioModel.FK_SubjectsByCourse_Subjects" FromRole="SubjectsByCourse" ToRole="Subjects" />
         </EntityType>
         <Association Name="FK_Appointment_Historic">
           <End Type="colegioModel.Historic" Role="Historic" Multiplicity="0..1" />
           <End Type="colegioModel.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Historic">
+              <PropertyRef Name="IdHistoric" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="HistoricId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Appointment_Issue">
           <End Type="colegioModel.Issue" Role="Issue" Multiplicity="1" />
           <End Type="colegioModel.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="IdIssue" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="Issue" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Appointment_Status">
           <End Type="colegioModel.Status" Role="Status" Multiplicity="0..1" />
           <End Type="colegioModel.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="IdStatus" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="colegioModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="colegioModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUsers_DocumentType">
+          <End Type="colegioModel.DocumentType" Role="DocumentType" Multiplicity="0..1" />
+          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="DocumentType" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Students_Courses">
-          <End Type="colegioModel.Cours" Role="Cours" Multiplicity="1" />
-          <End Type="colegioModel.Student" Role="Student" Multiplicity="*" />
+          <End Type="colegioModel.Courses" Role="Courses" Multiplicity="1" />
+          <End Type="colegioModel.Students" Role="Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_SubjectsByCourse_Courses">
-          <End Type="colegioModel.Cours" Role="Cours" Multiplicity="1" />
+          <End Type="colegioModel.Courses" Role="Courses" Multiplicity="1" />
           <End Type="colegioModel.SubjectsByCourse" Role="SubjectsByCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="SubjectsByCourse">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Students_DocumentType">
           <End Type="colegioModel.DocumentType" Role="DocumentType" Multiplicity="1" />
-          <End Type="colegioModel.Student" Role="Student" Multiplicity="*" />
+          <End Type="colegioModel.Students" Role="Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_News_Issue">
           <End Type="colegioModel.Issue" Role="Issue" Multiplicity="1" />
           <End Type="colegioModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="IdIssue" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lack_Justification">
           <End Type="colegioModel.Justification" Role="Justification" Multiplicity="1" />
           <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Justification">
+              <PropertyRef Name="IdJustification" />
+            </Principal>
+            <Dependent Role="Lack">
+              <PropertyRef Name="JustificationId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lack_Subjects">
-          <End Type="colegioModel.Subject" Role="Subject" Multiplicity="1" />
+          <End Type="colegioModel.Subjects" Role="Subjects" Multiplicity="1" />
           <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="Lack">
+              <PropertyRef Name="IdSubject" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_SubjectsByCourse_Subjects">
-          <End Type="colegioModel.Subject" Role="Subject" Multiplicity="1" />
+          <End Type="colegioModel.Subjects" Role="Subjects" Multiplicity="1" />
           <End Type="colegioModel.SubjectsByCourse" Role="SubjectsByCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="SubjectsByCourse">
+              <PropertyRef Name="IdSubjects" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="colegioModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities1">
+        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities2">
+          <EntitySetMapping Name="Appointment">
+            <EntityTypeMapping TypeName="colegioModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="HistoricId" ColumnName="HistoricId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Issue" ColumnName="Issue" />
+                <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="colegioModel.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
             <EntityTypeMapping TypeName="colegioModel.AspNetUserClaims">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
                 <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
             <EntityTypeMapping TypeName="colegioModel.AspNetUserLogins">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="colegioModel.AspNetUsers">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="SecondSurname" ColumnName="SecondSurname" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
                 <ScalarProperty Name="Document" ColumnName="Document" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DocumentType">
-            <EntityTypeMapping TypeName="colegioModel.DocumentType">
-              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="SecondSurname" ColumnName="SecondSurname" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" TypeName="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" StoreEntitySet="AspNetUserClaims">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUserClaims">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_AspNetUsers_DocumentType" TypeName="colegioModel.FK_AspNetUsers_DocumentType" StoreEntitySet="AspNetUsers">
-            <EndProperty Name="DocumentType">
-              <ScalarProperty Name="Id" ColumnName="DocumentType" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="colegioModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="Appointments">
-            <EntityTypeMapping TypeName="colegioModel.Appointment">
-              <MappingFragment StoreEntitySet="Appointment">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Courses">
-            <EntityTypeMapping TypeName="colegioModel.Cours">
+            <EntityTypeMapping TypeName="colegioModel.Courses">
               <MappingFragment StoreEntitySet="Courses">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Historics">
+          <EntitySetMapping Name="DocumentType">
+            <EntityTypeMapping TypeName="colegioModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Historic">
             <EntityTypeMapping TypeName="colegioModel.Historic">
               <MappingFragment StoreEntitySet="Historic">
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -850,7 +939,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Issues">
+          <EntitySetMapping Name="Issue">
             <EntityTypeMapping TypeName="colegioModel.Issue">
               <MappingFragment StoreEntitySet="Issue">
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -858,7 +947,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Justifications">
+          <EntitySetMapping Name="Justification">
             <EntityTypeMapping TypeName="colegioModel.Justification">
               <MappingFragment StoreEntitySet="Justification">
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -867,9 +956,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Lacks">
+          <EntitySetMapping Name="Lack">
             <EntityTypeMapping TypeName="colegioModel.Lack">
               <MappingFragment StoreEntitySet="Lack">
+                <ScalarProperty Name="JustificationId" ColumnName="JustificationId" />
+                <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IdLack" ColumnName="IdLack" />
@@ -881,6 +972,7 @@
               <MappingFragment StoreEntitySet="News">
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
                 <ScalarProperty Name="IdNews" ColumnName="IdNews" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -894,9 +986,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Students">
-            <EntityTypeMapping TypeName="colegioModel.Student">
+            <EntityTypeMapping TypeName="colegioModel.Students">
               <MappingFragment StoreEntitySet="Students">
                 <ScalarProperty Name="Document" ColumnName="Document" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
@@ -904,100 +998,28 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Subjects">
-            <EntityTypeMapping TypeName="colegioModel.Subject">
+            <EntityTypeMapping TypeName="colegioModel.Subjects">
               <MappingFragment StoreEntitySet="Subjects">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IdSubjects" ColumnName="IdSubjects" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SubjectsByCourses">
+          <EntitySetMapping Name="SubjectsByCourse">
             <EntityTypeMapping TypeName="colegioModel.SubjectsByCourse">
               <MappingFragment StoreEntitySet="SubjectsByCourse">
+                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
+                <ScalarProperty Name="IdSubjects" ColumnName="IdSubjects" />
                 <ScalarProperty Name="IdSubjectxCourse" ColumnName="IdSubjectxCourse" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="FK_Appointment_Historic" TypeName="colegioModel.FK_Appointment_Historic" StoreEntitySet="Appointment">
-            <EndProperty Name="Appointment">
-              <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="colegioModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
-            <EndProperty Name="Historic">
-              <ScalarProperty Name="IdHistoric" ColumnName="HistoricId" />
-            </EndProperty>
-            <Condition ColumnName="HistoricId" IsNull="false" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Appointment_Issue" TypeName="colegioModel.FK_Appointment_Issue" StoreEntitySet="Appointment">
-            <EndProperty Name="Appointment">
-              <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
-            </EndProperty>
-            <EndProperty Name="Issue">
-              <ScalarProperty Name="IdIssue" ColumnName="Issue" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Appointment_Status" TypeName="colegioModel.FK_Appointment_Status" StoreEntitySet="Appointment">
-            <EndProperty Name="Appointment">
-              <ScalarProperty Name="IdAppointment" ColumnName="IdAppointment" />
-            </EndProperty>
-            <EndProperty Name="Status">
-              <ScalarProperty Name="IdStatus" ColumnName="StatusId" />
-            </EndProperty>
-            <Condition ColumnName="StatusId" IsNull="false" />
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Students_Courses" TypeName="colegioModel.FK_Students_Courses" StoreEntitySet="Students">
-            <EndProperty Name="Student">
-              <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
-            </EndProperty>
-            <EndProperty Name="Cours">
-              <ScalarProperty Name="IdCourse" ColumnName="CourseId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_SubjectsByCourse_Courses" TypeName="colegioModel.FK_SubjectsByCourse_Courses" StoreEntitySet="SubjectsByCourse">
-            <EndProperty Name="SubjectsByCourse">
-              <ScalarProperty Name="IdSubjectxCourse" ColumnName="IdSubjectxCourse" />
-            </EndProperty>
-            <EndProperty Name="Cours">
-              <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Students_DocumentType" TypeName="colegioModel.FK_Students_DocumentType" StoreEntitySet="Students">
-            <EndProperty Name="Student">
-              <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
-            </EndProperty>
-            <EndProperty Name="DocumentType">
-              <ScalarProperty Name="Id" ColumnName="DocumentTypeId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_News_Issue" TypeName="colegioModel.FK_News_Issue" StoreEntitySet="News">
-            <EndProperty Name="News">
-              <ScalarProperty Name="IdNews" ColumnName="IdNews" />
-            </EndProperty>
-            <EndProperty Name="Issue">
-              <ScalarProperty Name="IdIssue" ColumnName="IssueId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Lack_Justification" TypeName="colegioModel.FK_Lack_Justification" StoreEntitySet="Lack">
-            <EndProperty Name="Lack">
-              <ScalarProperty Name="IdLack" ColumnName="IdLack" />
-            </EndProperty>
-            <EndProperty Name="Justification">
-              <ScalarProperty Name="IdJustification" ColumnName="JustificationId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Lack_Subjects" TypeName="colegioModel.FK_Lack_Subjects" StoreEntitySet="Lack">
-            <EndProperty Name="Lack">
-              <ScalarProperty Name="IdLack" ColumnName="IdLack" />
-            </EndProperty>
-            <EndProperty Name="Subject">
-              <ScalarProperty Name="IdSubjects" ColumnName="IdSubject" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_SubjectsByCourse_Subjects" TypeName="colegioModel.FK_SubjectsByCourse_Subjects" StoreEntitySet="SubjectsByCourse">
-            <EndProperty Name="SubjectsByCourse">
-              <ScalarProperty Name="IdSubjectxCourse" ColumnName="IdSubjectxCourse" />
-            </EndProperty>
-            <EndProperty Name="Subject">
-              <ScalarProperty Name="IdSubjects" ColumnName="IdSubjects" />
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
@@ -1014,8 +1036,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>

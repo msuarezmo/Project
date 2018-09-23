@@ -15,8 +15,10 @@ namespace CapaDatos
     public partial class SubjectsByCourse
     {
         public int IdSubjectxCourse { get; set; }
+        public int IdSubjects { get; set; }
+        public int IdCourse { get; set; }
     
-        public virtual Cours Cours { get; set; }
-        public virtual Subject Subject { get; set; }
+        public virtual Courses Courses { get; set; }
+        public virtual Subjects Subjects { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace CapaDatos
     public partial class News
     {
         public int IdNews { get; set; }
+        public int IssueId { get; set; }
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
     

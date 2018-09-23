@@ -25,21 +25,21 @@ namespace CapaDatos
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Appointment> Appointment { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Courses> Courses { get; set; }
         public virtual DbSet<DocumentType> DocumentType { get; set; }
-        public virtual DbSet<Appointment> Appointments { get; set; }
-        public virtual DbSet<Cours> Courses { get; set; }
-        public virtual DbSet<Historic> Historics { get; set; }
-        public virtual DbSet<Issue> Issues { get; set; }
-        public virtual DbSet<Justification> Justifications { get; set; }
-        public virtual DbSet<Lack> Lacks { get; set; }
+        public virtual DbSet<Historic> Historic { get; set; }
+        public virtual DbSet<Issue> Issue { get; set; }
+        public virtual DbSet<Justification> Justification { get; set; }
+        public virtual DbSet<Lack> Lack { get; set; }
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<SubjectsByCourse> SubjectsByCourses { get; set; }
+        public virtual DbSet<Students> Students { get; set; }
+        public virtual DbSet<Subjects> Subjects { get; set; }
+        public virtual DbSet<SubjectsByCourse> SubjectsByCourse { get; set; }
     }
 }

@@ -15,10 +15,13 @@ namespace CapaDatos
     public partial class Appointment
     {
         public int IdAppointment { get; set; }
+        public int Issue { get; set; }
         public string Description { get; set; }
+        public Nullable<int> HistoricId { get; set; }
+        public Nullable<int> StatusId { get; set; }
     
         public virtual Historic Historic { get; set; }
-        public virtual Issue Issue { get; set; }
+        public virtual Issue Issue1 { get; set; }
         public virtual Status Status { get; set; }
     }
 }

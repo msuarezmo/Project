@@ -4,30 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0f8044dd7d0b4d7b8199c8161461cb18" Name="Diagram1" ZoomLevel="77">
-        <EntityTypeShape EntityType="colegioModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="colegioModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="colegioModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="colegioModel.AspNetUsers" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="colegioModel.DocumentType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="colegioModel.FK_AspNetUsers_DocumentType" ManuallyRouted="false" />
-        <AssociationConnector Association="colegioModel.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="10" PointY="3.875" />
-        <EntityTypeShape EntityType="colegioModel.Cours" Width="1.5" PointX="0.75" PointY="11.875" />
-        <EntityTypeShape EntityType="colegioModel.Historic" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="colegioModel.Issue" Width="1.5" PointX="7.75" PointY="3.875" />
-        <EntityTypeShape EntityType="colegioModel.Justification" Width="1.5" PointX="0.75" PointY="17.875" />
-        <EntityTypeShape EntityType="colegioModel.Lack" Width="1.5" PointX="3" PointY="15.875" />
-        <EntityTypeShape EntityType="colegioModel.News" Width="1.5" PointX="10" PointY="6.625" />
-        <EntityTypeShape EntityType="colegioModel.Status" Width="1.5" PointX="7.75" PointY="9.25" />
-        <EntityTypeShape EntityType="colegioModel.Student" Width="1.5" PointX="3.375" PointY="9.875" />
-        <EntityTypeShape EntityType="colegioModel.Subject" Width="1.5" PointX="0.75" PointY="14.875" />
-        <EntityTypeShape EntityType="colegioModel.SubjectsByCourse" Width="1.5" PointX="3" PointY="13" />
+      <Diagram DiagramId="aaaee667716c42799d9835e9832f620a" Name="Diagram1">
+        <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="10" PointY="10.5" />
+        <EntityTypeShape EntityType="colegioModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="colegioModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="8.875" />
+        <EntityTypeShape EntityType="colegioModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="2.25" />
+        <EntityTypeShape EntityType="colegioModel.AspNetUsers" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="colegioModel.Courses" Width="1.5" PointX="3.75" PointY="12.625" />
+        <EntityTypeShape EntityType="colegioModel.DocumentType" Width="1.5" PointX="0.75" PointY="5.625" />
+        <EntityTypeShape EntityType="colegioModel.Historic" Width="1.5" PointX="7.75" PointY="16" />
+        <EntityTypeShape EntityType="colegioModel.Issue" Width="1.5" PointX="7.75" PointY="10.875" />
+        <EntityTypeShape EntityType="colegioModel.Justification" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="colegioModel.Lack" Width="1.5" PointX="11" PointY="3.5" />
+        <EntityTypeShape EntityType="colegioModel.News" Width="1.5" PointX="10" PointY="14.125" />
+        <EntityTypeShape EntityType="colegioModel.Status" Width="1.5" PointX="7.75" PointY="13.625" />
+        <EntityTypeShape EntityType="colegioModel.Students" Width="1.5" PointX="6" PointY="5.25" />
+        <EntityTypeShape EntityType="colegioModel.Subjects" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="colegioModel.SubjectsByCourse" Width="1.5" PointX="11" PointY="7.125" />
         <AssociationConnector Association="colegioModel.FK_Appointment_Historic" />
         <AssociationConnector Association="colegioModel.FK_Appointment_Issue" />
         <AssociationConnector Association="colegioModel.FK_Appointment_Status" />
+        <AssociationConnector Association="colegioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="colegioModel.FK_AspNetUsers_DocumentType" />
         <AssociationConnector Association="colegioModel.FK_Students_Courses" />
         <AssociationConnector Association="colegioModel.FK_SubjectsByCourse_Courses" />
         <AssociationConnector Association="colegioModel.FK_Students_DocumentType" />
@@ -35,6 +34,7 @@
         <AssociationConnector Association="colegioModel.FK_Lack_Justification" />
         <AssociationConnector Association="colegioModel.FK_Lack_Subjects" />
         <AssociationConnector Association="colegioModel.FK_SubjectsByCourse_Subjects" />
+        <AssociationConnector Association="colegioModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

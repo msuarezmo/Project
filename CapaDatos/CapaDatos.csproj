@@ -65,7 +65,7 @@
     <Compile Include="AspNetUsers.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Cours.cs">
+    <Compile Include="Courses.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DocumentType.cs">
@@ -105,10 +105,10 @@
     <Compile Include="Status.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Student.cs">
+    <Compile Include="Students.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Subject.cs">
+    <Compile Include="Subjects.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SubjectsByCourse.cs">

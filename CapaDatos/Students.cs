@@ -12,14 +12,16 @@ namespace CapaDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class Student
+    public partial class Students
     {
         public int IdStudent { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+        public int DocumentTypeId { get; set; }
+        public int CourseId { get; set; }
         public int Document { get; set; }
     
-        public virtual Cours Cours { get; set; }
+        public virtual Courses Courses { get; set; }
         public virtual DocumentType DocumentType { get; set; }
     }
 }

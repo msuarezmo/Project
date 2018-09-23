@@ -18,7 +18,7 @@ namespace CapaDatos
         public DocumentType()
         {
             this.AspNetUsers = new HashSet<AspNetUsers>();
-            this.Students = new HashSet<Student>();
+            this.Students = new HashSet<Students>();
         }
     
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace CapaDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Students> Students { get; set; }
     }
 }

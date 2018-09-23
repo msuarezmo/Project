@@ -17,8 +17,10 @@ namespace CapaDatos
         public int IdLack { get; set; }
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
+        public int IdSubject { get; set; }
+        public int JustificationId { get; set; }
     
         public virtual Justification Justification { get; set; }
-        public virtual Subject Subject { get; set; }
+        public virtual Subjects Subjects { get; set; }
     }
 }
