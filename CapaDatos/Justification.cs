@@ -12,21 +12,19 @@ namespace CapaDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class DocumentType
+    public partial class Justification
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DocumentType()
+        public Justification()
         {
-            this.AspNetUsers = new HashSet<AspNetUsers>();
-            this.Students = new HashSet<Student>();
+            this.Lacks = new HashSet<Lack>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int IdJustification { get; set; }
+        public string IdLack { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Lack> Lacks { get; set; }
     }
 }

@@ -30,5 +30,16 @@ namespace CapaDatos
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<DocumentType> DocumentType { get; set; }
+        public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<Cours> Courses { get; set; }
+        public virtual DbSet<Historic> Historics { get; set; }
+        public virtual DbSet<Issue> Issues { get; set; }
+        public virtual DbSet<Justification> Justifications { get; set; }
+        public virtual DbSet<Lack> Lacks { get; set; }
+        public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectsByCourse> SubjectsByCourses { get; set; }
     }
 }

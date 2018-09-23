@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Appointment.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetRoles.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
@@ -62,7 +65,25 @@
     <Compile Include="AspNetUsers.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Cours.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DocumentType.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Historic.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Issue.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Justification.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Lack.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="News.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +101,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SchoolModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Student.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subject.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubjectsByCourse.cs">
+      <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,27 @@
         <AssociationConnector Association="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="colegioModel.FK_AspNetUsers_DocumentType" ManuallyRouted="false" />
         <AssociationConnector Association="colegioModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="10" PointY="3.875" />
+        <EntityTypeShape EntityType="colegioModel.Cours" Width="1.5" PointX="0.75" PointY="11.875" />
+        <EntityTypeShape EntityType="colegioModel.Historic" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="colegioModel.Issue" Width="1.5" PointX="7.75" PointY="3.875" />
+        <EntityTypeShape EntityType="colegioModel.Justification" Width="1.5" PointX="0.75" PointY="17.875" />
+        <EntityTypeShape EntityType="colegioModel.Lack" Width="1.5" PointX="3" PointY="15.875" />
+        <EntityTypeShape EntityType="colegioModel.News" Width="1.5" PointX="10" PointY="6.625" />
+        <EntityTypeShape EntityType="colegioModel.Status" Width="1.5" PointX="7.75" PointY="9.25" />
+        <EntityTypeShape EntityType="colegioModel.Student" Width="1.5" PointX="3.375" PointY="9.875" />
+        <EntityTypeShape EntityType="colegioModel.Subject" Width="1.5" PointX="0.75" PointY="14.875" />
+        <EntityTypeShape EntityType="colegioModel.SubjectsByCourse" Width="1.5" PointX="3" PointY="13" />
+        <AssociationConnector Association="colegioModel.FK_Appointment_Historic" />
+        <AssociationConnector Association="colegioModel.FK_Appointment_Issue" />
+        <AssociationConnector Association="colegioModel.FK_Appointment_Status" />
+        <AssociationConnector Association="colegioModel.FK_Students_Courses" />
+        <AssociationConnector Association="colegioModel.FK_SubjectsByCourse_Courses" />
+        <AssociationConnector Association="colegioModel.FK_Students_DocumentType" />
+        <AssociationConnector Association="colegioModel.FK_News_Issue" />
+        <AssociationConnector Association="colegioModel.FK_Lack_Justification" />
+        <AssociationConnector Association="colegioModel.FK_Lack_Subjects" />
+        <AssociationConnector Association="colegioModel.FK_SubjectsByCourse_Subjects" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
