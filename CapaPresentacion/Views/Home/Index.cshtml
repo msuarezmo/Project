@@ -2,46 +2,49 @@
     ViewBag.Title = "Inicio";
 }
 
-@*<div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">Agregar Cursos, agregar materias, asignar roles</p>
+<div class="jumbotron">
+    <h1>Bienvenido</h1>
+    @*<p class="lead">Agregar Cursos, agregar materias, asignar roles</p>*@
 
-    </div>*@
+</div>
 @if (Request.IsAuthenticated)
 {
     <div class="row">
-        <div class="container">
-            <div>
-                <div id="carousel" class="carousel slide">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel" data-slide-to="1"></li>
-                        <li data-target="#carousel" data-slide-to="2"></li>
-                        <li data-target="#carousel" data-slide-to="3"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="~/Content/img/img2.jpeg" />
-                        </div>
-                        <div class="item">
-                            <img src="~/Content/img/img3.jpeg" />
-                        </div>
-                        <div class="item">
-                            <img src="~/Content/img/img4.jpeg" />
-                        </div>
-                        <div class="item">
-                            <img src="~/Content/img/img5.jpeg" />
+        <center>
+            <div class="container">
+                <div>
+                    <div id="carousel" class="carousel slide">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel" data-slide-to="1"></li>
+                            <li data-target="#carousel" data-slide-to="2"></li>
+                            <li data-target="#carousel" data-slide-to="3"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src="~/Content/img/img2.jpeg" />
+                            </div>
+                            <div class="item">
+                                <img src="~/Content/img/img3.jpeg" />
+                            </div>
+                            <div class="item">
+                                <img src="~/Content/img/img4.jpeg" />
+                            </div>
+                            <div class="item">
+                                <img src="~/Content/img/img5.jpeg" />
+                            </div>
                         </div>
                     </div>
+                    @*<a href="Index/carousel" class="left carousel-control" data-slide="prev">
+                            <span class="icon-prev"></span>
+                        </a>
+                        <a href="Index/carousel" class="right carousel-control" data-slide="next">
+                            <span class="icon-next"></span>
+                        </a>*@
                 </div>
-                <a href="carousel" class="left carousel-control" data-slide="prev">
-                    <span class="icon-prev"></span>
-                </a>
-                <a href="carousel" class="right carousel-control" data-slide="next">
-                    <span class="icon-next"></span>
-                </a>
             </div>
-        </div>
+        </center>
+
 
 
 

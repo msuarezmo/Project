@@ -76,8 +76,8 @@
           <Key>
             <PropertyRef Name="IdCourse" />
           </Key>
-          <Property Name="IdCourse" Type="int" Nullable="false" />
-          <Property Name="Description" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdCourse" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DocumentType">
           <Key>
@@ -139,12 +139,12 @@
           <Key>
             <PropertyRef Name="IdStudent" />
           </Key>
-          <Property Name="IdStudent" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="LastName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdStudent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentTypeId" Type="int" Nullable="false" />
           <Property Name="CourseId" Type="int" Nullable="false" />
-          <Property Name="Document" Type="int" Nullable="false" />
+          <Property Name="Document" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
@@ -579,8 +579,8 @@
           <Key>
             <PropertyRef Name="IdCourse" />
           </Key>
-          <Property Name="IdCourse" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IdCourse" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_Courses" FromRole="Courses" ToRole="Students" />
           <NavigationProperty Name="SubjectsByCourse" Relationship="colegioModel.FK_SubjectsByCourse_Courses" FromRole="Courses" ToRole="SubjectsByCourse" />
         </EntityType>
@@ -654,12 +654,12 @@
           <Key>
             <PropertyRef Name="IdStudent" />
           </Key>
-          <Property Name="IdStudent" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentTypeId" Type="Int32" Nullable="false" />
           <Property Name="CourseId" Type="Int32" Nullable="false" />
-          <Property Name="Document" Type="Int32" Nullable="false" />
+          <Property Name="Document" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
           <NavigationProperty Name="DocumentType" Relationship="colegioModel.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
         </EntityType>
@@ -846,7 +846,7 @@
           <End Type="colegioModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

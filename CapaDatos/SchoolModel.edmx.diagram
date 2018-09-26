@@ -7,8 +7,8 @@
       <Diagram DiagramId="aaaee667716c42799d9835e9832f620a" Name="Diagram1">
         <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="10" PointY="10.5" />
         <EntityTypeShape EntityType="colegioModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.75" />
-        <EntityTypeShape EntityType="colegioModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="8.875" />
-        <EntityTypeShape EntityType="colegioModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="2.25" />
+        <EntityTypeShape EntityType="colegioModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="2.25" />
+        <EntityTypeShape EntityType="colegioModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="9" />
         <EntityTypeShape EntityType="colegioModel.AspNetUsers" Width="1.5" PointX="3" PointY="3.875" />
         <EntityTypeShape EntityType="colegioModel.Courses" Width="1.5" PointX="3.75" PointY="12.625" />
         <EntityTypeShape EntityType="colegioModel.DocumentType" Width="1.5" PointX="0.75" PointY="5.625" />

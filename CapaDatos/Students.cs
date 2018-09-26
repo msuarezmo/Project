@@ -19,7 +19,7 @@ namespace CapaDatos
         public string LastName { get; set; }
         public int DocumentTypeId { get; set; }
         public int CourseId { get; set; }
-        public int Document { get; set; }
+        public string Document { get; set; }
     
         public virtual Courses Courses { get; set; }
         public virtual DocumentType DocumentType { get; set; }

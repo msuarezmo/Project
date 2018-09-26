@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<CapaDatos.Courses>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cursos";
 }
 
-<h2>Index</h2>
+<h2>Cursos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Curso", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Nombre
         </th>
         <th></th>
     </tr>
@@ -23,9 +23,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdCourse }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdCourse }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdCourse })
+            @Html.ActionLink("Editar", "Edit", new { id=item.IdCourse }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.IdCourse }) |*@
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.IdCourse })
         </td>
     </tr>
 }
