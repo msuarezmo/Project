@@ -49,9 +49,8 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CourseId, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @*@Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required"})*@
-            @Html.DropDownListFor(x => x.CourseId,(IEnumerable<SelectListItem>)ViewBag.CourseId, new{@class = "form-control selectpicker", @Value = @Model.Courses, data_show_subtext="true",data_live_search="true"
-       })
+            @Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required"})
+            @*@Html.DropDownListFor(x => x.CourseId,(IEnumerable<SelectListItem>)ViewBag.CourseId, new{@class = "form-control selectpicker", @Value = @Model.Courses, data_show_subtext="true",data_live_search="true"*@
             @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
         </div>
     </div>

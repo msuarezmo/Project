@@ -3,16 +3,59 @@
 }
 
 <div class="jumbotron">
-    <h1>Bienvenido</h1>
+    <h1>I.E.D LA PALESTINA</h1>
     @*<p class="lead">Agregar Cursos, agregar materias, asignar roles</p>*@
-
 </div>
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && User.IsInRole("Administrador"))
 {
-    <div class="row">
-        <center>
-            <div class="container">
-                <div>
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-12 col-md-3 col-lg-3">
+                <table style="text-align:center">
+                    <tr>
+                        <th id="Users" style="text-align:center">Usuarios</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","AspNetUsers")">
+                                <img src="@Url.Content("~/Content/img/Usuario.jpg")" style="width:50%; height:50%"/>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th id="Courses" style="text-align:center">Cursos</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","Courses")">
+                                <img src="@Url.Content("~/Content/img/Cursos.png")" style="width:50%; height:50%" />
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th id="Subjects" style="text-align:center">Materias</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","Subjects")">
+                                <img src="@Url.Content("~/Content/img/Materias.png")" style="width:50%; height:50%" />
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th id="Students" style="text-align:center">Estudiantes</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Index","Students")">
+                                <img src="@Url.Content("~/Content/img/Estudiantes.jpg")" style="width:50%; height:50%" />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-6">
+                <center>
                     <div id="carousel" class="carousel slide">
                         <ol class="carousel-indicators">
                             <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -35,48 +78,22 @@
                             </div>
                         </div>
                     </div>
-                    @*<a href="Index/carousel" class="left carousel-control" data-slide="prev">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a href="Index/carousel" class="right carousel-control" data-slide="next">
-                            <span class="icon-next"></span>
-                        </a>*@
-                </div>
+                </center>
             </div>
-        </center>
-
-
-
-
-        @*<div class="col-md-4">
-                <h2>@Html.ActionLink("Usuarios","Index","usuarios")</h2>
-                <p>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and gives you full control over markup
-                    for enjoyable, agile development.
-                </p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+            <div class="col-xs-12 col-md-3 col-lg-3">
             </div>
-            <div class="col-md-4">
-                <h2>Get more libraries</h2>
-                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Web Hosting</h2>
-                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-            </div>*@
+        </div>
     </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        <script type="text/javascript">
-            $("#carousel").carousel({
-                interval: 2000
-            });
-        </script>
-    }
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        $("#carousel").carousel({
+            interval: 2000
+        });
+    </script>
 }
 
 

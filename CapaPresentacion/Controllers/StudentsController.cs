@@ -43,8 +43,7 @@ namespace CapaPresentacion.Controllers
             ViewBag.ParentId = new SelectList(consulta.Where(x => x.Students.Any(r => r.ParentId != x.Id)), "Id", "FullName");
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
-            var model = new Students();
-            return View(model);
+            return View();
         }
 
         // POST: Students/Create
