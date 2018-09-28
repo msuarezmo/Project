@@ -33,7 +33,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DocumentTypeId, "Tipo Documento", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("DocumentTypeId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("DocumentTypeId", null,"Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
             @Html.ValidationMessageFor(model => model.DocumentTypeId, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -41,7 +41,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Document, "Documento", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Document, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Document, new { htmlAttributes = new { @class = "form-control", @required = "required", autocomplete = "off" } })
             @Html.ValidationMessageFor(model => model.Document, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -49,7 +49,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CourseId, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+            @*@Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required"})*@
+            @Html.DropDownListFor(x => x.CourseId,(IEnumerable<SelectListItem>)ViewBag.CourseId, new{@class = "form-control selectpicker", @Value = @Model.Courses, data_show_subtext="true",data_live_search="true"
+       })
             @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -57,7 +59,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ParentId, "Acudiente", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("ParentId", null,"Seleccione", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("ParentId", null,"Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
             @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
         </div>
     </div>

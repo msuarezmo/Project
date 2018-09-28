@@ -40,10 +40,11 @@ namespace CapaPresentacion.Controllers
         public ActionResult Create()
         {
             var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName");
+            ViewBag.ParentId = new SelectList(consulta.Where(x => x.Students.Any(r => r.ParentId != x.Id)), "Id", "FullName");
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
-            return View();
+            var model = new Students();
+            return View(model);
         }
 
         // POST: Students/Create
