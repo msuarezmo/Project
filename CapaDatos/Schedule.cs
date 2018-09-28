@@ -12,13 +12,19 @@ namespace CapaDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class SubjectsByCourse
+    public partial class Schedule
     {
-        public int IdSubjectxCourse { get; set; }
-        public int IdSubjects { get; set; }
+        public int Id { get; set; }
         public int IdCourse { get; set; }
+        public int IdSubject { get; set; }
+        public string IdTeacher { get; set; }
+        public int IdDay { get; set; }
+        public System.TimeSpan HourFrom { get; set; }
+        public System.TimeSpan HourTo { get; set; }
     
+        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Courses Courses { get; set; }
+        public virtual Days Days { get; set; }
         public virtual Subjects Subjects { get; set; }
     }
 }

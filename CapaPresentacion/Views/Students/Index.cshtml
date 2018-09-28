@@ -7,18 +7,15 @@
 <h2>Estudiantes</h2>
 
 <p>
-    @Html.ActionLink("Crear estudiante", "Create")
+    @Html.ActionLink("Crear Estudiante", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            Curso
+            Nombres
         </th>
         <th>
-            Nombre
-        </th>
-        <th>
-            Apellido
+            Apellidos
         </th>
         <th>
             Tipo Documento
@@ -26,19 +23,22 @@
         <th>
             Documento
         </th>
+        <th>
+            Curso
+        </th>
+        <th>
+            Acudiente
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Courses.Description)
+            @Html.DisplayFor(modelItem => item.Names)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
+            @Html.DisplayFor(modelItem => item.Surnames)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DocumentType.Name)
@@ -47,11 +47,16 @@
             @Html.DisplayFor(modelItem => item.Document)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Courses.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+        </td>
+        <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.IdStudent }) |
             @*@Html.ActionLink("Details", "Details", new { id = item.IdStudent }) |*@
             @Html.ActionLink("Eliminar", "Delete", new { id = item.IdStudent })
         </td>
     </tr>
 }
-
 </table>

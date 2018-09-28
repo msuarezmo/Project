@@ -18,6 +18,7 @@ namespace CapaDatos
         public int IssueId { get; set; }
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
+        public bool Active { get; set; }
     
         public virtual Issue Issue { get; set; }
     }

@@ -17,7 +17,7 @@ namespace CapaPresentacion.Controllers
         // GET: Students
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.Courses).Include(s => s.DocumentType);
+            var students = db.Students.Include(s => s.AspNetUsers).Include(s => s.Courses).Include(s => s.DocumentType);
             return View(students.ToList());
         }
 
@@ -39,6 +39,8 @@ namespace CapaPresentacion.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
+            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName");
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
             return View();
@@ -49,7 +51,7 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdStudent,Name,LastName,DocumentTypeId,CourseId,Document")] Students students)
+        public ActionResult Create([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId")] Students students)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +60,7 @@ namespace CapaPresentacion.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);
@@ -75,6 +78,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);
@@ -85,7 +89,7 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdStudent,Name,LastName,DocumentTypeId,CourseId,Document")] Students students)
+        public ActionResult Edit([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId")] Students students)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +97,7 @@ namespace CapaPresentacion.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);

@@ -12,18 +12,18 @@ namespace CapaDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class Students
+    public partial class Days
     {
-        public int IdStudent { get; set; }
-        public string Names { get; set; }
-        public string Surnames { get; set; }
-        public int DocumentTypeId { get; set; }
-        public int CourseId { get; set; }
-        public string Document { get; set; }
-        public string ParentId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Days()
+        {
+            this.Schedule = new HashSet<Schedule>();
+        }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual Courses Courses { get; set; }
-        public virtual DocumentType DocumentType { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Schedule> Schedule { get; set; }
     }
 }

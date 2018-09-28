@@ -18,15 +18,15 @@ namespace CapaDatos
         public Subjects()
         {
             this.Lack = new HashSet<Lack>();
-            this.SubjectsByCourse = new HashSet<SubjectsByCourse>();
+            this.Schedule = new HashSet<Schedule>();
         }
     
         public int IdSubjects { get; set; }
-        public string Description { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lack> Lack { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubjectsByCourse> SubjectsByCourse { get; set; }
+        public virtual ICollection<Schedule> Schedule { get; set; }
     }
 }

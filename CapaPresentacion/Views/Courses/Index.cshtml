@@ -3,9 +3,7 @@
 @{
     ViewBag.Title = "Cursos";
 }
-
 <h2>Cursos</h2>
-
 <p>
     @Html.ActionLink("Crear Curso", "Create")
 </p>
@@ -13,6 +11,12 @@
     <tr>
         <th>
             Nombre
+        </th>
+        <th>
+            Director de curso
+        </th>
+        <th>
+            Total de estudiantes
         </th>
         <th></th>
     </tr>
@@ -23,11 +27,16 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.IdCourse }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.IdCourse }) |*@
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.IdCourse })
+            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalStudents)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |
+            @*@Html.ActionLink("Details", "Details", new { id = item.IdCourse }) |*@
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
         </td>
     </tr>
 }
-
 </table>

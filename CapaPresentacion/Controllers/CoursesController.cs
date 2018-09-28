@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
+using CapaPresentacion.Models;
 
 namespace CapaPresentacion.Controllers
 {
@@ -17,7 +18,8 @@ namespace CapaPresentacion.Controllers
         // GET: Courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            var courses = db.Courses.Include(c => c.AspNetUsers);
+            return View(courses.ToList());
         }
 
         // GET: Courses/Details/5
@@ -38,6 +40,8 @@ namespace CapaPresentacion.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
+            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
+            ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName");
             return View();
         }
 
@@ -46,7 +50,7 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCourse,Description")] Courses courses)
+        public ActionResult Create([Bind(Include = "IdCourse,Description,IdTeacher,TotalStudents")] Courses courses)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +59,7 @@ namespace CapaPresentacion.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.IdTeacher = new SelectList(db.AspNetUsers, "Id", "Email", courses.IdTeacher);
             return View(courses);
         }
 
@@ -70,6 +75,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.IdTeacher = new SelectList(db.AspNetUsers, "Id", "Email", courses.IdTeacher);
             return View(courses);
         }
 
@@ -78,7 +84,7 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdCourse,Description")] Courses courses)
+        public ActionResult Edit([Bind(Include = "IdCourse,Description,IdTeacher,TotalStudents")] Courses courses)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +92,7 @@ namespace CapaPresentacion.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.IdTeacher = new SelectList(db.AspNetUsers, "Id", "Email", courses.IdTeacher);
             return View(courses);
         }
 

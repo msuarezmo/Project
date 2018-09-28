@@ -10,8 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CapaPresentacion.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using CapaDatos;
 using System.Collections.Generic;
+using CapaDatos;
 
 namespace CapaPresentacion.Controllers
 {
@@ -150,6 +150,8 @@ namespace CapaPresentacion.Controllers
             //ViewBag.roles = new SelectList(roles, "Id", "Name");
             //return View();
             var model = new RegisterViewModel();
+            model.Password = "Secreto01+*-";
+            model.ConfirmPassword = "Secreto01+*-";
             List<string> roles = new List<string>();
             foreach (var item in userContext.Roles.ToList())
             {
@@ -166,7 +168,8 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            
+            model.Password = model.Document;
+            model.ConfirmPassword = model.Document;
             ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name",model.DocumentType);
             if (ModelState.IsValid)
             {
@@ -192,11 +195,13 @@ namespace CapaPresentacion.Controllers
                     {
                         UserManager.AddToRole(user.Id, role);
                     }
+                    string fullName = string.Format("{0}{1}{2}{3}", model.FirstName+" ", model.SecondName + " ", model.Surname+" ", model.SecondSurname);
                     var registerUser = col.AspNetUsers.FirstOrDefault(p => p.Email == model.Email);
                     registerUser.FirstName = model.FirstName;
                     registerUser.SecondName = model.SecondName;
                     registerUser.Surname = model.Surname;
                     registerUser.SecondSurname = model.SecondSurname;
+                    registerUser.FullName = fullName;
                     registerUser.Document = model.Document;
                     registerUser.DocumentType = model.DocumentType;
                     col.SaveChanges();
