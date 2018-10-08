@@ -1,0 +1,81 @@
+﻿@model CapaDatos.Schedule
+
+@{
+    ViewBag.Title = "Crear horario";
+}
+
+<h2>Crear horario</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdCourse, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdCourse", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCourse, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdSubject, "Materia", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdSubject", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdSubject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdTeacher, "Docente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdTeacher, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdDay, "Día", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdDay", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HourFrom, "Desde", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBox("FromHour", null, new { @class = "form-control", Value = ViewBag.FromHour, type = "time", style = "width:130px", @id = "FromHour" })*@
+                @Html.EditorFor(model => model.HourFrom, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                @Html.ValidationMessageFor(model => model.HourFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HourTo,"Hasta", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBox("ToHour", null, new { @class = "form-control", Value = ViewBag.ToHour, type = "time", style = "width:130px", @id = "ToHour" })*@
+                @Html.EditorFor(model => model.HourTo, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                @Html.ValidationMessageFor(model => model.HourTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

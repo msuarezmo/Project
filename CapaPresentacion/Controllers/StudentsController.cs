@@ -40,7 +40,7 @@ namespace CapaPresentacion.Controllers
         public ActionResult Create()
         {
             var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta.Where(x => x.Students.Any(r => r.ParentId != x.Id)), "Id", "FullName");
+            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName");
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
             return View();
@@ -59,8 +59,8 @@ namespace CapaPresentacion.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
+            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);
@@ -78,7 +78,8 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
+            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);
@@ -97,7 +98,8 @@ namespace CapaPresentacion.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ParentId = new SelectList(db.AspNetUsers, "Id", "Email", students.ParentId);
+            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
             return View(students);
