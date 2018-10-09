@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="aaaee667716c42799d9835e9832f620a" Name="Diagram1" ZoomLevel="63">
-        <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="10" PointY="12.5" />
+        <EntityTypeShape EntityType="colegioModel.Appointment" Width="1.5" PointX="8" PointY="14" />
         <EntityTypeShape EntityType="colegioModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="colegioModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="6.25" />
         <EntityTypeShape EntityType="colegioModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" />
@@ -13,13 +13,13 @@
         <EntityTypeShape EntityType="colegioModel.Courses" Width="1.5" PointX="5.25" PointY="9" />
         <EntityTypeShape EntityType="colegioModel.Days" Width="1.5" PointX="5.25" PointY="0.875" />
         <EntityTypeShape EntityType="colegioModel.DocumentType" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="colegioModel.Historic" Width="1.5" PointX="7.75" PointY="18.125" />
-        <EntityTypeShape EntityType="colegioModel.Issue" Width="1.5" PointX="7.75" PointY="13" />
+        <EntityTypeShape EntityType="colegioModel.Historic" Width="1.5" PointX="9.875" PointY="17.875" />
+        <EntityTypeShape EntityType="colegioModel.Issue" Width="1.5" PointX="11.5" PointY="15" />
         <EntityTypeShape EntityType="colegioModel.Justification" Width="1.5" PointX="10.5" PointY="3.125" />
-        <EntityTypeShape EntityType="colegioModel.Lack" Width="1.5" PointX="12.75" PointY="6.625" />
-        <EntityTypeShape EntityType="colegioModel.News" Width="1.5" PointX="10" PointY="16" />
+        <EntityTypeShape EntityType="colegioModel.Lack" Width="1.5" PointX="14.375" PointY="6.5" />
+        <EntityTypeShape EntityType="colegioModel.News" Width="1.5" PointX="14.375" PointY="14.5" />
         <EntityTypeShape EntityType="colegioModel.Schedule" Width="1.5" PointX="7.5" PointY="6.375" />
-        <EntityTypeShape EntityType="colegioModel.Status" Width="1.5" PointX="7.75" PointY="15.75" />
+        <EntityTypeShape EntityType="colegioModel.Status" Width="1.5" PointX="5.625" PointY="15.125" />
         <EntityTypeShape EntityType="colegioModel.Students" Width="1.5" PointX="10.5" PointY="6.375" />
         <EntityTypeShape EntityType="colegioModel.Subjects" Width="1.5" PointX="5.25" PointY="12.25" />
         <AssociationConnector Association="colegioModel.FK_Appointment_Historic" />

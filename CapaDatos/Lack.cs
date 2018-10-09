@@ -11,22 +11,14 @@ namespace CapaDatos
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Lack
     {
-        [Display(Name = "Id ausencía")]
         public int IdLack { get; set; }
-        [Display(Name = "Observaciones")]
         public string Description { get; set; }
-        [Display(Name = "Fecha de ausencía")]
-        [DataType(DataType.Date)]
         public System.DateTime Date { get; set; }
-        [Display(Name = "Id Justificación")]
         public int IdSubject { get; set; }
         public Nullable<int> JustificationId { get; set; }
-        [Required(ErrorMessage ="El estudiante es requerido")]
-        [Display(Name = "Id Estudiante")]
         public Nullable<int> idStudent { get; set; }
     
         public virtual Justification Justification { get; set; }
