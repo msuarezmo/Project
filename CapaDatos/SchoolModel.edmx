@@ -127,7 +127,8 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="IdSubject" Type="int" Nullable="false" />
-          <Property Name="JustificationId" Type="int" Nullable="false" />
+          <Property Name="JustificationId" Type="int" />
+          <Property Name="idStudent" Type="int" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -294,7 +295,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lack_Justification">
-          <End Role="Justification" Type="Self.Justification" Multiplicity="1" />
+          <End Role="Justification" Type="Self.Justification" Multiplicity="0..1" />
           <End Role="Lack" Type="Self.Lack" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Justification">
@@ -302,6 +303,18 @@
             </Principal>
             <Dependent Role="Lack">
               <PropertyRef Name="JustificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lack_Student">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="Lack" Type="Self.Lack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Lack">
+              <PropertyRef Name="idStudent" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -472,6 +485,10 @@
             <End Role="Justification" EntitySet="Justification" />
             <End Role="Lack" EntitySet="Lack" />
           </AssociationSet>
+          <AssociationSet Name="FK_Lack_Student" Association="Self.FK_Lack_Student">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Lack" EntitySet="Lack" />
+          </AssociationSet>
           <AssociationSet Name="FK_Lack_Subjects" Association="Self.FK_Lack_Subjects">
             <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Lack" EntitySet="Lack" />
@@ -589,6 +606,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Lack_Justification" Association="colegioModel.FK_Lack_Justification">
             <End Role="Justification" EntitySet="Justification" />
+            <End Role="Lack" EntitySet="Lack" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lack_Student" Association="colegioModel.FK_Lack_Student">
+            <End Role="Students" EntitySet="Students" />
             <End Role="Lack" EntitySet="Lack" />
           </AssociationSet>
           <AssociationSet Name="FK_Lack_Subjects" Association="colegioModel.FK_Lack_Subjects">
@@ -741,8 +762,10 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdSubject" Type="Int32" Nullable="false" />
-          <Property Name="JustificationId" Type="Int32" Nullable="false" />
+          <Property Name="JustificationId" Type="Int32" />
+          <Property Name="idStudent" Type="Int32" />
           <NavigationProperty Name="Justification" Relationship="colegioModel.FK_Lack_Justification" FromRole="Lack" ToRole="Justification" />
+          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Lack_Student" FromRole="Lack" ToRole="Students" />
           <NavigationProperty Name="Subjects" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Lack" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="News">
@@ -794,6 +817,7 @@
           <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_Students_AspNetUsers" FromRole="Students" ToRole="AspNetUsers" />
           <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
           <NavigationProperty Name="DocumentType" Relationship="colegioModel.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
+          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Student" FromRole="Students" ToRole="Lack" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
@@ -977,7 +1001,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lack_Justification">
-          <End Type="colegioModel.Justification" Role="Justification" Multiplicity="1" />
+          <End Type="colegioModel.Justification" Role="Justification" Multiplicity="0..1" />
           <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Justification">
@@ -985,6 +1009,18 @@
             </Principal>
             <Dependent Role="Lack">
               <PropertyRef Name="JustificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lack_Student">
+          <End Type="colegioModel.Students" Role="Students" Multiplicity="0..1" />
+          <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Lack">
+              <PropertyRef Name="idStudent" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1140,6 +1176,7 @@
           <EntitySetMapping Name="Lack">
             <EntityTypeMapping TypeName="colegioModel.Lack">
               <MappingFragment StoreEntitySet="Lack">
+                <ScalarProperty Name="idStudent" ColumnName="idStudent" />
                 <ScalarProperty Name="JustificationId" ColumnName="JustificationId" />
                 <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
                 <ScalarProperty Name="Date" ColumnName="Date" />

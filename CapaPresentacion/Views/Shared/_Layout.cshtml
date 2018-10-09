@@ -31,15 +31,17 @@
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                 {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Usuarios", "Index", "AspNetUsers")</li>
-                        <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
-                        <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
-                        <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
-                        @*<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>*@
-                    </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Usuarios", "Index", "AspNetUsers")</li>
+                    <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
+                    <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
+                    <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
+                    <li>@Html.ActionLink("Ausencias", "Index", "Lacks")</li>
+                    <li>@Html.ActionLink("Justificación", "Index", "Justifications")</li>
+                    @*<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+                   <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>*@
+                </ul>
                 }
                 @Html.Partial("_LoginPartial")
             </div>
