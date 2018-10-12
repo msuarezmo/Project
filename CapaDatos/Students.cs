@@ -14,6 +14,12 @@ namespace CapaDatos
     
     public partial class Students
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Students()
+        {
+            this.Lack = new HashSet<Lack>();
+        }
+    
         public int IdStudent { get; set; }
         public string Names { get; set; }
         public string Surnames { get; set; }
@@ -25,5 +31,7 @@ namespace CapaDatos
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Courses Courses { get; set; }
         public virtual DocumentType DocumentType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Lack> Lack { get; set; }
     }
 }
