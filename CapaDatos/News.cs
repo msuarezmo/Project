@@ -11,16 +11,15 @@ namespace CapaDatos
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class News
     {
         public int IdNews { get; set; }
+        public int IssueId { get; set; }
         public string Description { get; set; }
         public System.DateTime Date { get; set; }
         public bool Active { get; set; }
-        public string Id { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Issue Issue { get; set; }
     }
 }
