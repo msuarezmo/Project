@@ -145,10 +145,6 @@ namespace CapaPresentacion.Controllers
         public ActionResult Register()
         {
             ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name");
-           
-            //var roles = userContext.Roles.ToList();
-            //ViewBag.roles = new SelectList(roles, "Id", "Name");
-            //return View();
             var model = new RegisterViewModel();
             model.Password = "Secreto01+*-";
             model.ConfirmPassword = "Secreto01+*-";

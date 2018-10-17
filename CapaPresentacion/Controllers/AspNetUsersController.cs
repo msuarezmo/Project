@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
+using PagedList;
+using PagedList.Mvc;
 
 namespace CapaPresentacion.Controllers
 {
@@ -15,11 +17,44 @@ namespace CapaPresentacion.Controllers
         private colegioEntities db = new colegioEntities();
 
         // GET: AspNetUsers
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string rol)
         {
-            var aspNetUsers = db.AspNetUsers.Include(a => a.DocumentType1);
-            return View(aspNetUsers.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.Rol = new SelectList(db.AspNetRoles.OrderByDescending(z => z.Name), "Id", "Name");
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var users = from s in db.AspNetUsers
+                        select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.FullName.Contains(searchString));
+            }
+            if (!String.IsNullOrEmpty(rol))
+            {
+                users = users.Where(x => x.AspNetRoles.All(z => z.Id == rol));
+            }
+            users = users.OrderBy(s => s.FullName);
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(users.ToPagedList(pageNumber, pageSize));
         }
+        //public ActionResult Index()
+        //{
+        //    var aspNetUsers = db.AspNetUsers.Include(a => a.DocumentType1);
+        //    return View(aspNetUsers.ToList());
+        //}
 
         // GET: AspNetUsers/Details/5
         public ActionResult Details(string id)

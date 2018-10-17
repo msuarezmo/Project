@@ -246,6 +246,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Resources\css\Login.css" />
+    <Content Include="Resources\scripts\Users.js" />
+    <Content Include="Resources\scripts\UsersRequest.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />

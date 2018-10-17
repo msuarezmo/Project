@@ -1,5 +1,6 @@
-﻿@model IEnumerable<CapaDatos.Courses>
-
+﻿@model PagedList.IPagedList<CapaDatos.Courses>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Cursos";
 }
@@ -21,22 +22,23 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalStudents)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |
-            @*@Html.ActionLink("Details", "Details", new { id = item.IdCourse }) |*@
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalStudents)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |
+                @*@Html.ActionLink("Details", "Details", new { id = item.IdCourse }) |*@
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
+            </td>
+        </tr>
+    }
 </table>

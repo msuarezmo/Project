@@ -1,79 +1,98 @@
-﻿@model IEnumerable<CapaDatos.AspNetUsers>
-
+﻿@model PagedList.IPagedList<CapaDatos.AspNetUsers>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Usuarios";
 }
-
-
-    @*@Html.ActionLink("Crear Usuario", "Register", "Account")*@
-
+@Scripts.Render("~/bundles/Users")
 <div class="titleform">
     <h2>Usuarios</h2>
-    <button id="BtnCreateModalCity" class="btn btn-warning" style="float:right;">Nuevo usuario</button>
+    <button id="BtnCreateUser" class="btn btn-primary" style="float:right;">Nuevo usuario</button>
 </div>
-<div class="content">
-    <table class="table table-striped">
-        <tr>
-            <th>
-                Email
-            </th>
-            <th>
-                Usuario
-            </th>
-            <th>
-                Primer Nombre
-            </th>
-            <th>
-                Segundo Nombre
-            </th>
-            <th>
-                Primer Apellido
-            </th>
-            <th>
-                Segundo Apellido
-            </th>
-            <th>
-                Tipo Documento
-            </th>
-            <th>
-                Documento
-            </th>
-            <th></th>
-        </tr>
-
-        @*@foreach (var item in Model)
+<br /><br />
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @using (Html.BeginForm("Index", "AspNetUsers", FormMethod.Post))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SecondName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SecondSurname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentType1.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Document)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }*@
-    </table>
-</div>
+            <table class="table" border="0" style="width:auto">
+                <tr>
+                    <th>
+                        <label style="align-content:center">Nombre</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Rol</label>
+                    </th>
+                    <th>
 
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    <td>
+                        @Html.DropDownList("rol", null, "Seleccione", htmlAttributes: new { @id = "rol", @class = "form-control" })
+                    </td>
+                    <td>
+                        <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Usuario
+                </th>
+
+                <th>
+                    Nombre Completo
+                </th>
+                <th>
+                    Tipo Documento
+                </th>
+                <th>
+                    Documento
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocumentType1.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Document)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>

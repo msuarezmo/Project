@@ -13,6 +13,11 @@ namespace CapaPresentacion
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/users").Include(
+                       "~/Resources/scripts/Users.js",
+                       "~/Resources/scripts/UsersRequest.js"));
+
             bundles.Add(new StyleBundle("~/Content/login").Include(
           "~/Resources/css/login.css"));
 
