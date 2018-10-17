@@ -230,6 +230,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\Cursos.png" />
     <Content Include="Content\img\Estudiantes.jpg" />
+    <Content Include="Content\img\FondoLogin.jpg" />
     <Content Include="Content\img\img1.jpeg" />
     <Content Include="Content\img\img2.jpeg" />
     <Content Include="Content\img\img3.jpeg" />
@@ -244,6 +245,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Resources\css\Login.css" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -252,9 +254,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bootstrap-select.css.map" />
+    <Content Include="Scripts\bootstrap-select.js.map" />
     <None Include="Properties\PublishProfiles\AdminColegios - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\AdminColegios - Web Deploy.pubxml" />
-    <Content Include="Scripts\bootstrap-select.js.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.min.js" />
