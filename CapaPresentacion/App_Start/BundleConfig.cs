@@ -15,8 +15,16 @@ namespace CapaPresentacion
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/users").Include(
-                       "~/Resources/scripts/Users.js",
-                       "~/Resources/scripts/UsersRequest.js"));
+                       "~/scripts/Users.js",
+                       "~/scripts/UsersRequest.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/courses").Include(
+                       "~/scripts/Courses.js",
+                       "~/scripts/CoursesRequest.js"));
+            //Notificaciones
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+                       "~/Scripts/toastr.js*",
+                       "~/Scripts/toastrImp.js"));
 
             bundles.Add(new StyleBundle("~/Content/login").Include(
           "~/Resources/css/login.css"));
@@ -31,7 +39,8 @@ namespace CapaPresentacion
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                       "~/Content/toastr.css"));
         }
     }
 }

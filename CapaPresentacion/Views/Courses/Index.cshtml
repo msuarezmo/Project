@@ -3,42 +3,111 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Cursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Cursos</h2>
-<p>
-    @Html.ActionLink("Crear Curso", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Nombre
-        </th>
-        <th>
-            Director de curso
-        </th>
-        <th>
-            Total de estudiantes
-        </th>
-        <th></th>
-    </tr>
+<div class="titleform">
+    <h2>Cursos</h2>
+    <button id="BtnCreateCourse" class="btn btn-primary" style="float:right;">Nuevo Curso</button>
+</div>
+<br /><br />
+<div class="modal fade" data-keyboard="false" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> <strong> Crear Barrio</strong></h5>
+            </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalStudents)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |
-                @*@Html.ActionLink("Details", "Details", new { id = item.IdCourse }) |*@
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
-            </td>
-        </tr>
-    }
-</table>
+            <div class="modal-body">
+                <div id='myModalContent'>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10 text-right">
+                            <button id="BtnSaveNeighborhood" type="submit" class="btn btn-primary ladda-button" data-style="zoom-out"><span class="ladda-label">Guardar</span></button>
+                            <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @using (Html.BeginForm("Index", "Courses", FormMethod.Post))
+        {
+            <table class="table" border="0" style="width:auto">
+                <tr>
+                    <th>
+                        <label style="align-content:center">Nombre</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Director de curso</label>
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    </td>
+                    <td>
+                        @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @id = "IdTeacher", @class = "form-control" })
+                    </td>
+                    <td>
+                        <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Director de curso
+                </th>
+                <th>
+                    Total de estudiantes
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalStudents)
+                    </td>
+                    <td>
+                        <a data-modal='' href="@Url.Action("Edit", "Courses", new { id = item.IdCourse })" data-id="@item.IdCourse" id="@item.IdCourse " title=" edit">
+                            <input type="submit" class="btn btn-primary" value="Editar">
+                        </a>
+                        @*<button id="BtnEditCourse" class="btn glyphicon glyphicon-edit" style="float:right;" onClick="gotowebpage('@item.IdCourse');"></button>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |*@
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/courses")
+}
+

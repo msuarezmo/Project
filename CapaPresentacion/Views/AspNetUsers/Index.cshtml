@@ -3,8 +3,9 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Scripts.Render("~/bundles/Users")
+
 <div class="titleform">
     <h2>Usuarios</h2>
     <button id="BtnCreateUser" class="btn btn-primary" style="float:right;">Nuevo usuario</button>
@@ -29,6 +30,7 @@
                 <tr>
                     <td>
                         @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    </td>
                     <td>
                         @Html.DropDownList("rol", null, "Seleccione", htmlAttributes: new { @id = "rol", @class = "form-control" })
                     </td>
@@ -96,3 +98,6 @@
             new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/Users")
+}

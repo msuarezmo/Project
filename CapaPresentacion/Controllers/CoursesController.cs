@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
 using CapaPresentacion.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace CapaPresentacion.Controllers
 {
@@ -16,10 +18,39 @@ namespace CapaPresentacion.Controllers
         private colegioEntities db = new colegioEntities();
 
         // GET: Courses
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page ,string IdTeacher)
         {
-            var courses = db.Courses.Include(c => c.AspNetUsers);
-            return View(courses.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.IdTeacher = new SelectList(db.AspNetUsers.Where(x => x.AspNetRoles.All(z => z.Name == "Docente")), "Id", "FullName");
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var courses = from s in db.Courses
+                        select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(s => s.Description.Contains(searchString));
+            }
+            if (!String.IsNullOrEmpty(IdTeacher))
+            {
+                courses = courses.Where(x => x.IdTeacher == IdTeacher);
+            }
+
+            courses = courses.OrderBy(s => s.Description);
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(courses.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Courses/Details/5
@@ -77,7 +108,7 @@ namespace CapaPresentacion.Controllers
             }
             var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
             ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
-            return View(courses);
+            return PartialView(courses);
         }
 
         // POST: Courses/Edit/5

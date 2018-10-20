@@ -50,11 +50,6 @@ namespace CapaPresentacion.Controllers
             int pageNumber = (page ?? 1);
             return View(users.ToPagedList(pageNumber, pageSize));
         }
-        //public ActionResult Index()
-        //{
-        //    var aspNetUsers = db.AspNetUsers.Include(a => a.DocumentType1);
-        //    return View(aspNetUsers.ToList());
-        //}
 
         // GET: AspNetUsers/Details/5
         public ActionResult Details(string id)

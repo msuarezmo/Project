@@ -3,16 +3,11 @@
 @{
     ViewBag.Title = "Editar curso";
 }
-
-<h2>Editar curso</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdCourse)
 
@@ -33,24 +28,29 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TotalStudents,"Total de estudiantes", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TotalStudents, "Total de estudiantes", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalStudents, new { htmlAttributes = new { @class = "form-control",@disabled="disabled" } })
+                @Html.EditorFor(model => model.TotalStudents, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                 @Html.ValidationMessageFor(model => model.TotalStudents, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
+            <div class="col-sm-offset-2 col-sm-10 text-right">
+                <button id="BtnSaveEditCourse" type="submit" data-dismiss="modal" class="btn btn-primary ladda-button" data-style="zoom-out"><span class="ladda-label">Guardar</span></button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
             </div>
         </div>
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-default" />
+                </div>
+            </div>*@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Regresar", "Index")
-</div>
+@*<div>
+        @Html.ActionLink("Regresar", "Index")
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
