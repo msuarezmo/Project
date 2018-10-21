@@ -73,7 +73,7 @@ namespace CapaPresentacion.Controllers
         {
             var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
             ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName");
-            return View();
+            return PartialView();
         }
 
         // POST: Courses/Create
@@ -141,7 +141,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            return View(courses);
+            return PartialView(courses);
         }
 
         // POST: Courses/Delete/5

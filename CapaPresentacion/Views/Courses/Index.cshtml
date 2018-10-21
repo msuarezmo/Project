@@ -7,23 +7,18 @@
 }
 <div class="titleform">
     <h2>Cursos</h2>
-    <button id="BtnCreateCourse" class="btn btn-primary" style="float:right;">Nuevo Curso</button>
+    <a data-modal='' href="@Url.Action("Create", "Courses")"  title="Crear">
+        <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo curso">
+    </a>
 </div>
 <br /><br />
 <div class="modal fade" data-keyboard="false" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"> <strong> Crear Barrio</strong></h5>
-            </div>
-
             <div class="modal-body">
                 <div id='myModalContent'>
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10 text-right">
-                            <button id="BtnSaveNeighborhood" type="submit" class="btn btn-primary ladda-button" data-style="zoom-out"><span class="ladda-label">Guardar</span></button>
-                            <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -90,21 +85,23 @@
                         @Html.DisplayFor(modelItem => item.TotalStudents)
                     </td>
                     <td>
-                        <a data-modal='' href="@Url.Action("Edit", "Courses", new { id = item.IdCourse })" data-id="@item.IdCourse" id="@item.IdCourse " title=" edit">
+                        <a data-modal='' href="@Url.Action("Edit", "Courses", new { id = item.IdCourse })" data-id="@item.IdCourse" id="@item.IdCourse " title="Editar">
                             <input type="submit" class="btn btn-primary" value="Editar">
                         </a>
-                        @*<button id="BtnEditCourse" class="btn glyphicon glyphicon-edit" style="float:right;" onClick="gotowebpage('@item.IdCourse');"></button>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.IdCourse }) |*@
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCourse })
+                        <a data-modal='' href="@Url.Action("Delete", "Courses", new { id = item.IdCourse })" data-id="@item.IdCourse" id="@item.IdCourse " title="Eliminar">
+                            <input type="submit" class="btn btn-danger" value="Eliminar">
+                        </a>
                     </td>
                 </tr>
             }
         </table>
         <br />
-        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+        <center>
+            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
 
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </center>
     </div>
 </div>
 @section Scripts {

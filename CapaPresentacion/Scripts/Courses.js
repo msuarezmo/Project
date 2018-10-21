@@ -1,9 +1,4 @@
-﻿
-function CreateCourse() {
-
-
-}
-
+﻿//scripts para el index
 $(function () {
     $.ajaxSetup({ cache: false });
     $("a[data-modal]").on("click", function (e) {
@@ -16,16 +11,6 @@ $(function () {
         return false;
     });
 });
-var editCourse = function (id) {
-    $.ajax({
-        type: 'GET',
-        url: '/Courses/Edit/',
-        data: { id: id },
-        success: function (data) {
-            $('#myModal').modal('show');
-        }
-    });
-};
 function bindForm(dialog) {
     $('form', dialog).submit(function () {
         $('#progress').show();
@@ -36,10 +21,8 @@ function bindForm(dialog) {
             success: function (result) {
                 if (result.success) {
                     $('#myModal').modal('hide');
-                    $('#progress').hide();
                     location.reload();
                 } else {
-                    $('#progress').hide();
                     $('#myModalContent').html(result);
                     bindForm();
                 }
@@ -47,10 +30,4 @@ function bindForm(dialog) {
         });
         return false;
     });
-}
-
-
-function EditCourse(id) {
-
-    var nn = id;
 }
