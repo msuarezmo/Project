@@ -14,17 +14,8 @@ namespace CapaDatos
     
     public partial class Justification
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Justification()
-        {
-            this.Lack = new HashSet<Lack>();
-        }
-    
         public int IdJustification { get; set; }
         public string IdLack { get; set; }
         public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lack> Lack { get; set; }
     }
 }

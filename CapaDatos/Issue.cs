@@ -18,7 +18,6 @@ namespace CapaDatos
         public Issue()
         {
             this.Appointment = new HashSet<Appointment>();
-            this.News = new HashSet<News>();
         }
     
         public int IdIssue { get; set; }
@@ -26,7 +25,5 @@ namespace CapaDatos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<News> News { get; set; }
     }
 }

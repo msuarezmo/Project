@@ -15,11 +15,11 @@ namespace CapaPresentacion.Controllers
         private colegioEntities db = new colegioEntities();
 
         // GET: Lacks
-        public ActionResult Index()
-        {
-            var lack = db.Lack.Include(l => l.Justification).Include(l => l.Students).Include(l => l.Subjects);
-            return View(lack.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var lack = db.Lack.Include(l => l.Justification).Include(l => l.Students).Include(l => l.Subjects);
+        //    return View(lack.ToList());
+        //}
 
         // GET: Lacks/Details/5
         public ActionResult Details(int? id)

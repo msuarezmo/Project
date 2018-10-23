@@ -135,10 +135,10 @@
             <PropertyRef Name="IdNews" />
           </Key>
           <Property Name="IdNews" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IssueId" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -294,51 +294,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Lack_Justification">
-          <End Role="Justification" Type="Self.Justification" Multiplicity="0..1" />
-          <End Role="Lack" Type="Self.Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Justification">
-              <PropertyRef Name="IdJustification" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="JustificationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lack_Student">
-          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
-          <End Role="Lack" Type="Self.Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Students">
-              <PropertyRef Name="IdStudent" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="idStudent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lack_Subjects">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
-          <End Role="Lack" Type="Self.Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="IdSubjects" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="IdSubject" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_News_Issue">
-          <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+        <Association Name="FK_News_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Issue">
-              <PropertyRef Name="IdIssue" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="News">
-              <PropertyRef Name="IssueId" />
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -481,20 +445,8 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Lack_Justification" Association="Self.FK_Lack_Justification">
-            <End Role="Justification" EntitySet="Justification" />
-            <End Role="Lack" EntitySet="Lack" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Student" Association="Self.FK_Lack_Student">
-            <End Role="Students" EntitySet="Students" />
-            <End Role="Lack" EntitySet="Lack" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Subjects" Association="Self.FK_Lack_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Lack" EntitySet="Lack" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Issue" Association="Self.FK_News_Issue">
-            <End Role="Issue" EntitySet="Issue" />
+          <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_AspNetUsers" Association="Self.FK_Schedule_AspNetUsers">
@@ -576,6 +528,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Courses" EntitySet="Courses" />
           </AssociationSet>
+          <AssociationSet Name="FK_News_AspNetUsers" Association="colegioModel.FK_News_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
           <AssociationSet Name="FK_Schedule_AspNetUsers" Association="colegioModel.FK_Schedule_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Schedule" EntitySet="Schedule" />
@@ -599,22 +555,6 @@
           <AssociationSet Name="FK_Students_DocumentType" Association="colegioModel.FK_Students_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Students" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Issue" Association="colegioModel.FK_News_Issue">
-            <End Role="Issue" EntitySet="Issue" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Justification" Association="colegioModel.FK_Lack_Justification">
-            <End Role="Justification" EntitySet="Justification" />
-            <End Role="Lack" EntitySet="Lack" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Student" Association="colegioModel.FK_Lack_Student">
-            <End Role="Students" EntitySet="Students" />
-            <End Role="Lack" EntitySet="Lack" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lack_Subjects" Association="colegioModel.FK_Lack_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Lack" EntitySet="Lack" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Subjects" Association="colegioModel.FK_Schedule_Subjects">
             <End Role="Subjects" EntitySet="Subjects" />
@@ -694,6 +634,7 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="colegioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="DocumentType1" Relationship="colegioModel.FK_AspNetUsers_DocumentType" FromRole="AspNetUsers" ToRole="DocumentType" />
           <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Courses_AspNetUsers" FromRole="AspNetUsers" ToRole="Courses" />
+          <NavigationProperty Name="News" Relationship="colegioModel.FK_News_AspNetUsers" FromRole="AspNetUsers" ToRole="News" />
           <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_AspNetUsers" FromRole="AspNetUsers" ToRole="Schedule" />
           <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_AspNetUsers" FromRole="AspNetUsers" ToRole="Students" />
           <NavigationProperty Name="AspNetRoles" Relationship="colegioModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
@@ -743,7 +684,6 @@
           <Property Name="IdIssue" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Appointment" Relationship="colegioModel.FK_Appointment_Issue" FromRole="Issue" ToRole="Appointment" />
-          <NavigationProperty Name="News" Relationship="colegioModel.FK_News_Issue" FromRole="Issue" ToRole="News" />
         </EntityType>
         <EntityType Name="Justification">
           <Key>
@@ -752,7 +692,6 @@
           <Property Name="IdJustification" Type="Int32" Nullable="false" />
           <Property Name="IdLack" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Justification" FromRole="Justification" ToRole="Lack" />
         </EntityType>
         <EntityType Name="Lack">
           <Key>
@@ -764,20 +703,17 @@
           <Property Name="IdSubject" Type="Int32" Nullable="false" />
           <Property Name="JustificationId" Type="Int32" />
           <Property Name="idStudent" Type="Int32" />
-          <NavigationProperty Name="Justification" Relationship="colegioModel.FK_Lack_Justification" FromRole="Lack" ToRole="Justification" />
-          <NavigationProperty Name="Students" Relationship="colegioModel.FK_Lack_Student" FromRole="Lack" ToRole="Students" />
-          <NavigationProperty Name="Subjects" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Lack" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="News">
           <Key>
             <PropertyRef Name="IdNews" />
           </Key>
           <Property Name="IdNews" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IssueId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Issue" Relationship="colegioModel.FK_News_Issue" FromRole="News" ToRole="Issue" />
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_News_AspNetUsers" FromRole="News" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="Schedule">
           <Key>
@@ -817,7 +753,6 @@
           <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_Students_AspNetUsers" FromRole="Students" ToRole="AspNetUsers" />
           <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
           <NavigationProperty Name="DocumentType" Relationship="colegioModel.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
-          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Student" FromRole="Students" ToRole="Lack" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
@@ -825,7 +760,6 @@
           </Key>
           <Property Name="IdSubjects" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Lack" Relationship="colegioModel.FK_Lack_Subjects" FromRole="Subjects" ToRole="Lack" />
           <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_Subjects" FromRole="Subjects" ToRole="Schedule" />
         </EntityType>
         <Association Name="FK_Appointment_Historic">
@@ -916,6 +850,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_News_AspNetUsers">
+          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="colegioModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Schedule_AspNetUsers">
           <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
           <End Type="colegioModel.Schedule" Role="Schedule" Multiplicity="*" />
@@ -985,54 +931,6 @@
             </Principal>
             <Dependent Role="Students">
               <PropertyRef Name="DocumentTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_News_Issue">
-          <End Type="colegioModel.Issue" Role="Issue" Multiplicity="1" />
-          <End Type="colegioModel.News" Role="News" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Issue">
-              <PropertyRef Name="IdIssue" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="IssueId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lack_Justification">
-          <End Type="colegioModel.Justification" Role="Justification" Multiplicity="0..1" />
-          <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Justification">
-              <PropertyRef Name="IdJustification" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="JustificationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lack_Student">
-          <End Type="colegioModel.Students" Role="Students" Multiplicity="0..1" />
-          <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Students">
-              <PropertyRef Name="IdStudent" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="idStudent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Lack_Subjects">
-          <End Type="colegioModel.Subjects" Role="Subjects" Multiplicity="1" />
-          <End Type="colegioModel.Lack" Role="Lack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="IdSubjects" />
-            </Principal>
-            <Dependent Role="Lack">
-              <PropertyRef Name="IdSubject" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1188,10 +1086,10 @@
           <EntitySetMapping Name="News">
             <EntityTypeMapping TypeName="colegioModel.News">
               <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
                 <ScalarProperty Name="IdNews" ColumnName="IdNews" />
               </MappingFragment>
             </EntityTypeMapping>

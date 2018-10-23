@@ -20,9 +20,5 @@ namespace CapaDatos
         public int IdSubject { get; set; }
         public Nullable<int> JustificationId { get; set; }
         public Nullable<int> idStudent { get; set; }
-    
-        public virtual Justification Justification { get; set; }
-        public virtual Students Students { get; set; }
-        public virtual Subjects Subjects { get; set; }
     }
 }

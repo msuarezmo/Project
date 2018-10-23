@@ -12,9 +12,7 @@ namespace CapaDatos
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Runtime.Serialization;
-
-    [DataContract(IsReference = true)]
+    
     public partial class colegioEntities : DbContext
     {
         public colegioEntities()
