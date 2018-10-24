@@ -1,4 +1,4 @@
-﻿//scripts para el index
+﻿//Scripts para el index
 $(function () {
     $.ajaxSetup({ cache: false });
     $("a[data-modal]").on("click", function (e) {
@@ -12,6 +12,7 @@ $(function () {
     });
 });
 function bindForm(dialog) {
+
     $('form', dialog).submit(function () {
         $('#progress').show();
         $.ajax({

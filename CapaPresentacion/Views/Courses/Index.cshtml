@@ -58,7 +58,7 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        <table class="table">
+        <table class="table" id="tableCourses">
             <tr>
                 <th>
                     Nombre
@@ -98,12 +98,12 @@
         <br />
         <center>
             Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
-
             @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
         </center>
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/courses")
 }

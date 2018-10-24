@@ -7,18 +7,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
+using CapaNegocio;
 using CapaPresentacion.Models;
 using PagedList;
 using PagedList.Mvc;
+using static CapaPresentacion.Models.request;
 
 namespace CapaPresentacion.Controllers
 {
     public class CoursesController : Controller
     {
         private colegioEntities db = new colegioEntities();
+        private ValidationsCourse validationsCourse = new ValidationsCourse();
 
         // GET: Courses
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page ,string IdTeacher)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string IdTeacher)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -37,7 +40,7 @@ namespace CapaPresentacion.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var courses = from s in db.Courses
-                        select s;
+                          select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 courses = courses.Where(s => s.Description.Contains(searchString));
@@ -83,15 +86,43 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCourse,Description,IdTeacher,TotalStudents")] Courses courses)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Courses.Add(courses);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                bool? validation = validationsCourse.createCourse(courses);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Courses.Add(courses);
+                            db.SaveChanges();
+                            return JavaScript("$('#myModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('Curso Creado!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#myModal').modal('hide');" +
+                                      "toastr.error('Error al Crear curso');");
+                        };
+                    case false:
+                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
+                        ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
+                        ModelState.AddModelError("IdTeacher", "Director de curso se encuentra asignado");
+                        return PartialView(courses);
+
+                    case null:
+                        return JavaScript("$('#myModal').modal('hide');" +
+                                     "toastr.error('Error al Crear curso');");
+                }
+                return JavaScript("$('#myModal').modal('hide');" +
+                                     "toastr.error('Error al Crear curso');");
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-            ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
-            return View(courses);
+            catch (Exception)
+            {
+                return JavaScript("$('#myModal').modal('hide');" +
+                                         "toastr.error('Error al Crear curso');");
+            }
         }
 
         // GET: Courses/Edit/5
@@ -110,7 +141,6 @@ namespace CapaPresentacion.Controllers
             ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
             return PartialView(courses);
         }
-
         // POST: Courses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -118,15 +148,43 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdCourse,Description,IdTeacher,TotalStudents")] Courses courses)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(courses).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                bool? validation = validationsCourse.editCourse(courses);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Entry(courses).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return JavaScript("$('#myModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('Curso editado correctamente!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#myModal').modal('hide');" +
+                                 "toastr.error('Error al editar el curso selecionado');");
+                        };
+                    case false:
+                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
+                        ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
+                        ModelState.AddModelError("IdTeacher", "Director de curso se encuentra asignado");
+                        return PartialView(courses);
+                    case null:
+                        return JavaScript("$('#myModal').modal('hide');" +
+                          "toastr.error('Error al editar el curso selecionado');");
+                }
+                return JavaScript("$('#myModal').modal('hide');" +
+                        "toastr.error('Error al editar el curso selecionado');");
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-            ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
-            return View(courses);
+            catch (Exception ex)
+            {
+                return JavaScript("$('#myModal').modal('hide');" +
+                           "toastr.error('Error al editar el curso selecionado');");
+            }
+
         }
 
         // GET: Courses/Delete/5
@@ -149,10 +207,21 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Courses courses = db.Courses.Find(id);
-            db.Courses.Remove(courses);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Courses courses = db.Courses.Find(id);
+                db.Courses.Remove(courses);
+                db.SaveChanges();
+                return JavaScript("$('#myModal').modal('hide');" +
+                               "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                               "toastr.success('Curso eliminado correctamente!');");
+            }
+            catch (Exception ex)
+            {
+                return JavaScript("$('#myModal').modal('hide');" +
+                           "toastr.error('No puede eliminar este curso');");
+            }
+           
         }
 
         protected override void Dispose(bool disposing)

@@ -90,9 +90,6 @@
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Schedule.cs">
-      <DependentUpon>SchoolModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="SchoolModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -17,7 +17,6 @@ namespace CapaDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Courses()
         {
-            this.Schedule = new HashSet<Schedule>();
             this.Students = new HashSet<Students>();
         }
     
@@ -27,8 +26,6 @@ namespace CapaDatos
         public Nullable<int> TotalStudents { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Schedule> Schedule { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Students> Students { get; set; }
     }

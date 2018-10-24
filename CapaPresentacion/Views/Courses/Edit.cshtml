@@ -4,18 +4,17 @@
     ViewBag.Title = "Editar curso";
 }
 <h2>Editar Curso</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editCourse" }))
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdCourse)
-
         <div class="form-group">
             @Html.LabelFor(model => model.Description, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @*<input type="text" id="Description" name="Description" value="@Model.Description" class="form-control" required />*@
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @required = "required", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -23,35 +22,48 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IdTeacher, "Director de curso", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
                 @Html.ValidationMessageFor(model => model.IdTeacher, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TotalStudents, "Total de estudiantes", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalStudents, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.TotalStudents, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10 text-right">
-                <button id="BtnSaveEditCourse" type="submit" data-dismiss="modal" class="btn btn-primary ladda-button" data-style="zoom-out"><span class="ladda-label">Guardar</span></button>
+                <button id="btnEditCourse" type="submit" class="btn btn-primary"><span>Guardar</span></button>
                 <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
             </div>
         </div>
-        @*<div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Guardar" class="btn btn-default" />
-                </div>
-            </div>*@
+
     </div>
+
 }
 
-@*<div>
-        @Html.ActionLink("Regresar", "Index")
-    </div>*@
+@*<script>
+        $("#btnEditCourse").click(function () {
+            alert("paso1");
+            editCourse().done(function (data) {
+                alert(data.result_json);
+                if (data.result_json) {
+                    toastr.success('Editado Correctamente');
+                } else {
+                    toastr.error('Error al editar');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                toastr.error('Error!!');
+            });
+        });
+
+        function editCourse() {
+            var editCourse = $("#editCourse").serialize();
+            return $.ajax({
+                type: "POST",
+                url: "/Courses/EditCourse",
+                data: { course: editCourse },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+        }
+
+    </script>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

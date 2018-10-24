@@ -21,7 +21,6 @@ namespace CapaDatos
             this.AspNetUserLogins = new HashSet<AspNetUserLogins>();
             this.Courses = new HashSet<Courses>();
             this.News = new HashSet<News>();
-            this.Schedule = new HashSet<Schedule>();
             this.Students = new HashSet<Students>();
             this.AspNetRoles = new HashSet<AspNetRoles>();
         }
@@ -55,8 +54,6 @@ namespace CapaDatos
         public virtual ICollection<Courses> Courses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<News> News { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Schedule> Schedule { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Students> Students { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

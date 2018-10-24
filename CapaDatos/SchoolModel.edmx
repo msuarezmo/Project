@@ -140,18 +140,6 @@
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
-        <EntityType Name="Schedule">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdCourse" Type="int" Nullable="false" />
-          <Property Name="IdSubject" Type="int" Nullable="false" />
-          <Property Name="IdTeacher" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="IdDay" Type="int" Nullable="false" />
-          <Property Name="HourFrom" Type="time" Precision="7" Nullable="false" />
-          <Property Name="HourTo" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="IdStatus" />
@@ -306,54 +294,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Schedule_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdTeacher" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="IdCourse" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdCourse" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Days">
-          <End Role="Days" Type="Self.Days" Multiplicity="1" />
-          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Days">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdDay" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Subjects">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
-          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="IdSubjects" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdSubject" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Students_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Students" Type="Self.Students" Multiplicity="*" />
@@ -405,7 +345,6 @@
           <EntitySet Name="Justification" EntityType="Self.Justification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lack" EntityType="Self.Lack" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
@@ -449,22 +388,6 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
-          <AssociationSet Name="FK_Schedule_AspNetUsers" Association="Self.FK_Schedule_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Courses" Association="Self.FK_Schedule_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Days" Association="Self.FK_Schedule_Days">
-            <End Role="Days" EntitySet="Days" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Subjects" Association="Self.FK_Schedule_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
           <AssociationSet Name="FK_Students_AspNetUsers" Association="Self.FK_Students_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Students" EntitySet="Students" />
@@ -496,7 +419,6 @@
           <EntitySet Name="Justification" EntityType="colegioModel.Justification" />
           <EntitySet Name="Lack" EntityType="colegioModel.Lack" />
           <EntitySet Name="News" EntityType="colegioModel.News" />
-          <EntitySet Name="Schedule" EntityType="colegioModel.Schedule" />
           <EntitySet Name="Status" EntityType="colegioModel.Status" />
           <EntitySet Name="Students" EntityType="colegioModel.Students" />
           <EntitySet Name="Subjects" EntityType="colegioModel.Subjects" />
@@ -532,33 +454,17 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
-          <AssociationSet Name="FK_Schedule_AspNetUsers" Association="colegioModel.FK_Schedule_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
           <AssociationSet Name="FK_Students_AspNetUsers" Association="colegioModel.FK_Students_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Students" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Courses" Association="colegioModel.FK_Schedule_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
           <AssociationSet Name="FK_Students_Courses" Association="colegioModel.FK_Students_Courses">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Days" Association="colegioModel.FK_Schedule_Days">
-            <End Role="Days" EntitySet="Days" />
-            <End Role="Schedule" EntitySet="Schedule" />
-          </AssociationSet>
           <AssociationSet Name="FK_Students_DocumentType" Association="colegioModel.FK_Students_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Students" EntitySet="Students" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Subjects" Association="colegioModel.FK_Schedule_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="colegioModel.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -635,7 +541,6 @@
           <NavigationProperty Name="DocumentType1" Relationship="colegioModel.FK_AspNetUsers_DocumentType" FromRole="AspNetUsers" ToRole="DocumentType" />
           <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Courses_AspNetUsers" FromRole="AspNetUsers" ToRole="Courses" />
           <NavigationProperty Name="News" Relationship="colegioModel.FK_News_AspNetUsers" FromRole="AspNetUsers" ToRole="News" />
-          <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_AspNetUsers" FromRole="AspNetUsers" ToRole="Schedule" />
           <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_AspNetUsers" FromRole="AspNetUsers" ToRole="Students" />
           <NavigationProperty Name="AspNetRoles" Relationship="colegioModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
@@ -648,7 +553,6 @@
           <Property Name="IdTeacher" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TotalStudents" Type="Int32" />
           <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_Courses_AspNetUsers" FromRole="Courses" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_Courses" FromRole="Courses" ToRole="Schedule" />
           <NavigationProperty Name="Students" Relationship="colegioModel.FK_Students_Courses" FromRole="Courses" ToRole="Students" />
         </EntityType>
         <EntityType Name="Days">
@@ -657,7 +561,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_Days" FromRole="Days" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="DocumentType">
           <Key>
@@ -715,22 +618,6 @@
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_News_AspNetUsers" FromRole="News" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="Schedule">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCourse" Type="Int32" Nullable="false" />
-          <Property Name="IdSubject" Type="Int32" Nullable="false" />
-          <Property Name="IdTeacher" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="IdDay" Type="Int32" Nullable="false" />
-          <Property Name="HourFrom" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="HourTo" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="AspNetUsers" Relationship="colegioModel.FK_Schedule_AspNetUsers" FromRole="Schedule" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Courses" Relationship="colegioModel.FK_Schedule_Courses" FromRole="Schedule" ToRole="Courses" />
-          <NavigationProperty Name="Days" Relationship="colegioModel.FK_Schedule_Days" FromRole="Schedule" ToRole="Days" />
-          <NavigationProperty Name="Subjects" Relationship="colegioModel.FK_Schedule_Subjects" FromRole="Schedule" ToRole="Subjects" />
-        </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="IdStatus" />
@@ -760,7 +647,6 @@
           </Key>
           <Property Name="IdSubjects" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Schedule" Relationship="colegioModel.FK_Schedule_Subjects" FromRole="Subjects" ToRole="Schedule" />
         </EntityType>
         <Association Name="FK_Appointment_Historic">
           <End Type="colegioModel.Historic" Role="Historic" Multiplicity="0..1" />
@@ -862,18 +748,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Schedule_AspNetUsers">
-          <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
-          <End Type="colegioModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdTeacher" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Students_AspNetUsers">
           <End Type="colegioModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
           <End Type="colegioModel.Students" Role="Students" Multiplicity="*" />
@@ -883,18 +757,6 @@
             </Principal>
             <Dependent Role="Students">
               <PropertyRef Name="ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Courses">
-          <End Type="colegioModel.Courses" Role="Courses" Multiplicity="1" />
-          <End Type="colegioModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="IdCourse" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdCourse" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -910,18 +772,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Schedule_Days">
-          <End Type="colegioModel.Days" Role="Days" Multiplicity="1" />
-          <End Type="colegioModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Days">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdDay" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Students_DocumentType">
           <End Type="colegioModel.DocumentType" Role="DocumentType" Multiplicity="1" />
           <End Type="colegioModel.Students" Role="Students" Multiplicity="*" />
@@ -931,18 +781,6 @@
             </Principal>
             <Dependent Role="Students">
               <PropertyRef Name="DocumentTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Subjects">
-          <End Type="colegioModel.Subjects" Role="Subjects" Multiplicity="1" />
-          <End Type="colegioModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="IdSubjects" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="IdSubject" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1091,19 +929,6 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IdNews" ColumnName="IdNews" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Schedule">
-            <EntityTypeMapping TypeName="colegioModel.Schedule">
-              <MappingFragment StoreEntitySet="Schedule">
-                <ScalarProperty Name="HourTo" ColumnName="HourTo" />
-                <ScalarProperty Name="HourFrom" ColumnName="HourFrom" />
-                <ScalarProperty Name="IdDay" ColumnName="IdDay" />
-                <ScalarProperty Name="IdTeacher" ColumnName="IdTeacher" />
-                <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
-                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
