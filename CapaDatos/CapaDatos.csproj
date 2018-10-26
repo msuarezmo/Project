@@ -68,9 +68,6 @@
     <Compile Include="Courses.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Days.cs">
-      <DependentUpon>SchoolModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DocumentType.cs">
       <DependentUpon>SchoolModel.tt</DependentUpon>
     </Compile>

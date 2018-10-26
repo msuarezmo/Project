@@ -4,34 +4,7 @@
     ViewBag.Title = "Delete";
 }
 
-
 <h3>¿Desea eliminar este curso?</h3>
-@*<dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalStudents)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TotalStudents)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AspNetUsers.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AspNetUsers.Email)
-        </dd>
-
-    </dl>*@
 
 @using (Html.BeginForm())
 {
@@ -43,9 +16,5 @@
                 <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
             </div>
         </div>
-
-        @*<div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" /> |
-            </div>*@
     </div>
 }

@@ -21,6 +21,7 @@ namespace CapaDatos
         public int CourseId { get; set; }
         public string Document { get; set; }
         public string ParentId { get; set; }
+        public bool Assistance { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Courses Courses { get; set; }

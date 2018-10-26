@@ -11,7 +11,6 @@ using CapaNegocio;
 using CapaPresentacion.Models;
 using PagedList;
 using PagedList.Mvc;
-using static CapaPresentacion.Models.request;
 
 namespace CapaPresentacion.Controllers
 {
@@ -88,7 +87,7 @@ namespace CapaPresentacion.Controllers
         {
             try
             {
-                bool? validation = validationsCourse.createCourse(courses);
+                bool? validation = validationsCourse.CreateCourse(courses);
                 switch (validation)
                 {
                     case true:
@@ -96,13 +95,13 @@ namespace CapaPresentacion.Controllers
                         {
                             db.Courses.Add(courses);
                             db.SaveChanges();
-                            return JavaScript("$('#myModal').modal('hide');" +
+                            return JavaScript("$('#CoursesModal').modal('hide');" +
                                 "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                 "toastr.success('Curso Creado!');");
                         }
                         else
                         {
-                            return JavaScript("$('#myModal').modal('hide');" +
+                            return JavaScript("$('#CoursesModal').modal('hide');" +
                                       "toastr.error('Error al Crear curso');");
                         };
                     case false:
@@ -112,15 +111,15 @@ namespace CapaPresentacion.Controllers
                         return PartialView(courses);
 
                     case null:
-                        return JavaScript("$('#myModal').modal('hide');" +
+                        return JavaScript("$('#CoursesModal').modal('hide');" +
                                      "toastr.error('Error al Crear curso');");
                 }
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                                      "toastr.error('Error al Crear curso');");
             }
             catch (Exception)
             {
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                                          "toastr.error('Error al Crear curso');");
             }
         }
@@ -150,7 +149,7 @@ namespace CapaPresentacion.Controllers
         {
             try
             {
-                bool? validation = validationsCourse.editCourse(courses);
+                bool? validation = validationsCourse.EditCourse(courses);
                 switch (validation)
                 {
                     case true:
@@ -158,13 +157,13 @@ namespace CapaPresentacion.Controllers
                         {
                             db.Entry(courses).State = EntityState.Modified;
                             db.SaveChanges();
-                            return JavaScript("$('#myModal').modal('hide');" +
+                            return JavaScript("$('#CoursesModal').modal('hide');" +
                                 "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                 "toastr.success('Curso editado correctamente!');");
                         }
                         else
                         {
-                            return JavaScript("$('#myModal').modal('hide');" +
+                            return JavaScript("$('#CoursesModal').modal('hide');" +
                                  "toastr.error('Error al editar el curso selecionado');");
                         };
                     case false:
@@ -173,15 +172,15 @@ namespace CapaPresentacion.Controllers
                         ModelState.AddModelError("IdTeacher", "Director de curso se encuentra asignado");
                         return PartialView(courses);
                     case null:
-                        return JavaScript("$('#myModal').modal('hide');" +
+                        return JavaScript("$('#CoursesModal').modal('hide');" +
                           "toastr.error('Error al editar el curso selecionado');");
                 }
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                         "toastr.error('Error al editar el curso selecionado');");
             }
             catch (Exception ex)
             {
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                            "toastr.error('Error al editar el curso selecionado');");
             }
 
@@ -212,13 +211,13 @@ namespace CapaPresentacion.Controllers
                 Courses courses = db.Courses.Find(id);
                 db.Courses.Remove(courses);
                 db.SaveChanges();
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                "toastr.success('Curso eliminado correctamente!');");
             }
             catch (Exception ex)
             {
-                return JavaScript("$('#myModal').modal('hide');" +
+                return JavaScript("$('#CoursesModal').modal('hide');" +
                            "toastr.error('No puede eliminar este curso');");
             }
            

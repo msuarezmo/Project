@@ -3,7 +3,7 @@ $(function () {
     $.ajaxSetup({ cache: false });
     $("a[data-modal]").on("click", function (e) {
         $('#myModalContent').load(this.href, function () {
-            $('#CoursesModal').modal({
+            $('#SubjectModal').modal({
                 keyboard: true
             }, 'show');
             bindForm(this);
@@ -21,7 +21,7 @@ function bindForm(dialog) {
             data: $(this).serialize(),
             success: function (result) {
                 if (result.success) {
-                    $('#CoursesModal').modal('hide');
+                    $('#SubjectModal').modal('hide');
                     location.reload();
                 } else {
                     $('#myModalContent').html(result);

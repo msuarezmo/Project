@@ -4,18 +4,22 @@ using System.Linq;
 
 namespace CapaNegocio
 {
-    public class ValidationsCourse
+    public class DataModel
     {
         /// <summary>
         /// Modelo de base de datos
         /// </summary>
-        private colegioEntities db = new colegioEntities();
+        public colegioEntities db = new colegioEntities();
+    }
+    public class ValidationsCourse : DataModel
+    {
+
         /// <summary>
         ///  Valida si el Director de curso seleccionado ya se encuentra asociado a un curso existente
         /// </summary>
         /// <param name="courses"></param>
         /// <returns></returns>
-        public bool? createCourse(Courses courses)
+        public bool? CreateCourse(Courses courses)
         {
             try
             {
@@ -41,7 +45,7 @@ namespace CapaNegocio
         /// </summary>
         /// <param name="courses"></param>
         /// <returns></returns>
-        public bool? editCourse(Courses courses)
+        public bool? EditCourse(Courses courses)
         {
             try
             {
@@ -62,6 +66,52 @@ namespace CapaNegocio
                 return null;
             }
 
+        }
+
+    }
+
+    public class ValidationSubjetcs : DataModel
+    {
+        public bool? CreateSubject(Subjects subjects)
+        {
+            try
+            {
+                var query = db.Subjects;
+                int total = query.Where(x => x.name == subjects.name).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool? EditSubject(Subjects subjects)
+        {
+            try
+            {
+                var query = db.Subjects;
+                int total = query.Where(x => x.name == subjects.name && x.IdSubjects != subjects.IdSubjects).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
     }

@@ -15,12 +15,13 @@ namespace CapaPresentacion
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/users").Include(
-                       "~/scripts/Users.js",
-                       "~/scripts/UsersRequest.js"));
-
+                       "~/scripts/Users.js"));
+            //CURSOS
             bundles.Add(new ScriptBundle("~/bundles/courses").Include(
-                       "~/scripts/Courses.js",
-                       "~/scripts/CoursesRequest.js"));
+                       "~/scripts/Courses.js"));
+            //MATERIAS
+            bundles.Add(new ScriptBundle("~/bundles/subjects").Include(
+           "~/scripts/Subjects.js"));
             //Notificaciones
             bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
                        "~/Scripts/toastr.js*",

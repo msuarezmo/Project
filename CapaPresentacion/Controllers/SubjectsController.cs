@@ -7,17 +7,46 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
+using PagedList;
+using PagedList.Mvc;
+using CapaNegocio;
 
 namespace CapaPresentacion.Controllers
 {
     public class SubjectsController : Controller
     {
         private colegioEntities db = new colegioEntities();
+        private ValidationSubjetcs ValidationSubjetcs = new ValidationSubjetcs();
 
         // GET: Subjects
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Subjects.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var subjects = from s in db.Subjects
+                          select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                subjects = subjects.Where(s => s.name.Contains(searchString));
+            }
+
+            subjects = subjects.OrderBy(s => s.name);
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(subjects.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Subjects/Details/5
@@ -38,7 +67,7 @@ namespace CapaPresentacion.Controllers
         // GET: Subjects/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Subjects/Create
@@ -48,14 +77,41 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdSubjects,name")] Subjects subjects)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Subjects.Add(subjects);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                bool? validation = ValidationSubjetcs.CreateSubject(subjects);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Subjects.Add(subjects);
+                            db.SaveChanges();
+                            return JavaScript("$('#SubjectModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('Materia creada!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#SubjectModal').modal('hide');" +
+                                      "toastr.error('Error al crear materia');");
+                        };
+                    case false:
+                        ModelState.AddModelError("name", "Ya existe una materia con este nombre");
+                        return PartialView();
 
-            return View(subjects);
+                    case null:
+                        return JavaScript("$('#SubjectModal').modal('hide');" +
+                                     "toastr.error('Error al crear materia');");
+                }
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                                     "toastr.error('Error al crear materia');");
+            }
+            catch (Exception)
+            {
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                                         "toastr.error('Error al crear materia');");
+            }
         }
 
         // GET: Subjects/Edit/5
@@ -70,7 +126,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            return View(subjects);
+            return PartialView(subjects);
         }
 
         // POST: Subjects/Edit/5
@@ -80,13 +136,40 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdSubjects,name")] Subjects subjects)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(subjects).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                bool? validation = ValidationSubjetcs.EditSubject(subjects);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Entry(subjects).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return JavaScript("$('#SubjectModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('materia editada correctamente!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#SubjectModal').modal('hide');" +
+                                 "toastr.error('Error al editar materia selecionada');");
+                        };
+                    case false:
+                        ModelState.AddModelError("name", "Ya existe una materia con este nombre");
+                        return PartialView();
+                    case null:
+                        return JavaScript("$('#SubjectModal').modal('hide');" +
+                          "toastr.error('Error al editar la  materia');");
+                }
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                        "toastr.error('Error al editar materia selecionada');");
             }
-            return View(subjects);
+            catch (Exception ex)
+            {
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                           "toastr.error('Error al editar materia selecionada');");
+            }
         }
 
         // GET: Subjects/Delete/5
@@ -101,7 +184,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            return View(subjects);
+            return PartialView(subjects);
         }
 
         // POST: Subjects/Delete/5
@@ -109,10 +192,20 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Subjects subjects = db.Subjects.Find(id);
-            db.Subjects.Remove(subjects);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Subjects subjects = db.Subjects.Find(id);
+                db.Subjects.Remove(subjects);
+                db.SaveChanges();
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                               "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                               "toastr.success('Materia eliminada correctamente!');");
+            }
+            catch (Exception ex)
+            {
+                return JavaScript("$('#SubjectModal').modal('hide');" +
+                           "toastr.error('No puede eliminar esta materia');");
+            }
         }
 
         protected override void Dispose(bool disposing)
