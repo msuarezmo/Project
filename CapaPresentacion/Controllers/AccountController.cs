@@ -452,7 +452,9 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignOut();
+            Session.Abandon();
             //return RedirectToAction("Index", "Home");
             return RedirectToAction("Login", "Account");
         }
