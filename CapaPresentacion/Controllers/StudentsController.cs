@@ -7,18 +7,50 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CapaDatos;
+using PagedList;
+using PagedList.Mvc;
+using CapaNegocio;
+
 
 namespace CapaPresentacion.Controllers
 {
     public class StudentsController : Controller
     {
         private colegioEntities db = new colegioEntities();
-
+        private ValidationStudents ValidationStudents = new ValidationStudents();
         // GET: Students
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? courseId)
         {
-            var students = db.Students.Include(s => s.AspNetUsers).Include(s => s.Courses).Include(s => s.DocumentType);
-            return View(students.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var students = from s in db.Students
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Names.Contains(searchString) || s.Surnames.Contains(searchString));
+            }
+            if (courseId != null && courseId > 0)
+            {
+                students = students.Where(x => x.CourseId == courseId);
+            }
+            students = students.OrderBy(s => s.Names);
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(students.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Students/Details/5
@@ -43,7 +75,7 @@ namespace CapaPresentacion.Controllers
             ViewBag.ParentId = new SelectList(consulta, "Id", "FullName");
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: Students/Create
@@ -51,19 +83,48 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId")] Students students)
+        public ActionResult Create([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId,Assistance")] Students students)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Students.Add(students);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                students.Assistance = false;
+                bool? validation = ValidationStudents.CreateStudents(students);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Students.Add(students);
+                            db.SaveChanges();
+                            return JavaScript("$('#StudentsModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('Estudiante Creado!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#StudentsModal').modal('hide');" +
+                                      "toastr.error('Error al crear estudiante');");
+                        };
+                    case false:
+                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+                        ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
+                        ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
+                        ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
+                        ModelState.AddModelError("Document", "Número de documento asignado a otro estudiante");
+                        return PartialView(students);
+
+                    case null:
+                        return JavaScript("$('#StudentsModal').modal('hide');" +
+                                     "toastr.error('Error al crear estudiante');");
+                }
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                                     "toastr.error('Error al crear estudiante');");
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
-            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
-            ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
-            return View(students);
+            catch (Exception)
+            {
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                                         "toastr.error('Error al crear estudiante');");
+            }
         }
 
         // GET: Students/Edit/5
@@ -82,7 +143,7 @@ namespace CapaPresentacion.Controllers
             ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
             ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
-            return View(students);
+            return PartialView(students);
         }
 
         // POST: Students/Edit/5
@@ -90,19 +151,47 @@ namespace CapaPresentacion.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId")] Students students)
+        public ActionResult Edit([Bind(Include = "IdStudent,Names,Surnames,DocumentTypeId,CourseId,Document,ParentId,Assistance")] Students students)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(students).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                students.Assistance = false;
+                bool? validation = ValidationStudents.EditStudent(students);
+                switch (validation)
+                {
+                    case true:
+                        if (ModelState.IsValid)
+                        {
+                            db.Entry(students).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return JavaScript("$('#StudentsModal').modal('hide');" +
+                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                "toastr.success('Estudiante editado correctamente!');");
+                        }
+                        else
+                        {
+                            return JavaScript("$('#StudentsModal').modal('hide');" +
+                                 "toastr.error('Error al editar el estudiante seleccionado');");
+                        };
+                    case false:
+                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
+                        ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
+                        ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
+                        ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
+                        ModelState.AddModelError("Document", "Número de documento asignado a otro estudiante");
+                        return PartialView(students);
+                    case null:
+                        return JavaScript("$('#StudentsModal').modal('hide');" +
+                          "toastr.error('Error al editar el estudiante seleccionado');");
+                }
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                        "toastr.error('Error al editar el estudiante seleccionado');");
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
-            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
-            ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
-            return View(students);
+            catch (Exception ex)
+            {
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                           "toastr.error('Error al editar el estudiante seleccionado');");
+            }
         }
 
         // GET: Students/Delete/5
@@ -117,7 +206,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            return View(students);
+            return PartialView(students);
         }
 
         // POST: Students/Delete/5
@@ -125,10 +214,20 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Students students = db.Students.Find(id);
-            db.Students.Remove(students);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Students students = db.Students.Find(id);
+                db.Students.Remove(students);
+                db.SaveChanges();
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                               "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                               "toastr.success('Estudiante eliminado correctamente!');");
+            }
+            catch (Exception ex)
+            {
+                return JavaScript("$('#StudentsModal').modal('hide');" +
+                           "toastr.error('No puede eliminar este estudiante');");
+            }
         }
 
         protected override void Dispose(bool disposing)

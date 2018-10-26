@@ -164,7 +164,7 @@ namespace CapaPresentacion.Controllers
                         else
                         {
                             return JavaScript("$('#CoursesModal').modal('hide');" +
-                                 "toastr.error('Error al editar el curso selecionado');");
+                                 "toastr.error('Error al editar el curso seleccionado');");
                         };
                     case false:
                         var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
@@ -173,15 +173,15 @@ namespace CapaPresentacion.Controllers
                         return PartialView(courses);
                     case null:
                         return JavaScript("$('#CoursesModal').modal('hide');" +
-                          "toastr.error('Error al editar el curso selecionado');");
+                          "toastr.error('Error al editar el curso seleccionado');");
                 }
                 return JavaScript("$('#CoursesModal').modal('hide');" +
-                        "toastr.error('Error al editar el curso selecionado');");
+                        "toastr.error('Error al editar el curso seleccionado');");
             }
             catch (Exception ex)
             {
                 return JavaScript("$('#CoursesModal').modal('hide');" +
-                           "toastr.error('Error al editar el curso selecionado');");
+                           "toastr.error('Error al editar el curso seleccionado');");
             }
 
         }

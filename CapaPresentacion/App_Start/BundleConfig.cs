@@ -19,6 +19,9 @@ namespace CapaPresentacion
             //CURSOS
             bundles.Add(new ScriptBundle("~/bundles/courses").Include(
                        "~/scripts/Courses.js"));
+            //Estudiantes
+            bundles.Add(new ScriptBundle("~/bundles/students").Include(
+                       "~/scripts/Students.js"));
             //MATERIAS
             bundles.Add(new ScriptBundle("~/bundles/subjects").Include(
            "~/scripts/Subjects.js"));

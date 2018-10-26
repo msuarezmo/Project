@@ -71,7 +71,11 @@ namespace CapaNegocio
     }
 
     public class ValidationSubjetcs : DataModel
-    {
+    {/// <summary>
+     ///  Valida si el nombre la materia ya existe
+     /// </summary>
+     /// <param name="subjects"></param>
+     /// <returns></returns>
         public bool? CreateSubject(Subjects subjects)
         {
             try
@@ -92,7 +96,11 @@ namespace CapaNegocio
                 return null;
             }
         }
-
+        /// <summary>
+        /// Valida si el nombre de la materia, se encuentra registrado en otra materia
+        /// </summary>
+        /// <param name="subjects"></param>
+        /// <returns></returns>
         public bool? EditSubject(Subjects subjects)
         {
             try
@@ -114,5 +122,58 @@ namespace CapaNegocio
             }
         }
 
+    }
+    public class ValidationStudents : DataModel
+    {
+        /// <summary>
+        /// Valida que el numero de documento y el tipo de documento no coindican con otro estudiante
+        /// </summary>
+        /// <param name="students"></param>
+        /// <returns></returns>
+        public bool? CreateStudents(Students students)
+        {
+            try
+            {
+                var query = db.Students;
+                int total = query.Where(x => x.Document == students.Document && x.DocumentTypeId == students.DocumentTypeId).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Valida que el numero de documento y el tipo de documento no coindican con otro estudiante, excepto si es el mismo id
+        /// </summary>
+        /// <param name="students"></param>
+        /// <returns></returns>
+        public bool? EditStudent(Students students)
+        {
+            try
+            {
+                var query = db.Students;
+                int total = query.Where(x => x.Document == students.Document && x.DocumentTypeId == students.DocumentTypeId && x.IdStudent != students.IdStudent).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }
