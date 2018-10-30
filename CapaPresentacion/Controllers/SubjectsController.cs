@@ -16,7 +16,7 @@ namespace CapaPresentacion.Controllers
     public class SubjectsController : Controller
     {
         private colegioEntities db = new colegioEntities();
-        private ValidationSubjetcs ValidationSubjetcs = new ValidationSubjetcs();
+        private ValidationsSubject ValidationSubjetcs = new ValidationsSubject();
 
         // GET: Subjects
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)

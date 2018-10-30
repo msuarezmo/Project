@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datamodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validations.cs" />
+    <Compile Include="ValidationsCourse.cs" />
+    <Compile Include="ValidationsStudent.cs" />
+    <Compile Include="ValidationsSubject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
