@@ -6,25 +6,29 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using CapaDatos;
 using PagedList;
 using PagedList.Mvc;
 using CapaNegocio;
-
+using CapaDominio;
+using CapaNegocio.Validations;
 
 namespace CapaPresentacion.Controllers
 {
     public class StudentsController : Controller
     {
-        private colegioEntities db = new colegioEntities();
-        private ValidationStudents ValidationStudents = new ValidationStudents();
+        private ValidationStudents validationStudents = new ValidationStudents();
+        private ValidationsCourse validationsCourse = new ValidationsCourse();
+        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsDocumenType validationsDocumenType = new ValidationsDocumenType();
+        private Dispose dispose = new Dispose();
         // GET: Students
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? courseId)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
+            var cursos = validationsCourse.GetAllCourses();
+            ViewBag.CourseId = new SelectList(cursos, "IdCourse", "Description");
 
             if (searchString != null)
             {
@@ -37,44 +41,30 @@ namespace CapaPresentacion.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var students = from s in db.Students
-                           select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.Names.Contains(searchString) || s.Surnames.Contains(searchString));
-            }
-            if (courseId != null && courseId > 0)
-            {
-                students = students.Where(x => x.CourseId == courseId);
-            }
-            students = students.OrderBy(s => s.Names);
+            var students = validationStudents.GetAllStudents();
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    students = students.Where(s => s.Names.Contains(searchString) || s.Surnames.Contains(searchString));
+            //}
+            //if (courseId != null && courseId > 0)
+            //{
+            //    students = students.Where(x => x.CourseId == courseId);
+            //}
+            //students = students.OrderBy(s => s.Names);
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(students.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Students/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Students students = db.Students.Find(id);
-            if (students == null)
-            {
-                return HttpNotFound();
-            }
-            return View(students);
-        }
-
         // GET: Students/Create
         public ActionResult Create()
         {
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName");
-            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
-            ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
+            var acudientes = validationsUser.GetAllParents();
+            var cursos = validationsCourse.GetAllCourses();
+            var documentos = validationsDocumenType.GetAllDocumentTypes();
+            ViewBag.ParentId = new SelectList(acudientes, "Id", "FullName");
+            ViewBag.CourseId = new SelectList(cursos, "IdCourse", "Description");
+            ViewBag.DocumentTypeId = new SelectList(documentos, "Id", "Name");
             return PartialView();
         }
 
@@ -88,28 +78,20 @@ namespace CapaPresentacion.Controllers
             try
             {
                 students.Assistance = false;
-                bool? validation = ValidationStudents.CreateStudents(students);
+                bool? validation = validationStudents.CreateStudents(students);
                 switch (validation)
                 {
                     case true:
-                        if (ModelState.IsValid)
-                        {
-                            db.Students.Add(students);
-                            db.SaveChanges();
-                            return JavaScript("$('#StudentsModal').modal('hide');" +
-                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
-                                "toastr.success('Estudiante Creado!');");
-                        }
-                        else
-                        {
-                            return JavaScript("$('#StudentsModal').modal('hide');" +
-                                      "toastr.error('Error al crear estudiante');");
-                        };
+                        return JavaScript("$('#StudentsModal').modal('hide');" +
+                            "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                            "toastr.success('Estudiante Creado!');");
                     case false:
-                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-                        ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
-                        ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
-                        ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
+                        var acudientes = validationsUser.GetAllParents();
+                        var cursos = validationsCourse.GetAllCourses();
+                        var documentos = validationsDocumenType.GetAllDocumentTypes();
+                        ViewBag.ParentId = new SelectList(acudientes, "Id", "FullName", students.ParentId);
+                        ViewBag.CourseId = new SelectList(cursos, "IdCourse", "Description");
+                        ViewBag.DocumentTypeId = new SelectList(documentos, "Id", "Name");
                         ModelState.AddModelError("Document", "Número de documento asignado a otro estudiante");
                         return PartialView(students);
 
@@ -134,15 +116,17 @@ namespace CapaPresentacion.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Students students = db.Students.Find(id);
+            Students students = validationStudents.SearchById(id);
             if (students == null)
             {
                 return HttpNotFound();
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-            ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
-            ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description", students.CourseId);
-            ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name", students.DocumentTypeId);
+            var acudientes = validationsUser.GetAllParents();
+            var cursos = validationsCourse.GetAllCourses();
+            var documentos = validationsDocumenType.GetAllDocumentTypes();
+            ViewBag.ParentId = new SelectList(acudientes, "Id", "FullName", students.ParentId);
+            ViewBag.CourseId = new SelectList(cursos, "IdCourse", "Description", students.CourseId);
+            ViewBag.DocumentTypeId = new SelectList(documentos, "Id", "Name", students.DocumentTypeId);
             return PartialView(students);
         }
 
@@ -156,28 +140,20 @@ namespace CapaPresentacion.Controllers
             try
             {
                 students.Assistance = false;
-                bool? validation = ValidationStudents.EditStudent(students);
+                bool? validation = validationStudents.EditStudent(students);
                 switch (validation)
                 {
                     case true:
-                        if (ModelState.IsValid)
-                        {
-                            db.Entry(students).State = EntityState.Modified;
-                            db.SaveChanges();
-                            return JavaScript("$('#StudentsModal').modal('hide');" +
-                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
-                                "toastr.success('Estudiante editado correctamente!');");
-                        }
-                        else
-                        {
-                            return JavaScript("$('#StudentsModal').modal('hide');" +
-                                 "toastr.error('Error al editar el estudiante seleccionado');");
-                        };
+                        return JavaScript("$('#StudentsModal').modal('hide');" +
+                            "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                            "toastr.success('Estudiante editado correctamente!');");
                     case false:
-                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Acudiente") select m;
-                        ViewBag.ParentId = new SelectList(consulta, "Id", "FullName", students.ParentId);
-                        ViewBag.CourseId = new SelectList(db.Courses, "IdCourse", "Description");
-                        ViewBag.DocumentTypeId = new SelectList(db.DocumentType, "Id", "Name");
+                        var acudientes = validationsUser.GetAllParents();
+                        var cursos = validationsCourse.GetAllCourses();
+                        var documentos = validationsDocumenType.GetAllDocumentTypes();
+                        ViewBag.ParentId = new SelectList(acudientes, "Id", "FullName", students.ParentId);
+                        ViewBag.CourseId = new SelectList(cursos, "IdCourse", "Description");
+                        ViewBag.DocumentTypeId = new SelectList(documentos, "Id", "Name");
                         ModelState.AddModelError("Document", "Número de documento asignado a otro estudiante");
                         return PartialView(students);
                     case null:
@@ -201,7 +177,7 @@ namespace CapaPresentacion.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Students students = db.Students.Find(id);
+            Students students = validationStudents.SearchById(id);
             if (students == null)
             {
                 return HttpNotFound();
@@ -216,12 +192,19 @@ namespace CapaPresentacion.Controllers
         {
             try
             {
-                Students students = db.Students.Find(id);
-                db.Students.Remove(students);
-                db.SaveChanges();
-                return JavaScript("$('#StudentsModal').modal('hide');" +
+                bool validation = validationStudents.DeleteStudent(id);
+                if (validation)
+                {
+                    return JavaScript("$('#StudentsModal').modal('hide');" +
                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                "toastr.success('Estudiante eliminado correctamente!');");
+                }
+                else
+                {
+                    return JavaScript("$('#StudentsModal').modal('hide');" +
+                           "toastr.error('No puede eliminar este estudiante');");
+                }
+
             }
             catch (Exception ex)
             {
@@ -234,7 +217,7 @@ namespace CapaPresentacion.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                dispose.Liberate();
             }
             base.Dispose(disposing);
         }

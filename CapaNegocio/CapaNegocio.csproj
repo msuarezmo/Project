@@ -42,17 +42,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datamodel.cs" />
+    <Compile Include="Validations\Datamodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationsCourse.cs" />
-    <Compile Include="ValidationsStudent.cs" />
-    <Compile Include="ValidationsSubject.cs" />
+    <Compile Include="Validations\Dispose.cs" />
+    <Compile Include="Validations\ValidationsCourse.cs" />
+    <Compile Include="Validations\ValidationsDocumenType.cs" />
+    <Compile Include="Validations\ValidationsRol.cs" />
+    <Compile Include="Validations\ValidationsStudent.cs" />
+    <Compile Include="Validations\ValidationsSubject.cs" />
+    <Compile Include="Validations\ValidationsUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
       <Project>{b44c8d0f-8b74-49fe-a61d-59263dab199f}</Project>
       <Name>CapaDatos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CapaDominio\CapaDominio.csproj">
+      <Project>{9f3728f9-b7ce-41cd-ad4f-9428ef9a6e7e}</Project>
+      <Name>CapaDominio</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿using CapaDatos;
+﻿using CapaDominio;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

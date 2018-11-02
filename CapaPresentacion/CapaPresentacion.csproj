@@ -206,7 +206,6 @@
     <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LacksController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
@@ -216,6 +215,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -395,11 +395,6 @@
     <Content Include="Views\Subjects\Delete.cshtml" />
     <Content Include="Views\Subjects\Edit.cshtml" />
     <Content Include="Views\Subjects\Index.cshtml" />
-    <Content Include="Views\Lacks\Create.cshtml" />
-    <Content Include="Views\Lacks\Delete.cshtml" />
-    <Content Include="Views\Lacks\Details.cshtml" />
-    <Content Include="Views\Lacks\Edit.cshtml" />
-    <Content Include="Views\Lacks\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
@@ -423,9 +418,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
-      <Project>{B44C8D0F-8B74-49FE-A61D-59263DAB199F}</Project>
-      <Name>CapaDatos</Name>
+    <ProjectReference Include="..\CapaDominio\CapaDominio.csproj">
+      <Project>{9F3728F9-B7CE-41CD-AD4F-9428EF9A6E7E}</Project>
+      <Name>CapaDominio</Name>
     </ProjectReference>
     <ProjectReference Include="..\CapaNegocio\CapaNegocio.csproj">
       <Project>{5622eea0-7c9c-489d-838f-8aaba2bcdaae}</Project>

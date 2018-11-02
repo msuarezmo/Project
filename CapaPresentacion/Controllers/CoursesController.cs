@@ -6,8 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using CapaDatos;
+using CapaDominio;
 using CapaNegocio;
+using CapaNegocio.Validations;
 using CapaPresentacion.Models;
 using PagedList;
 using PagedList.Mvc;
@@ -16,16 +17,17 @@ namespace CapaPresentacion.Controllers
 {
     public class CoursesController : Controller
     {
-        private colegioEntities db = new colegioEntities();
         private ValidationsCourse validationsCourse = new ValidationsCourse();
+        private ValidationsUser validationUser = new ValidationsUser();
+        private Dispose dispose = new Dispose();
 
-        // GET: Courses
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string IdTeacher)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.IdTeacher = new SelectList(db.AspNetUsers.Where(x => x.AspNetRoles.All(z => z.Name == "Docente")), "Id", "FullName");
+            var acudientes = validationUser.GetAllParents();
+            ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName");
 
             if (searchString != null)
             {
@@ -35,46 +37,26 @@ namespace CapaPresentacion.Controllers
             {
                 searchString = currentFilter;
             }
-
             ViewBag.CurrentFilter = searchString;
-
-            var courses = from s in db.Courses
-                          select s;
+            var courses = validationsCourse.GetAllCourses();
             if (!String.IsNullOrEmpty(searchString))
             {
-                courses = courses.Where(s => s.Description.Contains(searchString));
+                courses = courses.Where(s => s.Description.Contains(searchString)).ToList();
             }
             if (!String.IsNullOrEmpty(IdTeacher))
             {
-                courses = courses.Where(x => x.IdTeacher == IdTeacher);
+                courses = courses.Where(x => x.IdTeacher == IdTeacher).ToList(); ;
             }
-
-            courses = courses.OrderBy(s => s.Description);
+            courses = courses.OrderBy(s => s.Description).ToList(); ;
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(courses.ToPagedList(pageNumber, pageSize));
         }
-
-        // GET: Courses/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Courses courses = db.Courses.Find(id);
-            if (courses == null)
-            {
-                return HttpNotFound();
-            }
-            return View(courses);
-        }
-
         // GET: Courses/Create
         public ActionResult Create()
         {
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-            ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName");
+            var acudientes = validationUser.GetAllParents();
+            ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName");
             return PartialView();
         }
 
@@ -91,22 +73,12 @@ namespace CapaPresentacion.Controllers
                 switch (validation)
                 {
                     case true:
-                        if (ModelState.IsValid)
-                        {
-                            db.Courses.Add(courses);
-                            db.SaveChanges();
-                            return JavaScript("$('#CoursesModal').modal('hide');" +
-                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
-                                "toastr.success('Curso Creado!');");
-                        }
-                        else
-                        {
-                            return JavaScript("$('#CoursesModal').modal('hide');" +
-                                      "toastr.error('Error al Crear curso');");
-                        };
+                        return JavaScript("$('#CoursesModal').modal('hide');" +
+                            "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                            "toastr.success('Curso Creado!');");
                     case false:
-                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-                        ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
+                        var acudientes = validationUser.GetAllParents();
+                        ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName", courses.IdTeacher);
                         ModelState.AddModelError("IdTeacher", "Director de curso se encuentra asignado");
                         return PartialView(courses);
 
@@ -131,13 +103,13 @@ namespace CapaPresentacion.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Courses courses = db.Courses.Find(id);
+            Courses courses = validationsCourse.SearchById(id);
             if (courses == null)
             {
                 return HttpNotFound();
             }
-            var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-            ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
+            var acudientes = validationUser.GetAllParents();
+            ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName", courses.IdTeacher);
             return PartialView(courses);
         }
         // POST: Courses/Edit/5
@@ -153,22 +125,14 @@ namespace CapaPresentacion.Controllers
                 switch (validation)
                 {
                     case true:
-                        if (ModelState.IsValid)
-                        {
-                            db.Entry(courses).State = EntityState.Modified;
-                            db.SaveChanges();
-                            return JavaScript("$('#CoursesModal').modal('hide');" +
-                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
-                                "toastr.success('Curso editado correctamente!');");
-                        }
-                        else
-                        {
-                            return JavaScript("$('#CoursesModal').modal('hide');" +
-                                 "toastr.error('Error al editar el curso seleccionado');");
-                        };
+
+                        return JavaScript("$('#CoursesModal').modal('hide');" +
+                            "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                            "toastr.success('Curso editado correctamente!');");
+
                     case false:
-                        var consulta = from m in db.AspNetUsers where m.AspNetRoles.Any(r => r.Name == "Docente") select m;
-                        ViewBag.IdTeacher = new SelectList(consulta, "Id", "FullName", courses.IdTeacher);
+                        var acudientes = validationUser.GetAllParents();
+                        ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName", courses.IdTeacher);
                         ModelState.AddModelError("IdTeacher", "Director de curso se encuentra asignado");
                         return PartialView(courses);
                     case null:
@@ -193,7 +157,7 @@ namespace CapaPresentacion.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Courses courses = db.Courses.Find(id);
+            Courses courses = validationsCourse.SearchById(id);
             if (courses == null)
             {
                 return HttpNotFound();
@@ -208,26 +172,32 @@ namespace CapaPresentacion.Controllers
         {
             try
             {
-                Courses courses = db.Courses.Find(id);
-                db.Courses.Remove(courses);
-                db.SaveChanges();
-                return JavaScript("$('#CoursesModal').modal('hide');" +
+                bool validation = validationsCourse.DeleteCourse(id);
+                if (validation)
+                {
+                    return JavaScript("$('#CoursesModal').modal('hide');" +
                                "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                "toastr.success('Curso eliminado correctamente!');");
+                }
+                else
+                {
+                    return JavaScript("$('#CoursesModal').modal('hide');" +
+                           "toastr.error('Existen estudiantes asociados a este curso');");
+                }
             }
             catch (Exception ex)
             {
                 return JavaScript("$('#CoursesModal').modal('hide');" +
                            "toastr.error('No puede eliminar este curso');");
             }
-           
+
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                dispose.Liberate();
             }
             base.Dispose(disposing);
         }

@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using CapaPresentacion.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
-using CapaDatos;
+using CapaNegocio.Validations;
 
 namespace CapaPresentacion.Controllers
 {
@@ -19,7 +19,7 @@ namespace CapaPresentacion.Controllers
     public class AccountController : Controller
     {
         private ApplicationDbContext userContext = new ApplicationDbContext();
-        private colegioEntities col = new colegioEntities();
+        private ValidationsDocumenType validationsDocumentType = new ValidationsDocumenType();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -141,10 +141,11 @@ namespace CapaPresentacion.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name");
+            var documentos = validationsDocumentType.GetAllDocumentTypes();
+            ViewBag.DocumentType = new SelectList(documentos, "Id", "Name");
             var model = new RegisterViewModel();
             model.Password = "Secreto01+*-";
             model.ConfirmPassword = "Secreto01+*-";
@@ -160,13 +161,14 @@ namespace CapaPresentacion.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             model.Password = model.Document;
             model.ConfirmPassword = model.Document;
-            ViewBag.DocumentType = new SelectList(col.DocumentType, "Id", "Name",model.DocumentType);
+            var documentos = validationsDocumentType.GetAllDocumentTypes();
+            ViewBag.DocumentType = new SelectList(documentos, "Id", "Name",model.DocumentType);
             if (ModelState.IsValid)
             {
                 if (model.Roles == null || model.Roles.Count() == 0)
@@ -192,15 +194,15 @@ namespace CapaPresentacion.Controllers
                         UserManager.AddToRole(user.Id, role);
                     }
                     string fullName = string.Format("{0}{1}{2}{3}", model.FirstName+" ", model.SecondName + " ", model.Surname+" ", model.SecondSurname);
-                    var registerUser = col.AspNetUsers.FirstOrDefault(p => p.Email == model.Email);
-                    registerUser.FirstName = model.FirstName;
-                    registerUser.SecondName = model.SecondName;
-                    registerUser.Surname = model.Surname;
-                    registerUser.SecondSurname = model.SecondSurname;
-                    registerUser.FullName = fullName;
-                    registerUser.Document = model.Document;
-                    registerUser.DocumentType = model.DocumentType;
-                    col.SaveChanges();
+                    //var registerUser = col.AspNetUsers.FirstOrDefault(p => p.Email == model.Email);
+                    //registerUser.FirstName = model.FirstName;
+                    //registerUser.SecondName = model.SecondName;
+                    //registerUser.Surname = model.Surname;
+                    //registerUser.SecondSurname = model.SecondSurname;
+                    //registerUser.FullName = fullName;
+                    //registerUser.Document = model.Document;
+                    //registerUser.DocumentType = model.DocumentType;
+                    //col.SaveChanges();
 
                     //Código usado para crear roles
                         //using (ApplicationDbContext db = new ApplicationDbContext())
