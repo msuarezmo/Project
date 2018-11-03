@@ -1,15 +1,24 @@
-﻿using CapaDominio;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ValidationsSubject.cs" company="COEF">
+//    Todos los derechos reservados
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace CapaNegocio
 {
+    using CapaDominio;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="ValidationsSubject" />
+    /// </summary>
     public class ValidationsSubject : Datamodel
     {
         /// <summary>
-        ///  Valida si el nombre la materia ya existe si no la inserta en bd
+        /// Valida si el nombre la materia ya existe si no la inserta en bd
         /// </summary>
         /// <param name="subjects"></param>
         /// <returns></returns>
@@ -35,6 +44,27 @@ namespace CapaNegocio
                 return null;
             }
         }
+
+        /// <summary>
+        /// Elimina materia
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteStudent(int id)
+        {
+            try
+            {
+                Subjects subjects = SearchById(id);
+                db.Subjects.Remove(subjects);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Valida si el nombre de la materia, se encuentra registrado en otra materia, si no actualiza el registro en bd
         /// </summary>
@@ -62,6 +92,7 @@ namespace CapaNegocio
                 return null;
             }
         }
+
         /// <summary>
         /// Devuelve todas las materias
         /// </summary>
@@ -77,6 +108,7 @@ namespace CapaNegocio
                 return null;
             }
         }
+
         /// <summary>
         /// Busca una materia por su id
         /// </summary>
@@ -91,25 +123,6 @@ namespace CapaNegocio
             catch (Exception)
             {
                 return null;
-            }
-        }
-        /// <summary>
-        /// Elimina materia
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool DeleteStudent(int id)
-        {
-            try
-            {
-                Subjects subjects = SearchById(id);
-                db.Subjects.Remove(subjects);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
     }

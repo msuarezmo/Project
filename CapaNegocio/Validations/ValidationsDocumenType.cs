@@ -1,10 +1,19 @@
-﻿using CapaDominio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ValidationsDocumenType.cs" company="COEF">
+//    Todos los derechos reservados
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace CapaNegocio.Validations
 {
+    using CapaDominio;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="ValidationsDocumenType" />
+    /// </summary>
     public class ValidationsDocumenType : Datamodel
     {
         /// <summary>

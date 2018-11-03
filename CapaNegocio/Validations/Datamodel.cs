@@ -1,14 +1,21 @@
-﻿using CapaDatos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Datamodel.cs" company="COEF">
+//    Todos los derechos reservados
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace CapaNegocio
 {
+    using CapaDatos;
+
+    /// <summary>
+    /// Defines the <see cref="Datamodel" />
+    /// </summary>
     public class Datamodel
     {
+        /// <summary>
+        /// Defines the db
+        /// </summary>
         public colegioEntities db = new colegioEntities();
     }
 }

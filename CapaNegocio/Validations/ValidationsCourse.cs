@@ -1,15 +1,24 @@
-﻿using CapaDominio;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ValidationsCourse.cs" company="COEF">
+//    Todos los derechos reservados
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace CapaNegocio
 {
+    using CapaDominio;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="ValidationsCourse" />
+    /// </summary>
     public class ValidationsCourse : Datamodel
     {
         /// <summary>
-        ///  Valida si el Director de curso seleccionado ya se encuentra asociado a un curso existente, si no lo inserta en bd
+        /// Valida si el Director de curso seleccionado ya se encuentra asociado a un curso existente, si no lo inserta en bd
         /// </summary>
         /// <param name="courses"></param>
         /// <returns></returns>
@@ -35,21 +44,25 @@ namespace CapaNegocio
                 return null;
             }
         }
+
         /// <summary>
-        /// Devuelve todos los cursos
+        /// Elimina curso
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public IEnumerable<Courses> GetAllCourses()
+        public bool DeleteCourse(int id)
         {
             try
             {
-                return db.Courses.OrderByDescending(x => x.Description);
+                Courses courses = SearchById(id);
+                db.Courses.Remove(courses);
+                db.SaveChanges();
+                return true;
             }
             catch (Exception)
             {
-                return null;
+                return false;
             }
-
         }
 
         /// <summary>
@@ -78,8 +91,24 @@ namespace CapaNegocio
             {
                 return null;
             }
-
         }
+
+        /// <summary>
+        /// Devuelve todos los cursos
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Courses> GetAllCourses()
+        {
+            try
+            {
+                return db.Courses.OrderByDescending(x => x.Description);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Busca un curso por su id
         /// </summary>
@@ -96,25 +125,5 @@ namespace CapaNegocio
                 return null;
             }
         }
-        /// <summary>
-        /// Elimina curso
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool DeleteCourse(int id)
-        {
-            try
-            {
-                Courses courses = SearchById(id);
-                db.Courses.Remove(courses);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
     }
-
 }
