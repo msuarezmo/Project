@@ -11,11 +11,11 @@ namespace CapaNegocio.Validations
         /// Devuelve todos los tipos de documento
         /// </summary>
         /// <returns></returns>
-        public List<DocumentType> GetAllDocumentTypes()
+        public IEnumerable<DocumentType> GetAllDocumentTypes()
         {
             try
             {
-                return db.DocumentType.OrderByDescending(x => x.Name).ToList();
+                return db.DocumentType.OrderByDescending(x => x.Name);
             }
             catch (Exception)
             {

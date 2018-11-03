@@ -42,15 +42,15 @@ namespace CapaPresentacion.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var students = validationStudents.GetAllStudents();
-            //if (!String.IsNullOrEmpty(searchString))
-            //{
-            //    students = students.Where(s => s.Names.Contains(searchString) || s.Surnames.Contains(searchString));
-            //}
-            //if (courseId != null && courseId > 0)
-            //{
-            //    students = students.Where(x => x.CourseId == courseId);
-            //}
-            //students = students.OrderBy(s => s.Names);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.Names.Contains(searchString) || s.Surnames.Contains(searchString)).ToList();
+            }
+            if (courseId != null && courseId > 0)
+            {
+                students = students.Where(x => x.CourseId == courseId).ToList();
+            }
+            students = students.OrderBy(s => s.Names).ToList();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(students.ToPagedList(pageNumber, pageSize));

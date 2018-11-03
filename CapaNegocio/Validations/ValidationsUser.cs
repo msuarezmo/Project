@@ -14,11 +14,11 @@ namespace CapaNegocio.Validations
         /// devuelve los docentes
         /// </summary>
         /// <returns></returns>
-        public List<AspNetUsers> GetAllTeachers()
+        public IEnumerable<AspNetUsers> GetAllTeachers()
         {
             try
             {
-                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolDocente)).ToList();
+                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolDocente));
             }
             catch (Exception)
             {
@@ -29,11 +29,11 @@ namespace CapaNegocio.Validations
         /// Devuelve todos los administradores
         /// </summary>
         /// <returns></returns>
-        public List<AspNetUsers> GetAllAdmins()
+        public IEnumerable<AspNetUsers> GetAllAdmins()
         {
             try
             {
-                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolAdministrador)).ToList();
+                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolAdministrador));
             }
             catch (Exception)
             {
@@ -44,11 +44,11 @@ namespace CapaNegocio.Validations
         /// Devuelve todos los acudientes
         /// </summary>
         /// <returns></returns>
-        public List<AspNetUsers> GetAllParents()
+        public IEnumerable<AspNetUsers> GetAllParents()
         {
             try
             {
-                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolAcudiente)).ToList();
+                return db.AspNetUsers.Where(x => x.AspNetRoles.Any(r => r.Name == RolAcudiente));
             }
             catch (Exception)
             {
@@ -59,11 +59,11 @@ namespace CapaNegocio.Validations
         /// Devuelve todos los usuarios
         /// </summary>
         /// <returns></returns>
-        public List<AspNetUsers> GetAllUsers()
+        public IEnumerable<AspNetUsers> GetAllUsers()
         {
             try
             {
-                return db.AspNetUsers.OrderByDescending(x => x.FullName).ToList();
+                return db.AspNetUsers.OrderByDescending(x => x.FullName);
             }
             catch (Exception)
             {

@@ -66,11 +66,11 @@ namespace CapaNegocio
         /// Devuelve todas las materias
         /// </summary>
         /// <returns></returns>
-        public List<Subjects> GetAllSubjects()
+        public IEnumerable<Subjects> GetAllSubjects()
         {
             try
             {
-                return db.Subjects.OrderBy(x => x.name).ToList(); ;
+                return db.Subjects.OrderBy(x => x.name);
             }
             catch (Exception)
             {

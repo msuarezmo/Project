@@ -11,11 +11,11 @@ namespace CapaNegocio.Validations
         /// Devuelve todos los roles
         /// </summary>
         /// <returns></returns>
-        public List<AspNetRoles> GetAllRoles()
+        public IEnumerable<AspNetRoles> GetAllRoles()
         {
             try
             {
-                return db.AspNetRoles.OrderByDescending(x => x.Name).ToList();
+                return db.AspNetRoles.OrderByDescending(x => x.Name);
             }
             catch (Exception)
             {

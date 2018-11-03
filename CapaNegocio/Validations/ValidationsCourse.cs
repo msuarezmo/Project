@@ -39,11 +39,11 @@ namespace CapaNegocio
         /// Devuelve todos los cursos
         /// </summary>
         /// <returns></returns>
-        public List<Courses> GetAllCourses()
+        public IEnumerable<Courses> GetAllCourses()
         {
             try
             {
-                return db.Courses.OrderByDescending(x => x.Description).ToList(); ;
+                return db.Courses.OrderByDescending(x => x.Description);
             }
             catch (Exception)
             {

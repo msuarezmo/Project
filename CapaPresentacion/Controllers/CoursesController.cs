@@ -108,7 +108,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            var acudientes = validationUser.GetAllParents();
+            var acudientes = validationUser.GetAllTeachers();
             ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName", courses.IdTeacher);
             return PartialView(courses);
         }

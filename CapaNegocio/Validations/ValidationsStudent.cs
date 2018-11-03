@@ -1,11 +1,20 @@
-﻿using CapaDominio;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ValidationsStudent.cs" company="COEF">
+//    Todos los derechos reservados
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace CapaNegocio
 {
+    using CapaDominio;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="ValidationStudents" />
+    /// </summary>
     public class ValidationStudents : Datamodel
     {
         /// <summary>
@@ -35,6 +44,27 @@ namespace CapaNegocio
                 return null;
             }
         }
+
+        /// <summary>
+        /// Elimina estudiante
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteStudent(int id)
+        {
+            try
+            {
+                Students students = SearchById(id);
+                db.Students.Remove(students);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Valida que el numero de documento y el tipo de documento no coindican con otro estudiante, excepto si es el mismo id, si no actualiza el registro
         /// </summary>
@@ -62,21 +92,23 @@ namespace CapaNegocio
                 return null;
             }
         }
+
         /// <summary>
         /// Devuelve todos los estudiantes
         /// </summary>
         /// <returns></returns>
-        public List<Students> GetAllStudents()
+        public IEnumerable<Students> GetAllStudents()
         {
             try
             {
-                return db.Students.OrderByDescending(x => x.Names).ToList();
+                return db.Students.OrderByDescending(x => x.Names);
             }
             catch (Exception)
             {
                 return null;
             }
         }
+
         /// <summary>
         /// Busca un estudiante por su id
         /// </summary>
@@ -91,25 +123,6 @@ namespace CapaNegocio
             catch (Exception)
             {
                 return null;
-            }
-        }
-        /// <summary>
-        /// Elimina estudiante
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool DeleteStudent(int id)
-        {
-            try
-            {
-                Students students = SearchById(id);
-                db.Students.Remove(students);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
     }
