@@ -33,6 +33,10 @@ namespace CapaPresentacion
             bundles.Add(new StyleBundle("~/Content/login").Include(
           "~/Resources/css/login.css"));
 
+            bundles.Add(new StyleBundle("~/Content/Index").Include(
+          "~/Resources/css/Index.css"));
+
+
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
