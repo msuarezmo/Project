@@ -27,7 +27,7 @@ namespace CapaNegocio
             try
             {
                 var query = db.Courses;
-                int total = query.Where(x => x.IdTeacher == courses.IdTeacher).Count(); ;
+                int total = query.Where(x => x.IdTeacher == courses.IdTeacher).Count();
                 if (total > 0)
                 {
                     return false;

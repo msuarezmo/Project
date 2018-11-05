@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CapaDominio.News>
+
+<div class="titleform">
+    <h2>Novedades</h2>
+    <p>
+        <a data-modal='' href="@Url.Action("Create", "News")" title="Crear">
+            <input type="submit" class="btn btn-primary" style="float:right;" value="Nueva novedad">
+        </a>
+    </p>
+    <br />
+    <br />
+    <div class="modal fade" data-keyboard="false" id="NewsModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id='myModalContent'>
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNews)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            Docente
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNews)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            <a data-modal='' href="@Url.Action("Edit", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews " title="Editar">
+                <input type="submit" class="btn btn-primary" value="Editar">
+            </a>
+            <a data-modal='' href="@Url.Action("Delete", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews" title="Eliminar">
+                <input type="submit" class="btn btn-danger" value="Eliminar">
+            </a>
+        </td>
+    </tr>
+    }
+
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/news")
+}
+

@@ -25,6 +25,10 @@ namespace CapaPresentacion
             //MATERIAS
             bundles.Add(new ScriptBundle("~/bundles/subjects").Include(
            "~/scripts/Subjects.js"));
+            //Novedades
+            bundles.Add(new ScriptBundle("~/bundles/news").Include(
+           "~/scripts/News.js"));
+      
             //Notificaciones
             bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
                        "~/Scripts/toastr.js*",
