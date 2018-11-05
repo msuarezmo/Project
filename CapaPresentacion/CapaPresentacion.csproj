@@ -229,6 +229,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\Cursos.png" />
     <Content Include="Content\img\Estudiantes.jpg" />
+    <Content Include="Content\img\FondoIndex.jpg" />
     <Content Include="Content\img\FondoLogin.jpg" />
     <Content Include="Content\img\img1.jpeg" />
     <Content Include="Content\img\img2.jpeg" />
@@ -238,7 +239,10 @@
     <Content Include="Content\img\img6.jpeg" />
     <Content Include="Content\img\LogoColegio.png" />
     <Content Include="Content\img\Materias.png" />
+    <Content Include="Content\img\Mision.png" />
+    <Content Include="Content\img\ubicacion3.png" />
     <Content Include="Content\img\Usuario.jpg" />
+    <Content Include="Content\img\Vision.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
@@ -246,6 +250,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Resources\css\Index.css" />
     <Content Include="Resources\css\Login.css" />
     <Content Include="Scripts\Courses.js" />
     <Content Include="Scripts\Students.js" />
