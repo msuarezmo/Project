@@ -207,6 +207,7 @@
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -253,6 +254,7 @@
     <Content Include="Resources\css\Index.css" />
     <Content Include="Resources\css\Login.css" />
     <Content Include="Scripts\Courses.js" />
+    <Content Include="Scripts\News.js" />
     <Content Include="Scripts\Students.js" />
     <Content Include="Scripts\Subjects.js" />
     <Content Include="Scripts\Users.js" />
@@ -404,6 +406,10 @@
     <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

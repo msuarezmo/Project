@@ -68,6 +68,7 @@
     <Compile Include="Validations\Dispose.cs" />
     <Compile Include="Validations\ValidationsCourse.cs" />
     <Compile Include="Validations\ValidationsDocumenType.cs" />
+    <Compile Include="Validations\ValidationsNews.cs" />
     <Compile Include="Validations\ValidationsRol.cs" />
     <Compile Include="Validations\ValidationsStudent.cs" />
     <Compile Include="Validations\ValidationsSubject.cs" />
