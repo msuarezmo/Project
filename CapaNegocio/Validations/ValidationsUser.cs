@@ -84,7 +84,7 @@ namespace CapaNegocio.Validations
         }
 
         /// <summary>
-        /// devuelve los docentes
+        /// Devuelve los docentes
         /// </summary>
         /// <returns></returns>
         public IEnumerable<AspNetUsers> GetAllTeachers()
