@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CapaDominio;
 using CapaNegocio;
+using CapaNegocio.Email;
 using CapaNegocio.Validations;
 using CapaPresentacion.Models;
 using PagedList;
@@ -20,9 +21,12 @@ namespace CapaPresentacion.Controllers
         private ValidationsCourse validationsCourse = new ValidationsCourse();
         private ValidationsUser validationUser = new ValidationsUser();
         private Dispose dispose = new Dispose();
+        private SendEmail sendEmail = new SendEmail();
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string IdTeacher)
         {
+
+            sendEmail.SendMassive();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
