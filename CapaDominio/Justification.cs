@@ -14,8 +14,15 @@ namespace CapaDominio
     
     public partial class Justification
     {
+        public Justification()
+        {
+            this.Lacks = new HashSet<Lacks>();
+        }
+    
         public int IdJustification { get; set; }
-        public string IdLack { get; set; }
         public string Description { get; set; }
+        public byte[] Attached { get; set; }
+    
+        public virtual ICollection<Lacks> Lacks { get; set; }
     }
 }

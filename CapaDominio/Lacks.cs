@@ -12,13 +12,20 @@ namespace CapaDominio
     using System;
     using System.Collections.Generic;
     
-    public partial class Lack
+    public partial class Lacks
     {
         public int IdLack { get; set; }
-        public string Description { get; set; }
         public System.DateTime Date { get; set; }
+        public int IdCourse { get; set; }
+        public int IdStudent { get; set; }
         public int IdSubject { get; set; }
-        public Nullable<int> JustificationId { get; set; }
-        public Nullable<int> idStudent { get; set; }
+        public string IdTeacher { get; set; }
+        public int IdJustification { get; set; }
+    
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Courses Courses { get; set; }
+        public virtual Justification Justification { get; set; }
+        public virtual Students Students { get; set; }
+        public virtual Subjects Subjects { get; set; }
     }
 }

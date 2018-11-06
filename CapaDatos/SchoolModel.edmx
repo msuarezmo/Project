@@ -73,6 +73,16 @@
           <Property Name="DocumentType" Type="int" />
           <Property Name="FullName" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Assistances">
+          <Key>
+            <PropertyRef Name="IdAssistance" />
+          </Key>
+          <Property Name="IdAssistance" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTeacher" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IdCourse" Type="int" Nullable="false" />
+          <Property Name="IdSubject" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Courses">
           <Key>
             <PropertyRef Name="IdCourse" />
@@ -108,20 +118,21 @@
           <Key>
             <PropertyRef Name="IdJustification" />
           </Key>
-          <Property Name="IdJustification" Type="int" Nullable="false" />
-          <Property Name="IdLack" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Description" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdJustification" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Attached" Type="varbinary(max)" />
         </EntityType>
-        <EntityType Name="Lack">
+        <EntityType Name="Lacks">
           <Key>
             <PropertyRef Name="IdLack" />
           </Key>
           <Property Name="IdLack" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IdCourse" Type="int" Nullable="false" />
+          <Property Name="IdStudent" Type="int" Nullable="false" />
           <Property Name="IdSubject" Type="int" Nullable="false" />
-          <Property Name="JustificationId" Type="int" />
-          <Property Name="idStudent" Type="int" />
+          <Property Name="IdTeacher" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdJustification" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -208,6 +219,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Assistances_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assistances_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assistances_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Courses_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
@@ -276,6 +323,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Lacks_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Justification">
+          <End Role="Justification" Type="Self.Justification" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Justification">
+              <PropertyRef Name="IdJustification" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdJustification" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_News_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
@@ -331,12 +438,13 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Assistances" EntityType="Self.Assistances" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Historic" EntityType="Self.Historic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Justification" EntityType="Self.Justification" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Lack" EntityType="Self.Lack" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lacks" EntityType="Self.Lacks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
@@ -357,6 +465,18 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assistances_AspNetUsers" Association="Self.FK_Assistances_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Courses" Association="Self.FK_Assistances_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Subjects" Association="Self.FK_Assistances_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
           <AssociationSet Name="FK_Courses_AspNetUsers" Association="Self.FK_Courses_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Courses" EntitySet="Courses" />
@@ -376,6 +496,26 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_AspNetUsers" Association="Self.FK_Lacks_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Courses" Association="Self.FK_Lacks_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Justification" Association="Self.FK_Lacks_Justification">
+            <End Role="Justification" EntitySet="Justification" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Students" Association="Self.FK_Lacks_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Subjects" Association="Self.FK_Lacks_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Lacks" EntitySet="Lacks" />
           </AssociationSet>
           <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -467,10 +607,25 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="DocumentType1" Relationship="Self.FK_AspNetUsers_DocumentType" FromRole="AspNetUsers" ToRole="DocumentType" />
+          <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_AspNetUsers" FromRole="AspNetUsers" ToRole="Assistances" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Courses_AspNetUsers" FromRole="AspNetUsers" ToRole="Courses" />
+          <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_AspNetUsers" FromRole="AspNetUsers" ToRole="Lacks" />
           <NavigationProperty Name="News" Relationship="Self.FK_News_AspNetUsers" FromRole="AspNetUsers" ToRole="News" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Students_AspNetUsers" FromRole="AspNetUsers" ToRole="Students" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Assistances">
+          <Key>
+            <PropertyRef Name="IdAssistance" />
+          </Key>
+          <Property Name="IdAssistance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTeacher" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IdCourse" Type="Int32" Nullable="false" />
+          <Property Name="IdSubject" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Assistances_AspNetUsers" FromRole="Assistances" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Assistances_Courses" FromRole="Assistances" ToRole="Courses" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Assistances_Subjects" FromRole="Assistances" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="Courses">
           <Key>
@@ -481,6 +636,8 @@
           <Property Name="IdTeacher" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TotalStudents" Type="Int32" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Courses_AspNetUsers" FromRole="Courses" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_Courses" FromRole="Courses" ToRole="Assistances" />
+          <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Courses" FromRole="Courses" ToRole="Lacks" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Students_Courses" FromRole="Courses" ToRole="Students" />
         </EntityType>
         <EntityType Name="DocumentType">
@@ -513,20 +670,27 @@
           <Key>
             <PropertyRef Name="IdJustification" />
           </Key>
-          <Property Name="IdJustification" Type="Int32" Nullable="false" />
-          <Property Name="IdLack" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IdJustification" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Attached" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Justification" FromRole="Justification" ToRole="Lacks" />
         </EntityType>
-        <EntityType Name="Lack">
+        <EntityType Name="Lacks">
           <Key>
             <PropertyRef Name="IdLack" />
           </Key>
           <Property Name="IdLack" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IdCourse" Type="Int32" Nullable="false" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" />
           <Property Name="IdSubject" Type="Int32" Nullable="false" />
-          <Property Name="JustificationId" Type="Int32" />
-          <Property Name="idStudent" Type="Int32" />
+          <Property Name="IdTeacher" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdJustification" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Lacks_AspNetUsers" FromRole="Lacks" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Lacks_Courses" FromRole="Lacks" ToRole="Courses" />
+          <NavigationProperty Name="Justification" Relationship="Self.FK_Lacks_Justification" FromRole="Lacks" ToRole="Justification" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Lacks_Students" FromRole="Lacks" ToRole="Students" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Lacks_Subjects" FromRole="Lacks" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -562,6 +726,7 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Students_AspNetUsers" FromRole="Students" ToRole="AspNetUsers" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
+          <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Students" FromRole="Students" ToRole="Lacks" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
@@ -569,6 +734,8 @@
           </Key>
           <Property Name="IdSubjects" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_Subjects" FromRole="Subjects" ToRole="Assistances" />
+          <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Subjects" FromRole="Subjects" ToRole="Lacks" />
         </EntityType>
         <Association Name="FK_Appointment_Historic">
           <End Role="Historic" Type="Self.Historic" Multiplicity="0..1" />
@@ -646,6 +813,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Assistances_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Courses_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
@@ -654,6 +833,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Courses">
+              <PropertyRef Name="IdTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lacks">
               <PropertyRef Name="IdTeacher" />
             </Dependent>
           </ReferentialConstraint>
@@ -682,6 +873,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Assistances_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assistances_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Students_Courses">
           <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
           <End Role="Students" Type="Self.Students" Multiplicity="*" />
@@ -706,22 +933,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Lacks_Justification">
+          <End Role="Justification" Type="Self.Justification" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Justification">
+              <PropertyRef Name="IdJustification" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdJustification" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lacks_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="IdSubjects" />
+            </Principal>
+            <Dependent Role="Lacks">
+              <PropertyRef Name="IdSubject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="colegioEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="colegioEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Assistances" EntityType="Self.Assistances" />
           <EntitySet Name="Courses" EntityType="Self.Courses" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
           <EntitySet Name="Historic" EntityType="Self.Historic" />
           <EntitySet Name="Issue" EntityType="Self.Issue" />
           <EntitySet Name="Justification" EntityType="Self.Justification" />
-          <EntitySet Name="Lack" EntityType="Self.Lack" />
+          <EntitySet Name="Lacks" EntityType="Self.Lacks" />
           <EntitySet Name="News" EntityType="Self.News" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Students" EntityType="Self.Students" />
@@ -750,9 +1014,17 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assistances_AspNetUsers" Association="Self.FK_Assistances_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
           <AssociationSet Name="FK_Courses_AspNetUsers" Association="Self.FK_Courses_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_AspNetUsers" Association="Self.FK_Lacks_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Lacks" EntitySet="Lacks" />
           </AssociationSet>
           <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -762,6 +1034,18 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Students" EntitySet="Students" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Courses" Association="Self.FK_Assistances_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Subjects" Association="Self.FK_Assistances_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Courses" Association="Self.FK_Lacks_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
           <AssociationSet Name="FK_Students_Courses" Association="Self.FK_Students_Courses">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Students" EntitySet="Students" />
@@ -769,6 +1053,18 @@
           <AssociationSet Name="FK_Students_DocumentType" Association="Self.FK_Students_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Justification" Association="Self.FK_Lacks_Justification">
+            <End Role="Justification" EntitySet="Justification" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Students" Association="Self.FK_Lacks_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lacks_Subjects" Association="Self.FK_Lacks_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Lacks" EntitySet="Lacks" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -780,7 +1076,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities1">
+        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities2">
           <EntitySetMapping Name="Appointment">
             <EntityTypeMapping TypeName="colegioModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
@@ -844,6 +1140,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Assistances">
+            <EntityTypeMapping TypeName="colegioModel.Assistances">
+              <MappingFragment StoreEntitySet="Assistances">
+                <ScalarProperty Name="IdAssistance" ColumnName="IdAssistance" />
+                <ScalarProperty Name="IdTeacher" ColumnName="IdTeacher" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
+                <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="colegioModel.Courses">
               <MappingFragment StoreEntitySet="Courses">
@@ -883,20 +1190,21 @@
             <EntityTypeMapping TypeName="colegioModel.Justification">
               <MappingFragment StoreEntitySet="Justification">
                 <ScalarProperty Name="IdJustification" ColumnName="IdJustification" />
-                <ScalarProperty Name="IdLack" ColumnName="IdLack" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Attached" ColumnName="Attached" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Lack">
-            <EntityTypeMapping TypeName="colegioModel.Lack">
-              <MappingFragment StoreEntitySet="Lack">
+          <EntitySetMapping Name="Lacks">
+            <EntityTypeMapping TypeName="colegioModel.Lacks">
+              <MappingFragment StoreEntitySet="Lacks">
                 <ScalarProperty Name="IdLack" ColumnName="IdLack" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
                 <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
-                <ScalarProperty Name="JustificationId" ColumnName="JustificationId" />
-                <ScalarProperty Name="idStudent" ColumnName="idStudent" />
+                <ScalarProperty Name="IdTeacher" ColumnName="IdTeacher" />
+                <ScalarProperty Name="IdJustification" ColumnName="IdJustification" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -18,7 +18,9 @@ namespace CapaDominio
         {
             this.AspNetUserClaims = new HashSet<AspNetUserClaims>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogins>();
+            this.Assistances = new HashSet<Assistances>();
             this.Courses = new HashSet<Courses>();
+            this.Lacks = new HashSet<Lacks>();
             this.News = new HashSet<News>();
             this.Students = new HashSet<Students>();
             this.AspNetRoles = new HashSet<AspNetRoles>();
@@ -47,7 +49,9 @@ namespace CapaDominio
         public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DocumentType DocumentType1 { get; set; }
+        public virtual ICollection<Assistances> Assistances { get; set; }
         public virtual ICollection<Courses> Courses { get; set; }
+        public virtual ICollection<Lacks> Lacks { get; set; }
         public virtual ICollection<News> News { get; set; }
         public virtual ICollection<Students> Students { get; set; }
         public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }

@@ -12,25 +12,16 @@ namespace CapaDominio
     using System;
     using System.Collections.Generic;
     
-    public partial class Students
+    public partial class Assistances
     {
-        public Students()
-        {
-            this.Lacks = new HashSet<Lacks>();
-        }
-    
-        public int IdStudent { get; set; }
-        public string Names { get; set; }
-        public string Surnames { get; set; }
-        public int DocumentTypeId { get; set; }
-        public int CourseId { get; set; }
-        public string Document { get; set; }
-        public string ParentId { get; set; }
-        public bool Assistance { get; set; }
+        public int IdAssistance { get; set; }
+        public string IdTeacher { get; set; }
+        public System.DateTime Date { get; set; }
+        public int IdCourse { get; set; }
+        public int IdSubject { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Courses Courses { get; set; }
-        public virtual DocumentType DocumentType { get; set; }
-        public virtual ICollection<Lacks> Lacks { get; set; }
+        public virtual Subjects Subjects { get; set; }
     }
 }

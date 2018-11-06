@@ -14,7 +14,16 @@ namespace CapaDominio
     
     public partial class Subjects
     {
+        public Subjects()
+        {
+            this.Assistances = new HashSet<Assistances>();
+            this.Lacks = new HashSet<Lacks>();
+        }
+    
         public int IdSubjects { get; set; }
         public string name { get; set; }
+    
+        public virtual ICollection<Assistances> Assistances { get; set; }
+        public virtual ICollection<Lacks> Lacks { get; set; }
     }
 }

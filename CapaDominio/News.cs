@@ -11,29 +11,15 @@ namespace CapaDominio
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-
+    
     public partial class News
     {
-        [Display(Name = "Codigo Novedad")]
         public int IdNews { get; set; }
-        [Required]
-        [Display(Name = "Descripción")]
         public string Description { get; set; }
-        [Display(Name = "Fecha noticia")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Date { get; set; }
-        [Required]
-        [Display(Name = "Activo")]
         public bool Active { get; set; }
-        [Required]
-        [Display(Name = "Docente")]
         public string Id { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
-
-
     }
 }
