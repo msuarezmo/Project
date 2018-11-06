@@ -5,118 +5,126 @@
     ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (User.IsInRole("Administrador"))
+{
+    <div class="titleform">
+        <h2>Usuarios</h2>
+        <a data-modal='' href="@Url.Action("Register", "Account")" title="Crear">
+            <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo Usuario">
+        </a>
+    </div>
+    <div class="modal fade" data-keyboard="false" id="UsersModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id='myModalContent'>
+                        <div class="form-group">
 
-<div class="titleform">
-    <h2>Usuarios</h2>
-    <a data-modal='' href="@Url.Action("Register", "Account")" title="Crear">
-        <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo Usuario">
-    </a>
-</div>
-<div class="modal fade" data-keyboard="false" id="UsersModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div id='myModalContent'>
-                    <div class="form-group">
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12">
-        @using (Html.BeginForm("Index", "Users", FormMethod.Post))
-        {
-            <table class="table" border="0" style="width:auto">
-                <tr>
-                    <th>
-                        <label style="align-content:center">Nombre</label>
-                    </th>
-                    <th>
-                        <label style="align-content:center">Rol</label>
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
-                    </td>
-                    <td>
-                        @Html.DropDownList("rol", null, "Seleccione", htmlAttributes: new { @id = "rol", @class = "form-control" })
-                    </td>
-                    <td>
-                        <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
-                    </td>
-                </tr>
-            </table>
-        }
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Usuario
-                </th>
-
-                <th>
-                    Nombre Completo
-                </th>
-                <th>
-                    Tipo Documento
-                </th>
-                <th>
-                    Documento
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            @using (Html.BeginForm("Index", "Users", FormMethod.Post))
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
+                <table class="table" border="0" style="width:auto">
+                    <tr>
+                        <th>
+                            <label style="align-content:center">Nombre</label>
+                        </th>
+                        <th>
+                            <label style="align-content:center">Rol</label>
+                        </th>
+                        <th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentType1.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Document)
-                </td>
-                <td>
-                    <a data-modal='' href="@Url.Action("Edit", "Users", new { id = item.Id })" data-id="@item.Id" id="@item.Id" title="Editar">
-                        <input type="submit" class="btn btn-primary" value="Editar">
-                    </a>
-                    <a data-modal='' href="@Url.Action("Delete", "Users", new { id = item.Id})" data-id="@item.Id" id="@item.Id" title="Eliminar">
-                        <input type="submit" class="btn btn-danger" value="Eliminar">
-                    </a>
-                </td>
-            </tr>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("rol", null, "Seleccione", htmlAttributes: new { @id = "rol", @class = "form-control" })
+                        </td>
+                        <td>
+                            <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
+                        </td>
+                    </tr>
+                </table>
             }
-        </table>
-        <br />
-        <center>
-            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Index",
-                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-        </center>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Usuario
+                    </th>
+
+                    <th>
+                        Nombre Completo
+                    </th>
+                    <th>
+                        Tipo Documento
+                    </th>
+                    <th>
+                        Documento
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentType1.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Document)
+                        </td>
+                        <td>
+                            <a data-modal='' href="@Url.Action("Edit", "Users", new { id = item.Id })" data-id="@item.Id" id="@item.Id" title="Editar">
+                                <input type="submit" class="btn btn-primary" value="Editar">
+                            </a>
+                            <a data-modal='' href="@Url.Action("Delete", "Users", new { id = item.Id})" data-id="@item.Id" id="@item.Id" title="Eliminar">
+                                <input type="submit" class="btn btn-danger" value="Eliminar">
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+            <center>
+                Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </center>
+        </div>
+    </div>
+}
+else
+{
+    <h2 style="color:red">No tiene acceso a este modulo</h2>
+}
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/Users")
 }

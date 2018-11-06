@@ -27,13 +27,20 @@
                                 @Html.ActionLink("Software Para Colegios", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                             }
                             <div id="navcollapsetop" class="collapse navbar-collapse">
-                                @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
+                                @if (User.IsInRole("Administrador"))
                                 {
                                     <ul class="nav navbar-nav">
                                         <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
                                         <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
                                         <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
                                         <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
+                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                    </ul>
+                                }
+                                @if (User.IsInRole("Docente"))
+                                {
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
                                     </ul>
                                 }
                                 <ul class="nav navbar-nav navbar-right">

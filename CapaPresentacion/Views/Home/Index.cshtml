@@ -8,8 +8,6 @@
     <center><h1>LA PALESTINA</h1></center>
     @*<p class="lead">Agregar Cursos, agregar materias, asignar roles</p>*@
 </div>
-@if (Request.IsAuthenticated && User.IsInRole("Administrador"))
-{
 <div class="col-xs-12 col-md-12 col-lg-12">
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12">
@@ -68,8 +66,6 @@
             </div>
         </div>
 </div>
-    
-}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jquery")

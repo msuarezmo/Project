@@ -194,15 +194,13 @@ namespace CapaPresentacion.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+                        foreach (var role in model.Roles)
+                        {
+                            UserManager.AddToRole(user.Id, role);
+                        }
                         string fullName = string.Format("{0}{1}{2}{3}", model.FirstName + " ", model.SecondName + " ", model.Surname + " ", model.SecondSurname);
                         AspNetUsers registerUser = validationsUser.SearchByEmail(model.Email);
-
-                        List<string> roles = new List<string>();
-                        foreach (var item in userContext.Roles.ToList())
-                        {
-                            roles.Add(item.Name);
-                        }
-                        model.Roles = roles.ToArray();
 
                         if (validateDocument == true)
                         {

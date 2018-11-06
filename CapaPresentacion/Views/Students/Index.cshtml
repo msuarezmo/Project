@@ -5,123 +5,129 @@
     ViewBag.Title = "Estudiantes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="titleform">
-    <h2>Estudiantes</h2>
-    <a data-modal='' href="@Url.Action("Create", "Students")" title="Crear">
-        <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo Estudiante">
-    </a>
-</div>
-<br /><br />
-<div class="modal fade" data-keyboard="false" id="StudentsModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div id='myModalContent'>
-                    <div class="form-group">
+@if (User.IsInRole("Administrador"))
+{
+    <div class="titleform">
+        <h2>Estudiantes</h2>
+        <a data-modal='' href="@Url.Action("Create", "Students")" title="Crear">
+            <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo Estudiante">
+        </a>
+    </div>
+    <br /><br />
+    <div class="modal fade" data-keyboard="false" id="StudentsModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id='myModalContent'>
+                        <div class="form-group">
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12">
-        @using (Html.BeginForm("Index", "Students", FormMethod.Post))
-        {
-            <table class="table" border="0" style="width:auto">
-                <tr>
-                    <th>
-                        <label style="align-content:center">Nombre o apellido</label>
-                    </th>
-                    <th>
-                        <label style="align-content:center">Curso</label>
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
-                    </td>
-                    <td>
-                        @Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @id = "courseId", @class = "form-control" })
-                    </td>
-                    <td>
-                        <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
-                    </td>
-                </tr>
-            </table>
-        }
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-12">
-        <table class="table" id="tableStudents">
-            <tr>
-                <th>
-                    Nombres
-                </th>
-                <th>
-                    Apellidos
-                </th>
-                <th>
-                    Acudiente
-                </th>
-                <th>
-                    Curso
-                </th>
-                <th>
-                    Tipo documento
-                </th>
-                <th>
-                    Documento
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            @using (Html.BeginForm("Index", "Students", FormMethod.Post))
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Names)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surnames)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Courses.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Document)
-                </td>
-                <td>
-                    <a data-modal='' href="@Url.Action("Edit", "Students", new { id = item.IdStudent })" data-id="@item.IdStudent" id="@item.IdStudent " title="Editar">
-                        <input type="submit" class="btn btn-primary" value="Editar">
-                    </a>
-                    <a data-modal='' href="@Url.Action("Delete", "Students", new { id = item.IdStudent })" data-id="@item.IdStudent" id="@item.IdStudent " title="Eliminar">
-                        <input type="submit" class="btn btn-danger" value="Eliminar">
-                    </a>
-                </td>
-            </tr>
-            }
-        </table>
-        <br />
-        <center>
-            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Index",
-                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-        </center>
-    </div>
-</div>
+                <table class="table" border="0" style="width:auto">
+                    <tr>
+                        <th>
+                            <label style="align-content:center">Nombre o apellido</label>
+                        </th>
+                        <th>
+                            <label style="align-content:center">Curso</label>
+                        </th>
+                        <th>
 
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("CourseId", null, "Seleccione", htmlAttributes: new { @id = "courseId", @class = "form-control" })
+                        </td>
+                        <td>
+                            <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <table class="table" id="tableStudents">
+                <tr>
+                    <th>
+                        Nombres
+                    </th>
+                    <th>
+                        Apellidos
+                    </th>
+                    <th>
+                        Acudiente
+                    </th>
+                    <th>
+                        Curso
+                    </th>
+                    <th>
+                        Tipo documento
+                    </th>
+                    <th>
+                        Documento
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Names)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surnames)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Courses.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Document)
+                        </td>
+                        <td>
+                            <a data-modal='' href="@Url.Action("Edit", "Students", new { id = item.IdStudent })" data-id="@item.IdStudent" id="@item.IdStudent " title="Editar">
+                                <input type="submit" class="btn btn-primary" value="Editar">
+                            </a>
+                            <a data-modal='' href="@Url.Action("Delete", "Students", new { id = item.IdStudent })" data-id="@item.IdStudent" id="@item.IdStudent " title="Eliminar">
+                                <input type="submit" class="btn btn-danger" value="Eliminar">
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+            <center>
+                Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+      new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </center>
+        </div>
+    </div>
+}
+else
+{
+    <h2 style="color:red">No tiene acceso a este modulo</h2>
+}
 @section Scripts {
     @Scripts.Render("~/bundles/students")
 }
