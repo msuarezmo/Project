@@ -8,12 +8,26 @@
 
 <div class="titleform">
     <h2>Usuarios</h2>
-    <button id="BtnCreateUser" class="btn btn-primary" style="float:right;">Nuevo usuario</button>
+    <a data-modal='' href="@Url.Action("Register", "Account")" title="Crear">
+        <input type="submit" class="btn btn-primary" style="float:right;" value="Nuevo Usuario">
+    </a>
 </div>
-<br /><br />
+<div class="modal fade" data-keyboard="false" id="UsersModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id='myModalContent'>
+                    <div class="form-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        @using (Html.BeginForm("Index", "AspNetUsers", FormMethod.Post))
+        @using (Html.BeginForm("Index", "Users", FormMethod.Post))
         {
             <table class="table" border="0" style="width:auto">
                 <tr>
@@ -67,35 +81,40 @@
 
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DocumentType1.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Document)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentType1.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document)
+                </td>
+                <td>
+                    <a data-modal='' href="@Url.Action("Edit", "Users", new { id = item.Id })" data-id="@item.Id" id="@item.Id" title="Editar">
+                        <input type="submit" class="btn btn-primary" value="Editar">
+                    </a>
+                    <a data-modal='' href="@Url.Action("Delete", "Users", new { id = item.Id})" data-id="@item.Id" id="@item.Id" title="Eliminar">
+                        <input type="submit" class="btn btn-danger" value="Eliminar">
+                    </a>
+                </td>
+            </tr>
             }
         </table>
         <br />
-        Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        <center>
+            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </center>
     </div>
 </div>
 @section Scripts {

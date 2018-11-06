@@ -9,6 +9,7 @@ namespace CapaNegocio.Validations
     using CapaDominio;
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
 
     /// <summary>
@@ -129,6 +130,80 @@ namespace CapaNegocio.Validations
             catch (Exception)
             {
                 return null;
+            }
+        }
+        /// <summary>
+        /// Valida que el numero de documento y el tipo de documento no coindican con otro usuario, si no inserta en bd
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool? ValidateDocument(int? documentType, string document)
+        {
+            try
+            {
+                var query = db.AspNetUsers;
+                int total = query.Where(x => x.Document == document && x.DocumentType == documentType).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public AspNetUsers SearchByEmail(string email)
+        {
+            try
+            {
+                return db.AspNetUsers.Where(x => x.Email == email).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+         /// <summary>
+        /// Valida que el correo ingresado, no se encuentre vinculado a otro usuario
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool? ValidateEmail(string email)
+        {
+            try
+            {
+                var query = db.AspNetUsers;
+                int total = query.Where(x => x.Email == email).Count();
+                if (total > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public bool SaveUser(AspNetUsers registerUser)
+        {
+            try
+            {
+                db.Entry(registerUser).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
     }

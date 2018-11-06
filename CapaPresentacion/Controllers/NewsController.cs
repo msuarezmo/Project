@@ -14,10 +14,9 @@ namespace CapaPresentacion.Controllers
         private ValidationsNews validationsNews = new ValidationsNews();
         private ValidationsUser validationUser = new ValidationsUser();
 
-        [HttpGet]
         public ActionResult Index()
         {
-            var listNews = validationsNews.listNews();
+            var listNews = validationsNews.GetAllNews();
             return View(listNews);
         }
 
@@ -40,7 +39,7 @@ namespace CapaPresentacion.Controllers
         {
             try
             {
-                bool? validation = validationsNews.createNews(news);
+                bool? validation = validationsNews.CreateNews(news);
                 switch (validation)
                 {
                     case true:

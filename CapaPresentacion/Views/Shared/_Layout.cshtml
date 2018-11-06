@@ -30,7 +30,7 @@
                                 @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
                                 {
                                     <ul class="nav navbar-nav">
-                                        <li>@Html.ActionLink("Usuarios", "Index", "AspNetUsers")</li>
+                                        <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
                                         <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
                                         <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
                                         <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>

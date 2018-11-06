@@ -13,7 +13,7 @@ namespace CapaPresentacion
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
-
+            //USUARIOS
             bundles.Add(new ScriptBundle("~/bundles/users").Include(
                        "~/scripts/Users.js"));
             //CURSOS

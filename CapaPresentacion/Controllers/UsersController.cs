@@ -13,7 +13,7 @@ using PagedList.Mvc;
 
 namespace CapaPresentacion.Controllers
 {
-    public class AspNetUsersController : Controller
+    public class UsersController : Controller
     {
         private ValidationsUser validationsUser = new ValidationsUser();
         private ValidationsRol validationsRol = new ValidationsRol();
@@ -92,7 +92,7 @@ namespace CapaPresentacion.Controllers
             }
             var documentos = validationsDocumenType.GetAllDocumentTypes();
             ViewBag.DocumentType = new SelectList(documentos, "Id", "Name", aspNetUsers.DocumentType);
-            return View(aspNetUsers);
+            return PartialView(aspNetUsers);
         }
 
         // POST: AspNetUsers/Edit/5
@@ -124,7 +124,7 @@ namespace CapaPresentacion.Controllers
             {
                 return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return PartialView(aspNetUsers);
         }
 
         // POST: AspNetUsers/Delete/5
@@ -132,10 +132,18 @@ namespace CapaPresentacion.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            //AspNetUsers aspNetUsers = db.AspNetUsers.Find(id);
-            //db.AspNetUsers.Remove(aspNetUsers);
-            //db.SaveChanges();
-            return RedirectToAction("Index");
+            bool validation = validationsUser.DeleteUser(id);
+            if (validation)
+            {
+                return JavaScript("$('#UsersModal').modal('hide');" +
+                           "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                           "toastr.success('Usuario eliminado correctamente!');");
+            }
+            else
+            {
+                return JavaScript("$('#UsersModal').modal('hide');" +
+                       "toastr.error('Error al eliminar usuarios');");
+            }
         }
 
         protected override void Dispose(bool disposing)

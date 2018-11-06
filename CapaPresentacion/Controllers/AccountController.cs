@@ -12,6 +12,7 @@ using CapaPresentacion.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using CapaNegocio.Validations;
+using CapaDominio;
 
 namespace CapaPresentacion.Controllers
 {
@@ -20,6 +21,7 @@ namespace CapaPresentacion.Controllers
     {
         private ApplicationDbContext userContext = new ApplicationDbContext();
         private ValidationsDocumenType validationsDocumentType = new ValidationsDocumenType();
+        private ValidationsUser validationsUser = new ValidationsUser();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -155,7 +157,7 @@ namespace CapaPresentacion.Controllers
                 roles.Add(item.Name);
             }
             model.Roles = roles.ToArray();
-            return View(model);
+            return PartialView(model);
         }
 
         //
@@ -168,7 +170,7 @@ namespace CapaPresentacion.Controllers
             model.Password = model.Document;
             model.ConfirmPassword = model.Document;
             var documentos = validationsDocumentType.GetAllDocumentTypes();
-            ViewBag.DocumentType = new SelectList(documentos, "Id", "Name",model.DocumentType);
+            ViewBag.DocumentType = new SelectList(documentos, "Id", "Name", model.DocumentType);
             if (ModelState.IsValid)
             {
                 if (model.Roles == null || model.Roles.Count() == 0)
@@ -180,59 +182,107 @@ namespace CapaPresentacion.Controllers
                     }
                     model.Roles = roles.ToArray();
                     ModelState.AddModelError("Roles", "Debe seleccionar almenos 1 rol");
-                    return View(model);
+                    return PartialView(model);
                 }
                 int documentLength = model.Document.Length;
-                string username = string.Format("{0}{1}{2}", model.FirstName[0],model.Surname,model.Document.Substring(documentLength - 4));
-                var user = new ApplicationUser { UserName = username, Email = model.Email};
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                string username = string.Format("{0}{1}{2}", model.FirstName[0], model.Surname, model.Document.Substring(documentLength - 4));
+                bool? validateDocument = validationsUser.ValidateDocument(model.DocumentType, model.Document);
+                bool? validateEmail = validationsUser.ValidateEmail(model.Email);
+                if (validateDocument == true && validateEmail == true)
                 {
-                    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
-                    foreach (var role in model.Roles)
+                    var user = new ApplicationUser { UserName = username, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        UserManager.AddToRole(user.Id, role);
-                    }
-                    string fullName = string.Format("{0}{1}{2}{3}", model.FirstName+" ", model.SecondName + " ", model.Surname+" ", model.SecondSurname);
-                    //var registerUser = col.AspNetUsers.FirstOrDefault(p => p.Email == model.Email);
-                    //registerUser.FirstName = model.FirstName;
-                    //registerUser.SecondName = model.SecondName;
-                    //registerUser.Surname = model.Surname;
-                    //registerUser.SecondSurname = model.SecondSurname;
-                    //registerUser.FullName = fullName;
-                    //registerUser.Document = model.Document;
-                    //registerUser.DocumentType = model.DocumentType;
-                    //col.SaveChanges();
+                        string fullName = string.Format("{0}{1}{2}{3}", model.FirstName + " ", model.SecondName + " ", model.Surname + " ", model.SecondSurname);
+                        AspNetUsers registerUser = validationsUser.SearchByEmail(model.Email);
 
-                    //Código usado para crear roles
+                        List<string> roles = new List<string>();
+                        foreach (var item in userContext.Roles.ToList())
+                        {
+                            roles.Add(item.Name);
+                        }
+                        model.Roles = roles.ToArray();
+
+                        if (validateDocument == true)
+                        {
+                            registerUser.FirstName = model.FirstName;
+                            registerUser.SecondName = model.SecondName;
+                            registerUser.Surname = model.Surname;
+                            registerUser.SecondSurname = model.SecondSurname;
+                            registerUser.FullName = fullName;
+                            registerUser.Document = model.Document;
+                            registerUser.DocumentType = model.DocumentType;
+                            bool createUser = validationsUser.SaveUser(registerUser);
+                            if (createUser)
+                            {
+                                return JavaScript("$('#UsersModal').modal('hide');" +
+                                    "window.setTimeout(function(){window.location.reload()}, 1500);" +
+                                    "toastr.success('Usuario Creado!');");
+                            }
+                            else
+                            {
+                                return JavaScript("$('#UsersModal').modal('hide');" +
+                                        "toastr.error('Error al Crear usuario');");
+                            }
+                        }
+                        //Código usado para crear roles
                         //using (ApplicationDbContext db = new ApplicationDbContext())
                         //{
 
                         //    var rol = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
                         //    rol.Create(new IdentityRole("Administrador"));
-                        //    rol.Create(new IdentityRole("Alumno"));
                         //    rol.Create(new IdentityRole("Docente"));
                         //    rol.Create(new IdentityRole("Acudiente"));
                         //}
-                    //Hasta aca
-                    
-                    //Cuando se registra ingresa automaticamente
+                        //Hasta aca
+
+                        //Cuando se registra ingresa automaticamente
                         //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    //Hasta aca
+                        //Hasta aca
 
-                    // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Enviar correo electrónico con este vínculo
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
-
-                    return RedirectToAction("Index", "Home");
+                        // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Enviar correo electrónico con este vínculo
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                        AddErrors(result);
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                AddErrors(result);
+                if (validateDocument == false || validateDocument == null)
+                {
+                    List<string> roles = new List<string>();
+                    foreach (var item in userContext.Roles.ToList())
+                    {
+                        roles.Add(item.Name);
+                    }
+                    model.Roles = roles.ToArray();
+                    ModelState.AddModelError("", "Número de documento asignado a otro usuario");
+                    return PartialView(model);
+                }
+                if (validateEmail == false || validateEmail == null)
+                {
+                    List<string> roles = new List<string>();
+                    foreach (var item in userContext.Roles.ToList())
+                    {
+                        roles.Add(item.Name);
+                    }
+                    model.Roles = roles.ToArray();
+                    ModelState.AddModelError("", "Email asignado a otro usuario");
+                    return PartialView(model);
+                }
+
+                List<string> roles2 = new List<string>();
+                foreach (var item in userContext.Roles.ToList())
+                {
+                    roles2.Add(item.Name);
+                }
+                model.Roles = roles2.ToArray();
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            return View(model);
+            return PartialView(model);
         }
 
         //

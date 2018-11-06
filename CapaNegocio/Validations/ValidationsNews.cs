@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="NameOfFile.cs" company="Nelson Perilla">
-//     Company copyright tag.
+// <copyright file="ValidationsNews.cs" company="COEF">
+//    Todos los derechos reservados
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ namespace CapaNegocio.Validations
         /// </summary>
         /// <param name="news">The news<see cref="News"/></param>
         /// <returns>The <see cref="bool?"/></returns>
-        public bool? createNews(News news)
+        public bool? CreateNews(News news)
         {
             try
             {
@@ -33,15 +33,6 @@ namespace CapaNegocio.Validations
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// The listNews
-        /// </summary>
-        /// <returns>The <see cref="IEnumerable{News}"/></returns>
-        public IEnumerable<News> listNews()
-        {
-            return db.News;
         }
 
         /// <summary>
@@ -65,23 +56,6 @@ namespace CapaNegocio.Validations
         }
 
         /// <summary>
-        /// Busca novedad por id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public News SearchById(int? id)
-        {
-            try
-            {
-                return db.News.Find(id);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// The EditNews
         /// </summary>
         /// <param name="news">The news<see cref="News"/></param>
@@ -95,6 +69,32 @@ namespace CapaNegocio.Validations
                 db.SaveChanges();
                 return true;
 
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Devuelve todas las novedades
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{News}"/></returns>
+        public IEnumerable<News> GetAllNews()
+        {
+            return db.News;
+        }
+
+        /// <summary>
+        /// Busca novedad por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public News SearchById(int? id)
+        {
+            try
+            {
+                return db.News.Find(id);
             }
             catch (Exception ex)
             {

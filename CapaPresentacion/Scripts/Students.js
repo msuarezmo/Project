@@ -14,7 +14,6 @@ $(function () {
 function bindForm(dialog) {
 
     $('form', dialog).submit(function () {
-        $('#progress').show();
         $.ajax({
             url: this.action,
             type: this.method,

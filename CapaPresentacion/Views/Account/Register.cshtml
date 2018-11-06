@@ -11,16 +11,16 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     @*<div class="form-group">
-        @Html.LabelFor(model => model.Roles, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Roles", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
-            @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.Roles, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Roles", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
     <div class="form-group">
         @Html.LabelFor(m => m.FirstName, "Primer Nombre", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @required = "required" , autocomplete = "off" })
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @required = "required", autocomplete = "off" })
         </div>
     </div>
     <div class="form-group">
@@ -32,7 +32,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Surname, "Primer Apellido", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", @required = "required" , autocomplete = "off" })
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", @required = "required", autocomplete = "off" })
         </div>
     </div>
     <div class="form-group">
@@ -58,7 +58,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", autocomplete = "off" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", autocomplete = "off", @required = "required",type="email" })
         </div>
     </div>
     <div class="form-group">
@@ -85,11 +85,12 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Registrar" />
+        <div class="col-sm-offset-2 col-sm-10 text-right">
+            <button id="btnCreateUser" type="submit" class="btn btn-primary"><span>Guardar</span></button>
+            <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
         </div>
     </div>
 }
 @section scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryval")
 }
