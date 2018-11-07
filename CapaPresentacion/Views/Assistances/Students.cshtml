@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CapaDominio.Students>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Estudiantes";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <table class="table" id="tableStudents">
+            <tr>
+                <th>
+                    Nombres
+                </th>
+                <th>
+                    Apellidos
+                </th>
+                <th>
+                    Acudiente
+                </th>
+                <th>
+                    Asistencia
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Names)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surnames)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+                    </td>
+                    <td>
+                        @Html.CheckBox("chkSol" + item.IdStudent.ToString(), false, new { @id = "chkSol" + item.IdStudent.ToString(), @onclick = "checkboxcheck('" + item.IdStudent + "')" })
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" onclick="SaveAssistances(this)" class="btn btn-primary"value="Guardar">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

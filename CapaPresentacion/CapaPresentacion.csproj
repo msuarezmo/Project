@@ -203,6 +203,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AssistancesController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Resources\css\Index.css" />
     <Content Include="Resources\css\Login.css" />
+    <Content Include="Scripts\Assistances.js" />
     <Content Include="Scripts\Courses.js" />
     <Content Include="Scripts\News.js" />
     <Content Include="Scripts\Students.js" />
@@ -412,6 +414,12 @@
     <Content Include="Views\News\SendNew.cshtml" />
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\IndexParent.cshtml" />
+    <Content Include="Views\Assistances\Create.cshtml" />
+    <Content Include="Views\Assistances\Delete.cshtml" />
+    <Content Include="Views\Assistances\Details.cshtml" />
+    <Content Include="Views\Assistances\Edit.cshtml" />
+    <Content Include="Views\Assistances\Index.cshtml" />
+    <Content Include="Views\Assistances\Students.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

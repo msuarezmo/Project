@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CapaDominio;
 using CapaNegocio;
-using CapaNegocio.Email;
 using CapaNegocio.Validations;
-using CapaPresentacion.Models;
 using PagedList;
-using PagedList.Mvc;
 
 namespace CapaPresentacion.Controllers
 {
@@ -28,8 +22,8 @@ namespace CapaPresentacion.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            var acudientes = validationUser.GetAllParents();
-            ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName");
+            var teachers = validationUser.GetAllTeachers();
+            ViewBag.IdTeacher = new SelectList(teachers, "Id", "FullName");
 
             if (searchString != null)
             {

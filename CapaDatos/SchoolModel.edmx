@@ -82,6 +82,7 @@
           <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IdCourse" Type="int" Nullable="false" />
           <Property Name="IdSubject" Type="int" Nullable="false" />
+          <Property Name="IdStudent" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Courses">
           <Key>
@@ -240,6 +241,18 @@
             </Principal>
             <Dependent Role="Assistances">
               <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assistances_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdStudent" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -473,6 +486,10 @@
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Assistances" EntitySet="Assistances" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Students" Association="Self.FK_Assistances_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
           <AssociationSet Name="FK_Assistances_Subjects" Association="Self.FK_Assistances_Subjects">
             <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Assistances" EntitySet="Assistances" />
@@ -622,8 +639,10 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IdCourse" Type="Int32" Nullable="false" />
           <Property Name="IdSubject" Type="Int32" Nullable="false" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Assistances_AspNetUsers" FromRole="Assistances" ToRole="AspNetUsers" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Assistances_Courses" FromRole="Assistances" ToRole="Courses" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Assistances_Students" FromRole="Assistances" ToRole="Students" />
           <NavigationProperty Name="Subjects" Relationship="Self.FK_Assistances_Subjects" FromRole="Assistances" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="Courses">
@@ -724,6 +743,7 @@
           <Property Name="ParentId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Assistance" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Students_AspNetUsers" FromRole="Students" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_Students" FromRole="Students" ToRole="Assistances" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Students_Courses" FromRole="Students" ToRole="Courses" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_Students_DocumentType" FromRole="Students" ToRole="DocumentType" />
           <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Students" FromRole="Students" ToRole="Lacks" />
@@ -873,6 +893,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Assistances_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Assistances">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Assistances_Subjects">
           <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
           <End Role="Assistances" Type="Self.Assistances" Multiplicity="*" />
@@ -973,7 +1005,7 @@
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="colegioEntities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="colegioEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
@@ -1034,6 +1066,10 @@
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Assistances" EntitySet="Assistances" />
           </AssociationSet>
+          <AssociationSet Name="FK_Assistances_Students" Association="Self.FK_Assistances_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Assistances" EntitySet="Assistances" />
+          </AssociationSet>
           <AssociationSet Name="FK_Assistances_Subjects" Association="Self.FK_Assistances_Subjects">
             <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Assistances" EntitySet="Assistances" />
@@ -1076,7 +1112,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities2">
+        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities1">
           <EntitySetMapping Name="Appointment">
             <EntityTypeMapping TypeName="colegioModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
@@ -1148,6 +1184,7 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
                 <ScalarProperty Name="IdSubject" ColumnName="IdSubject" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -40,6 +40,7 @@
                                 @if (User.IsInRole("Docente"))
                                 {
                                     <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Asistencia", "Index", "Assistances")</li>
                                         <li>@Html.ActionLink("Novedades", "Index", "News")</li>
                                     </ul>
                                 }

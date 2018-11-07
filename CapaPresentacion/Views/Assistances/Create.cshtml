@@ -1,0 +1,75 @@
+﻿@model CapaDominio.Assistances
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Llamar lista</h2>
+
+
+@using (Html.BeginForm(new {id ="AssistanceForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdTeacher, "Docente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdTeacher", null, htmlAttributes: new { @class = "form-control", @required = "required", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.IdTeacher, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, "Fecha", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", type = "date", Value = ViewBag.Today, @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdCourse, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdCourse", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.IdCourse, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdSubject, "Materia", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdSubject", null, "Seleccione", htmlAttributes: new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.IdSubject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="callStudents" class="btn btn-primary" value="Buscar Estudiantes" />
+        </div>
+    </div>
+}
+<br /><br />
+<div class="row">
+    <div class="col-lg-12">
+        <section class="widget">
+            <header></header>
+            <div class="widget-body">
+                <form class="form-horizontal" role="form">
+                    <fieldset>
+                        <div class="widget-body" id="divConsulta">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/assistances")
+}
+
+

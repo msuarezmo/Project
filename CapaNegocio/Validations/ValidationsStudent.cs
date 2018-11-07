@@ -125,5 +125,46 @@ namespace CapaNegocio
                 return null;
             }
         }
+
+        public List<Students> GetStudensById(List<int> ids)
+        {
+            try
+            {
+                List<Students> students = new List<Students>();
+                foreach (var id in ids)
+                {
+                    Students student = new Students();
+                    student = SearchById(id);
+                    if (student != null)
+                    {
+                        students.Add(student);
+                    }
+                }
+                return students;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<Students> GetStudensByCourse(int idCourse)
+        {
+            try
+            {
+                var students = db.Students.Where(x => x.CourseId == idCourse).ToList();
+                List<Students> filter = new List<Students>();
+                foreach (var student in students)
+                {
+                    student.Assistance = true;
+                    filter.Add(student);
+                }
+                return filter;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }
