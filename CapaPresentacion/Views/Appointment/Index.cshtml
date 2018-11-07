@@ -2,8 +2,9 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Chat Institucional</h2>
+@Styles.Render("~/Content/Appointment")
+@Styles.Render("~/Content/css")
+<h2> Chat Institucional</h2>
 <br>
 <div class="container">
     <div class="row">
@@ -29,28 +30,28 @@
     <script src="/signalr/hubs"></script>
 
     <script type="text/javascript">
-            $(function () {
-                var chat = $.connection.chatHub;
-                chat.client.sendChat = function (name, message) {
-                    var divName = $("<div/>").text(name).html();
-                    var divMessage = $("<div/>").text(message).html();
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.sendChat = function (name, message) {
+                var divName = $("<div/>").text(name).html();
+                var divMessage = $("<div/>").text(message).html();
 
-                    $("#discussion").append("<li><strong>" + divName + "<strong>" + divMessage + "</li>");
-                };
+                $("#discussion").append("<li><strong>" + divName + "<strong>" + divMessage + "</li>");
+            };
 
-                var nameOwner = prompt("Escribe tu nombre: ", "");
-                $("#displayname").val(nameOwner);
-                $("#message").focus();
-                $.connection.hub.start().done(function () {
-                    $("#sendmessage").click(function () {
-                        var nameOwner = $("#displayname").val();
-                        var messageText = $("#message").val();
+            var nameOwner = prompt("Escribe tu nombre: ", "");
+            $("#displayname").val(nameOwner + ":  ");
+            $("#message").focus();
+            $.connection.hub.start().done(function () {
+                $("#sendmessage").click(function () {
+                    var nameOwner = $("#displayname").val();
+                    var messageText = $("#message").val();
 
-                        chat.server.send(nameOwner, messageText);
+                    chat.server.send(nameOwner, messageText);
 
-                        $("#message").val("").focus();
-                    })
+                    $("#message").val("").focus();
                 })
             })
+        })
     </script>
 }
