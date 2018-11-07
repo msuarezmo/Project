@@ -40,12 +40,17 @@
                                 }
                                 @if (User.IsInRole("Docente"))
                                 {
+<<<<<<< HEAD
                                     <ul class="nav navbar-nav">
                                         <li>@Html.ActionLink("Asistencia", "Index", "Assistances")</li>
-                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
                                         <li>@Html.ActionLink("Novedades", "Index", "News")</li>
                                     </ul>
-
+=======
+                                <ul class="nav navbar-nav">
+                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                    <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                </ul>
+>>>>>>> origin/master
                                 }
                                 @if (User.IsInRole("Acudiente"))
                                 {
