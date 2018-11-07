@@ -1,0 +1,53 @@
+﻿@model CapaDominio.News
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        
+        <dt>
+            Descripción
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            Curso
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCourse)
+        </dd>
+
+        <dt>
+            Creada por
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            Último envío
+        </dt>
+
+        <dd>
+            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.LastSend))
+        </dd>
+
+    </dl>
+</div>
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10 text-right">
+            <button type="button" data-dismiss="modal" class="btn btn-danger">Cerrar</button>
+        </div>
+    </div>
+</div>
+

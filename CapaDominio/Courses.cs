@@ -18,6 +18,7 @@ namespace CapaDominio
         {
             this.Assistances = new HashSet<Assistances>();
             this.Lacks = new HashSet<Lacks>();
+            this.News = new HashSet<News>();
             this.Students = new HashSet<Students>();
         }
     
@@ -29,6 +30,7 @@ namespace CapaDominio
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual ICollection<Assistances> Assistances { get; set; }
         public virtual ICollection<Lacks> Lacks { get; set; }
+        public virtual ICollection<News> News { get; set; }
         public virtual ICollection<Students> Students { get; set; }
     }
 }

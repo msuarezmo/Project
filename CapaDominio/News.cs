@@ -16,10 +16,10 @@ namespace CapaDominio
     {
         public int IdNews { get; set; }
         public string Description { get; set; }
-        public System.DateTime Date { get; set; }
-        public bool Active { get; set; }
-        public string Id { get; set; }
+        public Nullable<int> IdCourse { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> LastSend { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Courses Courses { get; set; }
     }
 }

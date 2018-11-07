@@ -43,6 +43,12 @@
                                         <li>@Html.ActionLink("Novedades", "Index", "News")</li>
                                     </ul>
                                 }
+                                @if (User.IsInRole("Acudiente"))
+                                {
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Novedades", "IndexParent", "News")</li>
+                                    </ul>
+                                }
                                 <ul class="nav navbar-nav navbar-right">
                                     @Html.Partial("_LoginPartial")
                                 </ul>

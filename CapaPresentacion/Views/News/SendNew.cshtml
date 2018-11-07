@@ -1,0 +1,21 @@
+﻿@model CapaDominio.News
+
+@{
+    ViewBag.Title = "Send";
+}
+
+<h3>¿Desea envíar esta novedad?</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 text-right">
+                <button id="btnSendNew" type="submit" class="btn btn-primary"><span>Aceptar</span></button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+

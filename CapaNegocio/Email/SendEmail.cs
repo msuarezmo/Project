@@ -10,32 +10,56 @@ namespace CapaNegocio.Email
     using SendGrid;
     using SendGrid.Helpers.Mail;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Defines the <see cref="SendEmail" />
     /// </summary>
     public class SendEmail
     {
+        private ValidationsCourse validationsCourse = new ValidationsCourse();
         /// <summary>
         /// The SendMassive
         /// </summary>
-        public void SendMassive()
+        public void SendMassive(List<AspNetUsers> users, News news)
         {
             try
             {
                 var apiKey = Environment.GetEnvironmentVariable("ClaveCG");
                 SendGridClient client = new SendGridClient(apiKey);
-                var msg = new SendGridMessage()
+                if (news.IdCourse != null)
                 {
-                    From = new EmailAddress("cgonzalezvarela10@gmail.com", "COEF"),
-                    Subject = "Novedad",
-                    PlainTextContent = "Test cg",
-                    HtmlContent = "<strong>Ejemplo de una novedad</strong>"
-                };
-                msg.AddTo(new EmailAddress("msuarezmo@uninpahu.edu.co", "Maria Suarez"));
-                msg.AddTo(new EmailAddress("cgonzalezva@uninpahu.edu.co", "Cristian Gonzalez"));
-                msg.AddTo(new EmailAddress("nperillaro@uninpahu.edu.co", "Nelson perilla"));
-                client.SendEmailAsync(msg);
+                    var course = validationsCourse.SearchById(news.IdCourse);
+                    var msgTeacher = new SendGridMessage()
+                    {
+                        From = new EmailAddress("cgonzalezvarela10@gmail.com", "COEF"),
+                        Subject = "Novedad",
+                        PlainTextContent = "",
+                        HtmlContent = "<strong>Esta novedad aplica para acudientes que tengan matriculados hij@s en el curso " + course.Description + " </strong>" +
+                        "<br/> <br/> <p>" + news.Description + "</p>"
+                    };
+                    foreach (var user in users)
+                    {
+                        msgTeacher.AddTo(new EmailAddress(user.Email, user.FullName));
+                    }
+                    client.SendEmailAsync(msgTeacher);
+                }
+                else
+                {
+                    var msgAdmin = new SendGridMessage()
+                    {
+                        From = new EmailAddress("cgonzalezvarela10@gmail.com", "COEF"),
+                        Subject = "Novedad",
+                        PlainTextContent = "",
+                        HtmlContent = "<p>" + news.Description + "</p>"
+                    };
+                    foreach (var user in users)
+                    {
+                        msgAdmin.AddTo(new EmailAddress(user.Email, user.FullName));
+                    }
+                    client.SendEmailAsync(msgAdmin);
+                }
             }
             catch (Exception)
             {
@@ -58,8 +82,8 @@ namespace CapaNegocio.Email
                     "<p> <strong>A sido registrado con éxito en la plataforma COEF</strong><br/>" +
                     "Ingrese a traves del siguiente enlace <a href='https://admincolegios.azurewebsites.net/'>COEF </a> <br/>" +
                     "Sus credenciales son: <br/>" +
-                    "Usuario: "+user.UserName+"<br/>"+
-                    "Contraseña: Su documento de identidad"+
+                    "Usuario: " + user.UserName + "<br/>" +
+                    "Contraseña: Su documento de identidad" +
                     "</p>"
                 };
                 msg.AddTo(new EmailAddress(user.Email, user.FullName));

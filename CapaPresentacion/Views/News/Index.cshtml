@@ -25,51 +25,76 @@
 </div>
 <table class="table">
     <tr>
+        @if (User.IsInRole("Administrador"))
+        {
+            <th>
+                Curso
+            </th>
+        }
         <th>
-            @Html.DisplayNameFor(model => model.IdNews)
+            Descripción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Creada por
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            Docente
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
+            Último Envío
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdNews)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            <a data-modal='' href="@Url.Action("Edit", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews " title="Editar">
-                <input type="submit" class="btn btn-primary" value="Editar">
-            </a>
-            <a data-modal='' href="@Url.Action("Delete", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews" title="Eliminar">
-                <input type="submit" class="btn btn-danger" value="Eliminar">
-            </a>
-        </td>
-    </tr>
+        <tr>
+            @if (User.IsInRole("Administrador"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Courses.Description)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.LastSend))
+            </td>
+            <td>
+                @if (User.IsInRole("Administrador") && item.IdCourse == null)
+                {
+                    <a data-modal='' href="@Url.Action("Edit", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews " title="Editar">
+                        <input type="submit" class="btn btn-primary" value="Editar">
+                    </a>
+                }
+                @if (User.IsInRole("Docente") && item.IdCourse != null)
+                {
+                    <a data-modal='' href="@Url.Action("Edit", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews " title="Editar">
+                        <input type="submit" class="btn btn-primary" value="Editar">
+                    </a>
+                }
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a data-modal='' href="@Url.Action("Delete", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews" title="Eliminar">
+                        <input type="submit" class="btn btn-danger" value="Eliminar">
+                    </a>
+                }
+                @if (User.IsInRole("Docente") && item.IdCourse != null)
+                {
+                    <a data-modal='' href="@Url.Action("SendNew", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews" title="Enviar Novedad">
+                        <input type="submit" class="btn btn-info" value="Envíar">
+                    </a>
+                }
+                @if (User.IsInRole("Administrador") && item.IdCourse == null)
+                {
+                    <a data-modal='' href="@Url.Action("SendNew", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews" title="Enviar Novedad">
+                        <input type="submit" class="btn btn-info" value="Envíar">
+                    </a>
+                }
+
+            </td>
+        </tr>
     }
 
 </table>

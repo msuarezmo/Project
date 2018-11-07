@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CapaDominio.News>
+
+<div class="titleform">
+    <h2>Novedades</h2>
+    <br />
+    <br />
+    <div class="modal fade" data-keyboard="false" id="NewsModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id='myModalContent'>
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        @if (User.IsInRole("Administrador"))
+        {
+            <th>
+                Curso
+            </th>
+        }
+        <th>
+            Descripción
+        </th>
+        <th>
+            Creada por
+        </th>
+        <th>
+            Último Envío
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (User.IsInRole("Administrador"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Courses.Description)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.LastSend))
+            </td>
+            <td>
+                <a data-modal='' href="@Url.Action("Details", "News", new { id = item.IdNews })" data-id="@item.IdNews" id="@item.IdNews " title="Editar">
+                    <input type="submit" class="btn btn-primary" value="Detalles">
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/news")
+}
+

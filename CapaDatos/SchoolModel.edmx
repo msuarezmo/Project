@@ -140,9 +140,9 @@
           </Key>
           <Property Name="IdNews" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="Id" Type="nvarchar" MaxLength="128" />
+          <Property Name="IdCourse" Type="int" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastSend" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -383,15 +383,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+        <Association Name="FK_News_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="0..1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
             </Principal>
             <Dependent Role="News">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdCourse" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -517,8 +517,8 @@
             <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Lacks" EntitySet="Lacks" />
           </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_News_Courses" Association="Self.FK_News_Courses">
+            <End Role="Courses" EntitySet="Courses" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
           <AssociationSet Name="FK_Students_AspNetUsers" Association="Self.FK_Students_AspNetUsers">
@@ -610,7 +610,6 @@
           <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_AspNetUsers" FromRole="AspNetUsers" ToRole="Assistances" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Courses_AspNetUsers" FromRole="AspNetUsers" ToRole="Courses" />
           <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_AspNetUsers" FromRole="AspNetUsers" ToRole="Lacks" />
-          <NavigationProperty Name="News" Relationship="Self.FK_News_AspNetUsers" FromRole="AspNetUsers" ToRole="News" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Students_AspNetUsers" FromRole="AspNetUsers" ToRole="Students" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
@@ -638,6 +637,7 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Courses_AspNetUsers" FromRole="Courses" ToRole="AspNetUsers" />
           <NavigationProperty Name="Assistances" Relationship="Self.FK_Assistances_Courses" FromRole="Courses" ToRole="Assistances" />
           <NavigationProperty Name="Lacks" Relationship="Self.FK_Lacks_Courses" FromRole="Courses" ToRole="Lacks" />
+          <NavigationProperty Name="News" Relationship="Self.FK_News_Courses" FromRole="Courses" ToRole="News" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Students_Courses" FromRole="Courses" ToRole="Students" />
         </EntityType>
         <EntityType Name="DocumentType">
@@ -698,10 +698,10 @@
           </Key>
           <Property Name="IdNews" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_News_AspNetUsers" FromRole="News" ToRole="AspNetUsers" />
+          <Property Name="IdCourse" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastSend" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_News_Courses" FromRole="News" ToRole="Courses" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -849,18 +849,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="News" Type="Self.News" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Students_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Students" Type="Self.Students" Multiplicity="*" />
@@ -905,6 +893,18 @@
               <PropertyRef Name="IdCourse" />
             </Principal>
             <Dependent Role="Lacks">
+              <PropertyRef Name="IdCourse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Courses">
+          <End Role="Courses" Type="Self.Courses" Multiplicity="0..1" />
+          <End Role="News" Type="Self.News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="IdCourse" />
+            </Principal>
+            <Dependent Role="News">
               <PropertyRef Name="IdCourse" />
             </Dependent>
           </ReferentialConstraint>
@@ -1026,10 +1026,6 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Lacks" EntitySet="Lacks" />
           </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
           <AssociationSet Name="FK_Students_AspNetUsers" Association="Self.FK_Students_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Students" EntitySet="Students" />
@@ -1045,6 +1041,10 @@
           <AssociationSet Name="FK_Lacks_Courses" Association="Self.FK_Lacks_Courses">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="Lacks" EntitySet="Lacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Courses" Association="Self.FK_News_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="News" EntitySet="News" />
           </AssociationSet>
           <AssociationSet Name="FK_Students_Courses" Association="Self.FK_Students_Courses">
             <End Role="Courses" EntitySet="Courses" />
@@ -1213,9 +1213,9 @@
               <MappingFragment StoreEntitySet="News">
                 <ScalarProperty Name="IdNews" ColumnName="IdNews" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdCourse" ColumnName="IdCourse" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastSend" ColumnName="LastSend" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

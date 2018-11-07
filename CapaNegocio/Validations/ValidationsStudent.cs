@@ -101,7 +101,7 @@ namespace CapaNegocio
         {
             try
             {
-                return db.Students.OrderByDescending(x => x.Names);
+                return db.Students;
             }
             catch (Exception)
             {
