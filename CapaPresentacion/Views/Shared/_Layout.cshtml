@@ -29,19 +29,21 @@
                             <div id="navcollapsetop" class="collapse navbar-collapse">
                                 @if (User.IsInRole("Administrador"))
                                 {
-                                    <ul class="nav navbar-nav">
-                                        <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
-                                        <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
-                                        <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
-                                        <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
-                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
-                                    </ul>
+                                <ul class="nav navbar-nav">
+                                    <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
+                                    <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
+                                    <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
+                                    <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
+                                    <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                </ul>
                                 }
                                 @if (User.IsInRole("Docente"))
                                 {
-                                    <ul class="nav navbar-nav">
-                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
-                                    </ul>
+                                <ul class="nav navbar-nav">
+                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                    <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                </ul>
                                 }
                                 @if (User.IsInRole("Acudiente"))
                                 {
