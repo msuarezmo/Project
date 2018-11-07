@@ -57,8 +57,8 @@ namespace CapaPresentacion.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
-            var acudientes = validationUser.GetAllParents();
-            ViewBag.IdTeacher = new SelectList(acudientes, "Id", "FullName");
+            var docentes = validationUser.GetAllTeachers();
+            ViewBag.IdTeacher = new SelectList(docentes, "Id", "FullName");
             return PartialView();
         }
 

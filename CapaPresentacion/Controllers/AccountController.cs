@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using CapaNegocio.Validations;
 using CapaDominio;
+using CapaNegocio.Email;
 
 namespace CapaPresentacion.Controllers
 {
@@ -22,6 +23,7 @@ namespace CapaPresentacion.Controllers
         private ApplicationDbContext userContext = new ApplicationDbContext();
         private ValidationsDocumenType validationsDocumentType = new ValidationsDocumenType();
         private ValidationsUser validationsUser = new ValidationsUser();
+        private SendEmail sendMail = new SendEmail();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -214,6 +216,7 @@ namespace CapaPresentacion.Controllers
                             bool createUser = validationsUser.SaveUser(registerUser);
                             if (createUser)
                             {
+                                sendMail.PostRegister(registerUser);
                                 return JavaScript("$('#UsersModal').modal('hide');" +
                                     "window.setTimeout(function(){window.location.reload()}, 1500);" +
                                     "toastr.success('Usuario Creado!');");

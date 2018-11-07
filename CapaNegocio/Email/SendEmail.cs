@@ -6,6 +6,7 @@
 
 namespace CapaNegocio.Email
 {
+    using CapaDominio;
     using SendGrid;
     using SendGrid.Helpers.Mail;
     using System;
@@ -38,6 +39,36 @@ namespace CapaNegocio.Email
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public void PostRegister(AspNetUsers user)
+        {
+            try
+            {
+                var apiKey = Environment.GetEnvironmentVariable("ClaveCG");
+                SendGridClient client = new SendGridClient(apiKey);
+                var msg = new SendGridMessage()
+                {
+                    From = new EmailAddress("cgonzalezvarela10@gmail.com", "COEF"),
+                    Subject = "Registro exitoso",
+                    PlainTextContent = "Test cg",
+                    HtmlContent =
+                    "<p> <strong>A sido registrado con éxito en la plataforma COEF</strong><br/>" +
+                    "Ingrese a traves del siguiente enlace <a href='https://admincolegios.azurewebsites.net/'>COEF </a> <br/>" +
+                    "Sus credenciales son: <br/>" +
+                    "Usuario: "+user.UserName+"<br/>"+
+                    "Contraseña: Su documento de identidad"+
+                    "</p>"
+                };
+                msg.AddTo(new EmailAddress(user.Email, user.FullName));
+                client.SendEmailAsync(msg);
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
