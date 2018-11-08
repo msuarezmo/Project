@@ -11,7 +11,6 @@
         <a data-modal='' href="@Url.Action("Create", "Assistances")" title="llamar lista">
             <input type="submit" class="btn btn-primary" style="float:right;" value="Llamar lista">
         </a>
-        
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12">
@@ -20,13 +19,19 @@
                 <table class="table" border="0" style="width:auto">
                     <tr>
                         <th>
-                            <label style="align-content:center">Nombre</label>
+                            <label style="align-content:center">Alumno</label>
                         </th>
                         <th>
                             <label style="align-content:center">Docente</label>
                         </th>
                         <th>
-
+                            <label style="align-content:center">Materia</label>
+                        </th>
+                        <th>
+                            <label style="align-content:center">Fecha inicio</label>
+                        </th>
+                        <th>
+                            <label style="align-content:center">Fecha Fin</label>
                         </th>
                     </tr>
                     <tr>
@@ -35,6 +40,15 @@
                         </td>
                         <td>
                             @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @id = "IdTeacher", @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("IdSubject", null, "Seleccione", htmlAttributes: new { @id = "IdSubject", @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBox("FechaIni", null, new { @class = "form-control", type = "date", id = "FechaIni", Value = ViewBag.FechaIni })
+                        </td>
+                        <td>
+                            @Html.TextBox("FechaFin", null, new { @class = "form-control", type = "date", id = "FechaFin", Value = ViewBag.FechaFin })
                         </td>
                         <td>
                             <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
@@ -49,6 +63,9 @@
             <table class="table" id="tableCourses">
                 <tr>
                     <th>
+                        Fecha
+                    </th>
+                    <th>
                         Docente
                     </th>
                     <th>
@@ -61,27 +78,28 @@
                         Estudiante
                     </th>
                 </tr>
-
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Courses.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Subjects.name)
-                        </td>
-                        <td>
-                            @{
-                                var student = item.Students.Names + " " + item.Students.Surnames;
-                            }
-                            @Html.DisplayFor(modelItem => student)
-                        </td>
-
-                    </tr>
+                <tr>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Courses.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subjects.name)
+                    </td>
+                    <td>
+                        @{
+                            var student = item.Students.Names + " " + item.Students.Surnames;
+                        }
+                        @Html.DisplayFor(modelItem => student)
+                    </td>
+                </tr>
                 }
             </table>
             <br />
@@ -96,7 +114,5 @@
 else
 {
     <h2 style="color:red">No tiene acceso a este modulo</h2>
-}
-@section Scripts {
 }
 

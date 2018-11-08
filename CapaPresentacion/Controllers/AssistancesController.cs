@@ -21,15 +21,30 @@ namespace CapaPresentacion.Controllers
         private ValidationsUser validationUser = new ValidationsUser();
         private Dispose dispose = new Dispose();
         // GET: Assistances
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string IdTeacher)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idTeacher, int? idSubject, DateTime? fechaIni, DateTime? fechaFin)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            var teachers = validationUser.GetAllTeachers();
+            if (fechaIni == null)
+            {
+                TimeSpan time = new TimeSpan(23, 59, 0);
+                var Fecha1 = DateTime.Today;
+                var Fecha2 = Fecha1.AddDays(1);
+                ViewBag.FechaIni = DateTime.Today.ToString("yyyy-MM-dd");
+                ViewBag.FechaFin = Fecha2.ToString("yyyy-MM-dd");
+            }
+            else {
+                var date1 = Convert.ToDateTime(fechaIni).ToString("yyyy-MM-dd");
+                var date2 = Convert.ToDateTime(fechaFin).ToString("yyyy-MM-dd");
+                ViewBag.FechaIni = date1;
+                ViewBag.FechaFin = date2;
+            }
+            var teachers = validationUser.GetAllTeachers().OrderBy(x => x.FullName);
             ViewBag.IdTeacher = new SelectList(teachers, "Id", "FullName");
+            var subjects = validationsSubject.GetAllSubjects().OrderBy(x => x.name);
+            ViewBag.IdSubject = new SelectList(subjects, "IdSubjects", "Name");
             var Asistencias = validationsAssistance.GetAllAsistences();
-
             if (searchString != null)
             {
                 page = 1;
@@ -39,13 +54,21 @@ namespace CapaPresentacion.Controllers
                 searchString = currentFilter;
             }
             ViewBag.CurrentFilter = searchString;
-            //if (!String.IsNullOrEmpty(searchString))
-            //{
-            //    Asistencias = Asistencias.Where(s => s..Contains(searchString)).ToList();
-            //}
-            if (!String.IsNullOrEmpty(IdTeacher))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                Asistencias = Asistencias.Where(x => x.IdTeacher == IdTeacher).ToList(); ;
+                Asistencias = Asistencias.Where(s => s.Students.Names.Contains(searchString) || s.Students.Surnames.Contains(searchString)).ToList();
+            }
+            if (!String.IsNullOrEmpty(idTeacher))
+            {
+                Asistencias = Asistencias.Where(x => x.IdTeacher == idTeacher).ToList();
+            }
+            if (idSubject != null)
+            {
+                Asistencias = Asistencias.Where(x => x.IdSubject == idSubject).ToList();
+            }
+            if (fechaIni != null && fechaFin != null)
+            {
+                Asistencias = Asistencias.Where(x => x.Date >= fechaIni && x.Date <= fechaFin).ToList();
             }
 
             Asistencias = Asistencias.OrderByDescending(s => s.Date).ToList();
