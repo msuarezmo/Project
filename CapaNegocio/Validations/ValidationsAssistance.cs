@@ -33,5 +33,33 @@ namespace CapaNegocio.Validations
                 return null;
             }
         }
+
+        public bool SaveAssistances(List<Assistances> assistances)
+        {
+            try
+            {
+                foreach (Assistances assistance in assistances)
+                {
+                    SaveAssistance(assistance);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public void SaveAssistance(Assistances assistance)
+        {
+            try
+            {
+                db.Assistances.Add(assistance);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

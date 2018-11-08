@@ -17,6 +17,7 @@ namespace CapaPresentacion.Controllers
         private ValidationsSubject validationsSubject = new ValidationsSubject();
         private ValidationStudents validationStudents = new ValidationStudents();
         private ValidationsCourse validationsCourse = new ValidationsCourse();
+        private ValidationsLack validationsLack = new ValidationsLack();
         private ValidationsUser validationUser = new ValidationsUser();
         private Dispose dispose = new Dispose();
         // GET: Assistances
@@ -88,9 +89,64 @@ namespace CapaPresentacion.Controllers
         }
         public ActionResult SaveAssistances(List<int> ids, int idCourse, int idSubject)
         {
-            List<Students> students = validationStudents.GetStudensById(ids);
-            return JavaScript("window.setTimeout(function(){window.location.reload()}, 1500);" +
-                           "toastr.success('LLEgo al Save');");
+            if (ids.Count == 0)
+            {
+                return JavaScript("toastr.warning('Debe seleccionar al menos un estudiante');");
+            }
+            else
+            {
+                string user = User.Identity.GetUserId();
+                var today = DateTime.UtcNow.AddHours(-5);
+                List<Assistances> assistances = new List<Assistances>();
+                List<Students> fails = validationStudents.GetStudensByCourse(idCourse).ToList();
+                List<Students> studentsInClass = validationStudents.GetStudensById(ids);
+                fails = (from c in fails
+                         where !(from o in studentsInClass
+                                 select o.IdStudent)
+                                .Contains(c.IdStudent)
+                         select c).ToList();
+
+                foreach (Students student in studentsInClass)
+                {
+                    Assistances assistance = new Assistances
+                    {
+                        IdTeacher = user,
+                        IdCourse = idCourse,
+                        IdSubject = idSubject,
+                        Date = today,
+                        IdStudent = student.IdStudent
+                    };
+                    assistances.Add(assistance);
+                }
+                bool saveAssistances = validationsAssistance.SaveAssistances(assistances);
+                if (saveAssistances)
+                {
+                    if (fails.Count > 0)
+                    {
+                        JavaScript("toastr.success('Asistencia guardada Correctamente');");
+                        bool saveLacks = validationsLack.SaveLacks(fails, idCourse, idSubject, today, user);
+                        if (saveLacks)
+                        {
+                            JavaScript("toastr.success('Fallas registradas!');");
+                            return Index("", "", "", null, "");
+                        }
+                        else
+                        {
+                            return JavaScript("toastr.error('Error al registrar fallas');");
+                        }
+                    }
+                    else
+                    {
+                        JavaScript("toastr.warning('No hay fallas que registrar');");
+                        return Index("", "", "", null, "");
+                    }
+                }
+                else
+                {
+                    return JavaScript("window.setTimeout(function(){window.location.reload()}, 1500);" +
+                               "toastr.error('Error a tomar asistencias');");
+                }
+            }
         }
         // POST: Assistances/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

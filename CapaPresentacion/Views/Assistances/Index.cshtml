@@ -8,7 +8,10 @@
 {
     <div class="titleform">
         <h2>Asistencias</h2>
-        @Html.ActionLink("Crear", "Create", "Assistances")
+        <a data-modal='' href="@Url.Action("Create", "Assistances")" title="llamar lista">
+            <input type="submit" class="btn btn-primary" style="float:right;" value="Llamar lista">
+        </a>
+        
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12">
