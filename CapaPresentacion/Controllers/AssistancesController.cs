@@ -28,7 +28,6 @@ namespace CapaPresentacion.Controllers
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             if (fechaIni == null)
             {
-                TimeSpan time = new TimeSpan(23, 59, 0);
                 var Fecha1 = DateTime.Today;
                 var Fecha2 = Fecha1.AddDays(1);
                 ViewBag.FechaIni = DateTime.Today.ToString("yyyy-MM-dd");
