@@ -48,7 +48,7 @@ namespace CapaPresentacion.Controllers
                 Asistencias = Asistencias.Where(x => x.IdTeacher == IdTeacher).ToList(); ;
             }
 
-            Asistencias = Asistencias.OrderBy(s => s.Courses.Description).ToList(); ;
+            Asistencias = Asistencias.OrderByDescending(s => s.Date).ToList();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(Asistencias.ToPagedList(pageNumber, pageSize));
@@ -89,7 +89,7 @@ namespace CapaPresentacion.Controllers
         }
         public ActionResult SaveAssistances(List<int> ids, int idCourse, int idSubject)
         {
-            if (ids.Count == 0)
+            if (ids == null || ids.Count == 0)
             {
                 return JavaScript("toastr.warning('Debe seleccionar al menos un estudiante');");
             }
@@ -123,12 +123,11 @@ namespace CapaPresentacion.Controllers
                 {
                     if (fails.Count > 0)
                     {
-                        JavaScript("toastr.success('Asistencia guardada Correctamente');");
                         bool saveLacks = validationsLack.SaveLacks(fails, idCourse, idSubject, today, user);
                         if (saveLacks)
                         {
-                            JavaScript("toastr.success('Fallas registradas!');");
-                            return Index("", "", "", null, "");
+                            return JavaScript("toastr.success('Fallas y asistencias registradas');" +
+                                "window.setTimeout(function(){window.location.href = '/Assistances/Index'}, 1500);");
                         }
                         else
                         {
@@ -137,14 +136,13 @@ namespace CapaPresentacion.Controllers
                     }
                     else
                     {
-                        JavaScript("toastr.warning('No hay fallas que registrar');");
-                        return Index("", "", "", null, "");
+                        return JavaScript("toastr.success('No hay fallas que registrar');" +
+                                "window.setTimeout(function(){window.location.href = '/Assistances/Index'}, 1500);");
                     }
                 }
                 else
                 {
-                    return JavaScript("window.setTimeout(function(){window.location.reload()}, 1500);" +
-                               "toastr.error('Error a tomar asistencias');");
+                    return JavaScript("toastr.error('Error al registrar Asistencias');");
                 }
             }
         }

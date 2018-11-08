@@ -37,7 +37,7 @@ namespace CapaNegocio.Validations
                     };
                     SaveLack(lack);
                 }
-                return false;
+                return true;
             }
             catch (Exception)
             {

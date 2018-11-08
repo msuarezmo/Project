@@ -43,7 +43,7 @@ namespace CapaPresentacion.Controllers
             {
                 courses = courses.Where(x => x.IdTeacher == IdTeacher).ToList(); ;
             }
-            courses = courses.OrderBy(s => s.Description).ToList(); ;
+            courses = courses.OrderBy(s => s.Description).ToList();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(courses.ToPagedList(pageNumber, pageSize));
@@ -138,7 +138,7 @@ namespace CapaPresentacion.Controllers
                 return JavaScript("$('#CoursesModal').modal('hide');" +
                         "toastr.error('Error al editar el curso seleccionado');");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#CoursesModal').modal('hide');" +
                            "toastr.error('Error al editar el curso seleccionado');");
@@ -181,7 +181,7 @@ namespace CapaPresentacion.Controllers
                            "toastr.error('Existen estudiantes asociados a este curso');");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#CoursesModal').modal('hide');" +
                            "toastr.error('No puede eliminar este curso');");

@@ -20,7 +20,7 @@ namespace CapaDominio
         public int IdStudent { get; set; }
         public int IdSubject { get; set; }
         public string IdTeacher { get; set; }
-        public int IdJustification { get; set; }
+        public Nullable<int> IdJustification { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Courses Courses { get; set; }

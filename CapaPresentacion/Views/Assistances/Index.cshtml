@@ -75,7 +75,10 @@
                             @Html.DisplayFor(modelItem => item.Subjects.name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Students.Names + " " + item.Students.Surnames)
+                            @{
+                                var student = item.Students.Names + " " + item.Students.Surnames;
+                            }
+                            @Html.DisplayFor(modelItem => student)
                         </td>
 
                     </tr>

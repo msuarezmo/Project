@@ -39,7 +39,7 @@ namespace CapaNegocio
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -87,7 +87,7 @@ namespace CapaNegocio
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -120,7 +120,7 @@ namespace CapaNegocio
             {
                 return db.Courses.Find(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

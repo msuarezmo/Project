@@ -41,9 +41,6 @@ function SaveAssistances(elem) {
             url: "SaveAssistances",
             //url: "/ControllerHelper/SaveClasses",
             data: { ids: solicitudes, idCourse: IdCourse, idSubject: IdSubject },
-            success: function (result) {
-                submit();
-            },
         });
     }
 }

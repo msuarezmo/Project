@@ -133,7 +133,7 @@
           <Property Name="IdStudent" Type="int" Nullable="false" />
           <Property Name="IdSubject" Type="int" Nullable="false" />
           <Property Name="IdTeacher" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="IdJustification" Type="int" Nullable="false" />
+          <Property Name="IdJustification" Type="int" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -361,7 +361,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lacks_Justification">
-          <End Role="Justification" Type="Self.Justification" Multiplicity="1" />
+          <End Role="Justification" Type="Self.Justification" Multiplicity="0..1" />
           <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Justification">
@@ -704,7 +704,7 @@
           <Property Name="IdStudent" Type="Int32" Nullable="false" />
           <Property Name="IdSubject" Type="Int32" Nullable="false" />
           <Property Name="IdTeacher" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdJustification" Type="Int32" Nullable="false" />
+          <Property Name="IdJustification" Type="Int32" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Lacks_AspNetUsers" FromRole="Lacks" ToRole="AspNetUsers" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Lacks_Courses" FromRole="Lacks" ToRole="Courses" />
           <NavigationProperty Name="Justification" Relationship="Self.FK_Lacks_Justification" FromRole="Lacks" ToRole="Justification" />
@@ -966,7 +966,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lacks_Justification">
-          <End Role="Justification" Type="Self.Justification" Multiplicity="1" />
+          <End Role="Justification" Type="Self.Justification" Multiplicity="0..1" />
           <End Role="Lacks" Type="Self.Lacks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Justification">

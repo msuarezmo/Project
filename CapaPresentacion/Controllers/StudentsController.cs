@@ -163,7 +163,7 @@ namespace CapaPresentacion.Controllers
                 return JavaScript("$('#StudentsModal').modal('hide');" +
                         "toastr.error('Error al editar el estudiante seleccionado');");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#StudentsModal').modal('hide');" +
                            "toastr.error('Error al editar el estudiante seleccionado');");
@@ -206,7 +206,7 @@ namespace CapaPresentacion.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#StudentsModal').modal('hide');" +
                            "toastr.error('No puede eliminar este estudiante');");

@@ -68,7 +68,6 @@
     <EntityDeploy Include="SchoolModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SchoolModel.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>CapaDominio</CustomToolNamespace>
     </EntityDeploy>
     <None Include="SchoolModel.edmx.diagram">
       <DependentUpon>SchoolModel.edmx</DependentUpon>

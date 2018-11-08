@@ -34,7 +34,7 @@ namespace CapaNegocio.Validations
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -75,7 +75,7 @@ namespace CapaNegocio.Validations
                 return true;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -156,7 +156,7 @@ namespace CapaNegocio.Validations
             {
                 return db.News.Find(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

@@ -131,7 +131,7 @@ namespace CapaPresentacion.Controllers
                 return JavaScript("$('#SubjectModal').modal('hide');" +
                         "toastr.error('Error al editar materia selecionada');");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#SubjectModal').modal('hide');" +
                            "toastr.error('Error al editar materia selecionada');");
@@ -174,7 +174,7 @@ namespace CapaPresentacion.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#SubjectModal').modal('hide');" +
                            "toastr.error('No puede eliminar esta materia');");

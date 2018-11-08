@@ -200,7 +200,7 @@ namespace CapaPresentacion.Controllers
                 return JavaScript("$('#NewsModal').modal('hide');" +
                         "toastr.error('Error al editar el novedad seleccionada');");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#NewsModal').modal('hide');" +
                            "toastr.error('Error al editar el novedad seleccionada');");
@@ -242,7 +242,7 @@ namespace CapaPresentacion.Controllers
                            "toastr.error('Error al eliminar novedad');");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return JavaScript("$('#NewsModal').modal('hide');" +
                            "toastr.error('Error al eliminar novedad');");
