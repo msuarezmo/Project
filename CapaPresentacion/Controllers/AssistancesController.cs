@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using CapaDominio;
 using CapaNegocio;
+using CapaNegocio.Email;
 using CapaNegocio.Validations;
 using Microsoft.AspNet.Identity;
 using PagedList;
@@ -20,6 +21,8 @@ namespace CapaPresentacion.Controllers
         private ValidationsLack validationsLack = new ValidationsLack();
         private ValidationsUser validationUser = new ValidationsUser();
         private Dispose dispose = new Dispose();
+        private SendEmail sendEmail = new SendEmail();
+
         // GET: Assistances
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idTeacher, int? idSubject, DateTime? fechaIni, DateTime? fechaFin)
         {
@@ -33,7 +36,8 @@ namespace CapaPresentacion.Controllers
                 ViewBag.FechaIni = DateTime.Today.ToString("yyyy-MM-dd");
                 ViewBag.FechaFin = Fecha2.ToString("yyyy-MM-dd");
             }
-            else {
+            else
+            {
                 var date1 = Convert.ToDateTime(fechaIni).ToString("yyyy-MM-dd");
                 var date2 = Convert.ToDateTime(fechaFin).ToString("yyyy-MM-dd");
                 ViewBag.FechaIni = date1;
@@ -148,6 +152,10 @@ namespace CapaPresentacion.Controllers
                         bool saveLacks = validationsLack.SaveLacks(fails, idCourse, idSubject, today, user);
                         if (saveLacks)
                         {
+                            foreach (var item in fails)
+                            {
+                                sendEmail.SendLack(item, user, idSubject);
+                            }
                             return JavaScript("toastr.success('Fallas y asistencias registradas');" +
                                 "window.setTimeout(function(){window.location.href = '/Assistances/Index'}, 1500);");
                         }

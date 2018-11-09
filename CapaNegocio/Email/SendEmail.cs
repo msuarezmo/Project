@@ -7,6 +7,7 @@
 namespace CapaNegocio.Email
 {
     using CapaDominio;
+    using CapaNegocio.Validations;
     using SendGrid;
     using SendGrid.Helpers.Mail;
     using System;
@@ -19,6 +20,8 @@ namespace CapaNegocio.Email
     public class SendEmail
     {
         private ValidationsCourse validationsCourse = new ValidationsCourse();
+        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsSubject validationsSubject = new ValidationsSubject();
         /// <summary>
         /// The SendMassive
         /// </summary>
@@ -93,6 +96,36 @@ namespace CapaNegocio.Email
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public void SendLack(Students student, string idTeacher, int idSubject)
+        {
+            try
+            {
+                AspNetUsers parent = validationsUser.SearchById(student.ParentId);
+                AspNetUsers teacher = validationsUser.SearchById(idTeacher);
+                Subjects subject = validationsSubject.SearchById(idSubject);
+                var apiKey = Environment.GetEnvironmentVariable("ClaveCG");
+                SendGridClient client = new SendGridClient(apiKey);
+                var date = @Convert.ToString(string.Format("{0:dd/MM/yyyy}", DateTime.Today));
+                var course = validationsCourse.SearchById(student.CourseId);
+                var msg = new SendGridMessage()
+                {
+                    From = new EmailAddress("cgonzalezvarela10@gmail.com", "COEF"),
+                    Subject = "Asistencia",
+                    PlainTextContent = "",
+                    HtmlContent = "<strong>" + date + "</strong>" +
+                    "<br/> <br/> <p> El/La estudiante " + student.Names + " " + student.Surnames + " " + "matriculado en el curso "+ course.Description + " no asistio a la clase de " +subject.name + " " + "Dictada por el/la docente " + teacher.FullName + "</p>"
+                };
+
+                msg.AddTo(new EmailAddress(parent.Email, parent.FullName));
+
+                client.SendEmailAsync(msg);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

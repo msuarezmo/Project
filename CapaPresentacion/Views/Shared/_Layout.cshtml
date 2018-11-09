@@ -50,6 +50,7 @@
                                 @if (User.IsInRole("Acudiente"))
                                 {
                                     <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
                                         <li>@Html.ActionLink("Novedades", "IndexParent", "News")</li>
                                     </ul>
                                 }
