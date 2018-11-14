@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace CapaNegocio.Validations
 {
-    public class ValidationsLack : Datamodel
+    public class ValidationsAssistances : Datamodel
     {
-        public IEnumerable<Lacks> GetAllLacks()
+        public IEnumerable<Assistances> GetAllAsistences()
         {
+
             try
             {
-                return db.Lacks;
+                return db.Assistances;
             }
             catch (Exception)
             {
@@ -21,21 +22,25 @@ namespace CapaNegocio.Validations
             }
         }
 
-        public bool SaveLacks(List<Students> fails, int idCourse, int idSubject, DateTime today, string user)
+        public Assistances SearchById(int? id)
         {
             try
             {
-                foreach (Students student in fails)
+                return db.Assistances.Find(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool SaveAssistances(List<Assistances> assistances)
+        {
+            try
+            {
+                foreach (Assistances assistance in assistances)
                 {
-                    Lacks lack = new Lacks
-                    {
-                        IdCourse = idCourse,
-                        IdTeacher = user,
-                        IdSubject = idSubject,
-                        Date = today,
-                        IdStudent = student.IdStudent
-                    };
-                    SaveLack(lack);
+                    SaveAssistance(assistance);
                 }
                 return true;
             }
@@ -44,11 +49,11 @@ namespace CapaNegocio.Validations
                 return false;
             }
         }
-        public void SaveLack(Lacks lack)
+        public void SaveAssistance(Assistances assistance)
         {
             try
             {
-                db.Lacks.Add(lack);
+                db.Assistances.Add(assistance);
                 db.SaveChanges();
             }
             catch (Exception)

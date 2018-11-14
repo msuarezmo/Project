@@ -18,7 +18,7 @@ namespace CapaPresentacion.Controllers
         private Dispose dispose = new Dispose();
         private ValidationsNews validationsNews = new ValidationsNews();
         private ValidationsCourse validationsCourse = new ValidationsCourse();
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private ValidationStudents validationStudents = new ValidationStudents();
 
         // GET: News

@@ -15,7 +15,7 @@ namespace CapaPresentacion.Controllers
 {
     public class UsersController : Controller
     {
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private ValidationsRol validationsRol = new ValidationsRol();
         private ValidationsDocumenType validationsDocumenType = new ValidationsDocumenType();
         private Dispose dispose = new Dispose();

@@ -212,6 +212,7 @@
     <Compile Include="Controllers\AssistancesController.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\LacksController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -425,12 +426,11 @@
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\IndexParent.cshtml" />
     <Content Include="Views\Assistances\Create.cshtml" />
-    <Content Include="Views\Assistances\Delete.cshtml" />
-    <Content Include="Views\Assistances\Details.cshtml" />
-    <Content Include="Views\Assistances\Edit.cshtml" />
     <Content Include="Views\Assistances\Index.cshtml" />
     <Content Include="Views\Assistances\Students.cshtml" />
     <Content Include="Views\Appointment\Index.cshtml" />
+    <Content Include="Views\Lacks\Edit.cshtml" />
+    <Content Include="Views\Lacks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

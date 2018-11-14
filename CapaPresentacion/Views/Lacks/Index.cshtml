@@ -1,21 +1,24 @@
-﻿@model PagedList.IPagedList<CapaDominio.Assistances>
+﻿@model PagedList.IPagedList<CapaDominio.Lacks>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Asistencias";
+    ViewBag.Title = "Fallas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (User.IsInRole("Docente"))
-{
+@{ 
+
+    var message = ViewBag.message;
+}
+<h1>@message</h1>
     <div class="titleform">
-        <h2>Asistencias</h2>
+        <h2>Fallas</h2>
         <a data-modal='' href="@Url.Action("Create", "Assistances")" title="llamar lista">
             <input type="submit" class="btn btn-primary" style="float:right;" value="Llamar lista">
         </a>
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12">
-            @using (Html.BeginForm("Index", "Assistances", FormMethod.Post))
+            @using (Html.BeginForm("Index", "Lacks", FormMethod.Post))
             {
                 <table class="table" border="0" style="width:auto">
                     <tr>
@@ -111,9 +114,4 @@
             </center>
         </div>
     </div>
-}
-else
-{
-    <h2 style="color:red">No tiene acceso a este modulo</h2>
-}
 

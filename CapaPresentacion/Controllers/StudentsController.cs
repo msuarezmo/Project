@@ -18,7 +18,7 @@ namespace CapaPresentacion.Controllers
     {
         private ValidationStudents validationStudents = new ValidationStudents();
         private ValidationsCourse validationsCourse = new ValidationsCourse();
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private ValidationsDocumenType validationsDocumenType = new ValidationsDocumenType();
         private Dispose dispose = new Dispose();
         // GET: Students

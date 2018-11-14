@@ -13,7 +13,7 @@ namespace CapaPresentacion.Controllers
     public class CoursesController : Controller
     {
         private ValidationsCourse validationsCourse = new ValidationsCourse();
-        private ValidationsUser validationUser = new ValidationsUser();
+        private ValidationsUsers validationUser = new ValidationsUsers();
         private Dispose dispose = new Dispose();
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string IdTeacher)

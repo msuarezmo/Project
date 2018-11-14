@@ -20,7 +20,7 @@ namespace CapaNegocio.Email
     public class SendEmail
     {
         private ValidationsCourse validationsCourse = new ValidationsCourse();
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private ValidationsSubject validationsSubject = new ValidationsSubject();
         /// <summary>
         /// The SendMassive

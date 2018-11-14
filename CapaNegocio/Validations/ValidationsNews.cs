@@ -19,7 +19,7 @@ namespace CapaNegocio.Validations
     public class ValidationsNews : Datamodel
     {
         private ValidationStudents validationStudents = new ValidationStudents();
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private SendEmail sendEmail = new SendEmail();
         /// <summary>
         /// The createNews

@@ -13,9 +13,9 @@ namespace CapaNegocio.Validations
     using System.Linq;
 
     /// <summary>
-    /// Defines the <see cref="ValidationsUser" />
+    /// Defines the <see cref="ValidationsUsers" />
     /// </summary>
-    public class ValidationsUser : Datamodel
+    public class ValidationsUsers : Datamodel
     {
         /// <summary>
         /// Defines the RolAcudiente

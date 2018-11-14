@@ -22,7 +22,7 @@ namespace CapaPresentacion.Controllers
     {
         private ApplicationDbContext userContext = new ApplicationDbContext();
         private ValidationsDocumenType validationsDocumentType = new ValidationsDocumenType();
-        private ValidationsUser validationsUser = new ValidationsUser();
+        private ValidationsUsers validationsUser = new ValidationsUsers();
         private SendEmail sendMail = new SendEmail();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
