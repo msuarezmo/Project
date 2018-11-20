@@ -1005,7 +1005,7 @@
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="colegioEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="colegioEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
@@ -1112,7 +1112,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities1">
+        <EntityContainerMapping StorageEntityContainer="colegioModelStoreContainer" CdmEntityContainer="colegioEntities2">
           <EntitySetMapping Name="Appointment">
             <EntityTypeMapping TypeName="colegioModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
