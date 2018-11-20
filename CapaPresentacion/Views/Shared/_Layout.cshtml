@@ -29,34 +29,33 @@
                             <div id="navcollapsetop" class="collapse navbar-collapse">
                                 @if (User.IsInRole("Administrador"))
                                 {
-                                <ul class="nav navbar-nav">
-                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
-                                    <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
-                                    <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
-                                    <li>@Html.ActionLink("Fallas", "Index", "Lacks")</li>
-                                    <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
-                                    <li>@Html.ActionLink("Novedades", "Index", "News")</li>
-                                    <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                        <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
+                                        <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
+                                        <li>@Html.ActionLink("Fallas", "Index", "Lacks")</li>
+                                        <li>@Html.ActionLink("Materias", "Index", "Subjects")</li>
+                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                        <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
 
-                                </ul>
+                                    </ul>
                                 }
                                 @if (User.IsInRole("Docente"))
                                 {
-                                <ul class="nav navbar-nav">
-                                    <li>@Html.ActionLink("Asistencia", "Index", "Assistances")</li>
-                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
-                                    <li>@Html.ActionLink("Fallas", "Index", "Lacks")</li>
-                                    <li>@Html.ActionLink("Novedades", "Index", "News")</li>
-                                </ul>
-
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Asistencia", "Index", "Assistances")</li>
+                                        <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                        <li>@Html.ActionLink("Fallas", "Index", "Lacks")</li>
+                                        <li>@Html.ActionLink("Novedades", "Index", "News")</li>
+                                    </ul>
                                 }
                                 @if (User.IsInRole("Acudiente"))
                                 {
-                                <ul class="nav navbar-nav">
-                                    <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
-                                    <li>@Html.ActionLink("Fallas", "Index", "Lacks")</li>
-                                    <li>@Html.ActionLink("Novedades", "IndexParent", "News")</li>
-                                </ul>
+                                    <ul class="nav navbar-nav">
+                                        <li>@Html.ActionLink("Citas", "Index", "Appointment")</li>
+                                        <li>@Html.ActionLink("Fallas", "IndexParents", "Lacks")</li>
+                                        <li>@Html.ActionLink("Novedades", "IndexParent", "News")</li>
+                                    </ul>
                                 }
                                 <ul class="nav navbar-nav navbar-right">
                                     @Html.Partial("_LoginPartial")

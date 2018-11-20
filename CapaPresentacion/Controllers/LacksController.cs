@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CapaDominio;
 using CapaNegocio;
 using CapaNegocio.Validations;
+using Microsoft.AspNet.Identity;
 using PagedList;
 
 namespace CapaPresentacion.Controllers
@@ -20,6 +21,66 @@ namespace CapaPresentacion.Controllers
         private ValidationsCourse validationsCourse = new ValidationsCourse();
         // GET: Lacks
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string idTeacher, int? idSubject, DateTime? fechaIni, DateTime? fechaFin)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var Fecha1 = DateTime.UtcNow.AddHours(-5).Date;
+            var Fecha2 = Fecha1.AddDays(1);
+            var date1 = Convert.ToDateTime(fechaIni).ToString("yyyy-MM-dd");
+            var date2 = Convert.ToDateTime(fechaFin).ToString("yyyy-MM-dd");
+            if (fechaIni == null)
+            {
+                ViewBag.FechaIni = Fecha1.ToString("yyyy-MM-dd");
+                ViewBag.FechaFin = Fecha2.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                ViewBag.FechaIni = date1;
+                ViewBag.FechaFin = date2;
+            }
+            var teachers = validationUser.GetAllTeachers().OrderBy(x => x.FullName);
+            ViewBag.IdTeacher = new SelectList(teachers, "Id", "FullName");
+            var subjects = validationsSubject.GetAllSubjects().OrderBy(x => x.name);
+            ViewBag.IdSubject = new SelectList(subjects, "IdSubjects", "Name");
+            var lacks = validationsLacks.GetAllLacks();
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                lacks = lacks.Where(s => s.Students.Names.Contains(searchString) || s.Students.Surnames.Contains(searchString)).ToList();
+            }
+            if (!String.IsNullOrEmpty(idTeacher))
+            {
+                lacks = lacks.Where(x => x.IdTeacher == idTeacher).ToList();
+            }
+            if (idSubject != null)
+            {
+                lacks = lacks.Where(x => x.IdSubject == idSubject).ToList();
+            }
+            if (fechaIni != null && fechaFin != null)
+            {
+                lacks = lacks.Where(x => x.Date >= fechaIni && x.Date <= fechaFin).ToList();
+            }
+            if (fechaIni == null && fechaFin == null)
+            {
+                lacks = lacks.Where(x => x.Date >= Fecha1 && x.Date <= Fecha2).ToList();
+            }
+
+            lacks = lacks.OrderByDescending(s => s.Date).ToList();
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(lacks.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult IndexParents(string sortOrder, string currentFilter, string searchString, int? page, string idTeacher, int? idSubject, DateTime? fechaIni, DateTime? fechaFin)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -43,7 +104,17 @@ namespace CapaPresentacion.Controllers
             ViewBag.IdTeacher = new SelectList(teachers, "Id", "FullName");
             var subjects = validationsSubject.GetAllSubjects().OrderBy(x => x.name);
             ViewBag.IdSubject = new SelectList(subjects, "IdSubjects", "Name");
+
+            //----------------------------------
+            var user = validationUser.SearchById(User.Identity.GetUserId());
+            var users = validationUser.GetAllAdmins();
+            var students = validationStudents.GetAllStudents();
             var lacks = validationsLacks.GetAllLacks();
+            lacks = lacks.Where(x => students.Where(n => n.ParentId == user.Id).Any(z => z.IdStudent == x.IdStudent));
+            //return View(news.ToList());
+
+            //-------------------------------------------
+            //var lacks = validationsLacks.GetAllLacks();
             if (searchString != null)
             {
                 page = 1;

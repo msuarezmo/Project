@@ -431,6 +431,7 @@
     <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Lacks\Edit.cshtml" />
     <Content Include="Views\Lacks\Index.cshtml" />
+    <None Include="Views\Lacks\IndexParents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

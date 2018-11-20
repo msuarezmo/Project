@@ -1,0 +1,122 @@
+﻿@model PagedList.IPagedList<CapaDominio.Lacks>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Fallas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+
+    var message = ViewBag.message;
+}
+<h1>@message</h1>
+<div class="titleform">
+    <h2>Fallas</h2>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @using (Html.BeginForm("IndexParents", "Lacks", FormMethod.Post))
+        {
+            <table class="table" border="0" style="width:auto">
+                <tr>
+                    <th>
+                        <label style="align-content:center">Alumno</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Docente</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Materia</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Fecha inicio</label>
+                    </th>
+                    <th>
+                        <label style="align-content:center">Fecha Fin</label>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    </td>
+                    <td>
+                        @Html.DropDownList("IdTeacher", null, "Seleccione", htmlAttributes: new { @id = "IdTeacher", @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.DropDownList("IdSubject", null, "Seleccione", htmlAttributes: new { @id = "IdSubject", @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.TextBox("FechaIni", null, new { @class = "form-control", type = "date", id = "FechaIni", Value = ViewBag.FechaIni })
+                    </td>
+                    <td>
+                        @Html.TextBox("FechaFin", null, new { @class = "form-control", type = "date", id = "FechaFin", Value = ViewBag.FechaFin })
+                    </td>
+                    <td>
+                        <button id="btnBuscar" value="Buscar" class="btn btn-primary">Buscar</button>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <table class="table" id="tableCourses">
+            <tr>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Docente
+                </th>
+                <th>
+                    Curso
+                </th>
+                <th>
+                    Materia
+                </th>
+                <th>
+                    Estudiante
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUsers.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Courses.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subjects.name)
+                    </td>
+                    <td>
+                        @{
+                            var student = item.Students.Names + " " + item.Students.Surnames;
+                        }
+                        @Html.DisplayFor(modelItem => student)
+                    </td>
+                    <td>
+                        <a data-modal='' href="@Url.Action("justify", "News", new { id = item.IdLack })" data-id="@item.IdLack" id="@item.IdLack " title="Justificar">
+                            <input type="submit" class="btn btn-primary" value="Justificar">
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <center>
+            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </center>
+    </div>
+</div>
+
